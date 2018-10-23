@@ -142,10 +142,15 @@ void saveLightInfo(std::string filename, std::vector<sLight*> lights)
 		{
 			sLight* CurLight = *it;
 			file << "Name " << CurLight->lightName << "\n";
+			file << "light_type " << CurLight->param1.x << "\n";
+			file << "In_Out_Angles " << CurLight->param1.y << " " << CurLight->param1.z << "\n";
 			file << "Position_xyz " << CurLight->position.x << " " << CurLight->position.y << " " << CurLight->position.z << "\n";
+			file << "Direction " << CurLight->direction.x << " " << CurLight->direction.y << " " << CurLight->direction.z << "\n";
 			file << "Attenuation_xyz " << CurLight->atten.x << " " << CurLight->atten.y << " " << CurLight->atten.z << "\n";
 			file << "Diffuse_rgbw " << CurLight->diffuse.x << " " << CurLight->diffuse.y << " " << CurLight->diffuse.z << " " << CurLight->diffuse.w << "\n";
 			file << "on_off " << CurLight->param2.x << "\n";
+
+
 			//pTheOneLight->AtenSphere = false;
 			//LightManager->vecLights.push_back(pTheOneLight);
 			//LightManager->LoadUniformLocations(program);
@@ -254,7 +259,10 @@ void loadLights(std::string filename, std::vector<sLight*> lights)
 		sLight *CurLight = mapLights.at(lightName);
 
 		//file >> unused >> CurLight->lightName;
+		file >> unused >> CurLight->param1.x;
+		file >> unused >> CurLight->param1.y >> CurLight->param1.z;
 		file >> unused >> CurLight->position.x >> CurLight->position.y >> CurLight->position.z;
+		file >> unused >> CurLight->direction.x >> CurLight->direction.y >> CurLight->direction.z;
 		file >> unused >> CurLight->atten.x >> CurLight->atten.y >> CurLight->atten.z;
 		file >> unused >> CurLight->diffuse.x  >> CurLight->diffuse.y >> CurLight->diffuse.z >> CurLight->diffuse.w;
 		file >> unused >> CurLight->param2.x;
@@ -263,115 +271,6 @@ void loadLights(std::string filename, std::vector<sLight*> lights)
 	file.close();
 }
 
-
-//void loadModels(std::string filename, std::vector<cMeshObject*> models) {
-//	filename = "output/" + filename;
-//	//cMeshObject* model1 = models.at(0);
-//
-//	std::ifstream f(filename.c_str());
-//	if (!f.is_open()) {
-//		//error
-//	}
-//	std::string nextData;
-//
-//
-//	for (std::vector<cMeshObject*>::iterator it = models.begin(); it != models.end(); ++it)
-//	{
-//		cMeshObject* CurModel = *it;
-//		while (f >> nextData) {
-//			if (nextData == "Mesh_Name")
-//			{
-//				break;
-//			};
-//		}
-//
-//		if (f.eof()) {
-//			std::cout << "error" << std::endl;//error
-//		}
-//		f >> nextData;
-//															//f >> CurModel->meshName; // TODO verify that this string does not include '\n' character
-//		if (nextData == CurModel->meshName) {
-//			std::cout << CurModel->meshName << std::endl;
-//
-//			while (f >> nextData) {
-//				if (nextData == "Position")
-//				{
-//					break;
-//				};
-//			}
-//
-//			if (f.eof()) {
-//				//error
-//			}
-//
-//			f >> CurModel->position.x;
-//			f >> CurModel->position.y;
-//			f >> CurModel->position.z;
-//
-//			std::cout << CurModel->position.x << std::endl;
-//			std::cout << CurModel->position.y << std::endl;
-//			std::cout << CurModel->position.z << std::endl;
-//
-//			while (f >> nextData) {
-//				if (nextData == "Rotation")
-//				{
-//					break;
-//				};
-//			}
-//			if (f.eof()) {
-//				//error
-//			}
-//
-//			f >> CurModel->postRotation.x;
-//			f >> CurModel->postRotation.y;
-//			f >> CurModel->postRotation.z;
-//
-//			std::cout << CurModel->postRotation.x << std::endl;
-//			std::cout << CurModel->postRotation.y << std::endl;
-//			std::cout << CurModel->postRotation.z << std::endl;
-//
-//
-//			//Searching for Scale
-//			while (f >> nextData) {
-//				if (nextData == "Scale")
-//				{
-//					break;
-//				};
-//			}
-//			if (f.eof()) {
-//				//error
-//			}
-//
-//			f >> CurModel->nonUniformScale.x;
-//			f >> CurModel->nonUniformScale.y;
-//			f >> CurModel->nonUniformScale.z;
-//
-//			std::cout << CurModel->nonUniformScale.x << std::endl;
-//			std::cout << CurModel->nonUniformScale.y << std::endl;
-//			std::cout << CurModel->nonUniformScale.z << std::endl;
-//		}
-//
-//			while (f >> nextData) {
-//				if (nextData == "Colour")
-//				{
-//					break;
-//				};
-//			}
-//			if (f.eof()) {
-//				//error
-//			}
-//
-//			f >> CurModel->objColour.x;
-//			f >> CurModel->objColour.y;
-//			f >> CurModel->objColour.z;
-//
-//			std::cout << CurModel->objColour.x << std::endl;
-//			std::cout << CurModel->objColour.y << std::endl;
-//			std::cout << CurModel->objColour.z << std::endl;
-//
-//
-//	}
-//}
 
 
 

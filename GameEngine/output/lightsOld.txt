@@ -1,7 +1,7 @@
 Name MainLight
 light_type 1
 In_Out_Angles 15 35
-Position_xyz -659 400 -560
+Position_xyz 1 400 0
 Direction 0 -1 1
 Attenuation_xyz 0 0.0001 1e-05
 Diffuse_rgbw 1 1 1 1

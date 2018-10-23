@@ -46,7 +46,7 @@ void key_callback( GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
-		saveModelInfo("Models.txt", vec_pObjectsToDraw);
+	//	saveModelInfo("Models.txt", vec_pObjectsToDraw);
 		saveLightInfo("lights.txt", LightManager->vecLights);
 	}
 
@@ -64,7 +64,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_L))
 	{
-		loadModels("Models.txt", vec_pObjectsToDraw);
+	//	loadModels("Models.txt", vec_pObjectsToDraw);
 		loadLights("lights.txt", LightManager->vecLights);
 	}
 
