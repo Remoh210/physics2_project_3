@@ -46,7 +46,7 @@ void key_callback( GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
-	//	saveModelInfo("Models.txt", vec_pObjectsToDraw);
+		saveModelInfo("Models.txt", vec_pObjectsToDraw);
 		saveLightInfo("lights.txt", LightManager->vecLights);
 	}
 
@@ -64,7 +64,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_L))
 	{
-	//	loadModels("Models.txt", vec_pObjectsToDraw);
+		loadModels("Models.txt", vec_pObjectsToDraw);
 		loadLights("lights.txt", LightManager->vecLights);
 	}
 
@@ -343,8 +343,8 @@ void ProcessAsynKeys(GLFWwindow* window)
 		if ( glfwGetKey( window, GLFW_KEY_E ) )	{ vec_pObjectsToDraw.at(index)->position.y += cameraSpeed; }
 
 		////Object Rotation
-		//if ( glfwGetKey( window, GLFW_KEY_RIGHT ) )	{ vec_pObjectsToDraw.at(index)->postRotation.y += 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_LEFT ) )	{ vec_pObjectsToDraw.at(index)->postRotation.y -= 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_RIGHT)) { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.1f, 0.0f, false); }
+		if (glfwGetKey(window, GLFW_KEY_LEFT)) {vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, -0.1f, 0.0f, false);}
 		//if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x += 0.1f; }
 		//if ( glfwGetKey( window, GLFW_KEY_DOWN ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x -= 0.1f; }
 		//if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z += 0.1f; }

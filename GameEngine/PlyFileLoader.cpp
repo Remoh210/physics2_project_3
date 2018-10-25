@@ -174,6 +174,9 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 			file << "Friendly_Name " << CurModel->friendlyName << "\n";
 			file << "Mesh_Name " << CurModel->meshName << "\n";
 			file << "Position " << CurModel->position.x << " " << CurModel->position.y << " " << CurModel->position.z << "\n";
+			file << "DiffureRGB_Alpha  " << CurModel->materialDiffuse.x    << " " << CurModel->materialDiffuse.y    << " " << CurModel->materialDiffuse.z    << " " << CurModel->materialDiffuse.w    << "\n";
+			file << "SpecularRGB_Power " << CurModel->materialSpecular.x   << " " << CurModel->materialSpecular.y   << " " << CurModel->materialSpecular.z   << " " << CurModel->materialSpecular.w   << "\n";
+			file << "QuatXYZW_rotation " << CurModel->m_meshQOrientation.x << " " << CurModel->m_meshQOrientation.y << " " << CurModel->m_meshQOrientation.z << " " << CurModel->m_meshQOrientation.w << "\n";
 //			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
 			file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
 		//	file << "Colour  " << CurModel->objColour.x << " " << CurModel->objColour.y << " " << CurModel->objColour.z << "\n";
@@ -224,6 +227,9 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 
 		file >> unused >> CurModel->meshName;
 		file >> unused >> CurModel->position.x >> CurModel->position.y >> CurModel->position.z;
+		file >> unused >> CurModel->materialDiffuse.x    >> CurModel->materialDiffuse.y    >> CurModel->materialSpecular.z   >> CurModel->materialDiffuse.w;
+		file >> unused >> CurModel->materialSpecular.x   >> CurModel->materialSpecular.y   >> CurModel->materialSpecular.z   >> CurModel->materialSpecular.w;
+		file >> unused >> CurModel->m_meshQOrientation.x >> CurModel->m_meshQOrientation.y >> CurModel->m_meshQOrientation.z >> CurModel->m_meshQOrientation.w;
 //		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
 		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
 //		file >> unused >> CurModel->objColour.x >> CurModel->objColour.y >> CurModel->objColour.z;

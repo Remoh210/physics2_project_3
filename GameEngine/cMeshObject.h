@@ -48,8 +48,9 @@ public:
 	////	glm::vec3 position;
 	//	glm::vec3 postRotation;		// Happens AFTER translation (move)
 private:
-	glm::quat m_meshQOrientation;
+	
 public:
+	glm::quat m_meshQOrientation;
 	glm::quat getQOrientation(void) { return this->m_meshQOrientation; };
 	void setMeshOrientationEulerAngles(glm::vec3 newAnglesEuler, bool bIsDegrees = false);
 	void setMeshOrientationEulerAngles(float x, float y, float z, bool bIsDegrees = false);
@@ -62,7 +63,6 @@ public:
 	glm::vec3 nonUniformScale;
 
 	std::string meshName;	// Model to draw
-
 
 	bool bIsWireFrame;	//  = true;  C++
 	bool bIsVisible;

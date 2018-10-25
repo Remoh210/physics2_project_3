@@ -47,3 +47,4 @@ void cMeshObject::adjMeshOrientationQ(glm::quat adjOrientQ)
 	this->m_meshQOrientation *= adjOrientQ;
 	return;
 }
+
