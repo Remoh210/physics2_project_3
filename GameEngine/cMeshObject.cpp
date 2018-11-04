@@ -85,7 +85,7 @@ void cMeshObject::Update(double deltaTime)
 {
 	if (this->bIsUpdatedByPhysics)
 	{
-		// Figure out a line showing the velocity
+		// Figure out a line showing the velocityz
 		glm::vec3 vVel = this->velocity + this->position;
 		glm::vec3 vAcc = this->accel + this->position;
 

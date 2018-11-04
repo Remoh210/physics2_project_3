@@ -22,11 +22,11 @@ public:
 
 	// Note: the shader program ID is needed to tie 
 	// the buffer to the vertex layout of the shader
-	bool LoadModelIntoVAO( sModelDrawInfo &drawInfo,	
-						   unsigned int shaderProgramID );
+	bool LoadModelIntoVAO(sModelDrawInfo &drawInfo,
+		unsigned int shaderProgramID);
 
 	// Looks up draw info by name (meshFileName)			
-	bool FindDrawInfoByModelName( sModelDrawInfo &drawInfo );
+	bool FindDrawInfoByModelName(sModelDrawInfo &drawInfo);
 
 	void ShutDown(void);
 
@@ -35,23 +35,23 @@ public:
 	// Update the mesh information, then re-copy to GPU
 	// - This will RE-COPY the VERTEX infoarmation into the vertex buffer
 	//   (will copy ENTIRE vertex buffer, OVERWRITING what's there)
-	void UpdateModelVertexInformation( sModelDrawInfo &drawInfo );
+	void UpdateModelVertexInformation(sModelDrawInfo &drawInfo);
 
 private:
 
 	// LoadPlyFileData()
-	bool m_LoadModelFromFile( sModelDrawInfo &drawInfo );
+	bool m_LoadModelFromFile(sModelDrawInfo &drawInfo);
 
 	//LoadMeshIntoGPUBuffer
-	bool m_LoadDrawInfo_Into_VAO( sModelDrawInfo &drawInfo, 
-								  unsigned int shaderProgramID );
-								  
+	bool m_LoadDrawInfo_Into_VAO(sModelDrawInfo &drawInfo,
+		unsigned int shaderProgramID);
+
 
 	// This holds the model information
 	std::map< std::string /*model name*/, sModelDrawInfo > m_mapModel_to_VAOID;
 
 	std::string m_lastErrorString;
-	void m_AppendTextToLastError( std::string text, bool addNewLineBefore = true );
+	void m_AppendTextToLastError(std::string text, bool addNewLineBefore = true);
 };
 
 #endif		// _cVAOMeshManager_HG_

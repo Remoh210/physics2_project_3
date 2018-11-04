@@ -65,6 +65,7 @@ cVAOMeshManager* g_pTheVAOMeshManager = NULL;
 
 cLightManager* LightManager = NULL;
 
+cBasicTextureManager* g_pTheTextureManager = NULL;
 
 static void error_callback(int error, const char* description)
 {
@@ -137,19 +138,40 @@ int main(void)
 	}
 
 
+	// Load the uniform location values (some of them, anyway)
+	cShaderManager::cShaderProgram* pSP = ::pTheShaderManager->pGetShaderProgramFromFriendlyName("BasicUberShader");
+	pSP->LoadUniformLocation("texture00");
+	pSP->LoadUniformLocation("texture01");
+	pSP->LoadUniformLocation("texture02");
+	pSP->LoadUniformLocation("texture03");
+	pSP->LoadUniformLocation("texture04");
+	pSP->LoadUniformLocation("texture05");
+	pSP->LoadUniformLocation("texture06");
+	pSP->LoadUniformLocation("texture07");
+	pSP->LoadUniformLocation("texBlendWeights[0]");
+	pSP->LoadUniformLocation("texBlendWeights[1]");
+
+
+
 
 	GLuint program = pTheShaderManager->getIDFromFriendlyName("BasicUberShader");
 
 
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
+	// Create the texture manager
+	::g_pTheTextureManager = new cBasicTextureManager();
+
+
 
 
 	// Loading the uniform variables here (rather than the inner draw loop)
 	GLint objectColour_UniLoc = glGetUniformLocation(program, "objectColour");
 	//uniform vec3 lightPos;
 	//uniform float lightAtten;
-	GLint lightPos_UniLoc = glGetUniformLocation(program, "lightPos");
-	GLint lightBrightness_UniLoc = glGetUniformLocation(program, "lightBrightness");
+
+
+//	GLint lightPos_UniLoc = glGetUniformLocation(program, "lightPos");
+//	GLint lightBrightness_UniLoc = glGetUniformLocation(program, "lightBrightness");
 
 	//	// uniform mat4 MVP;	THIS ONE IS NO LONGER USED	
 	//uniform mat4 matModel;	// M
@@ -462,6 +484,7 @@ int main(void)
 	// Delete stuff
 	delete pTheShaderManager;
 	delete ::g_pTheVAOMeshManager;
+	delete ::g_pTheTextureManager;
 
 	// 
 	delete ::g_pDebugRenderer;

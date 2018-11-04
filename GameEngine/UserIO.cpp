@@ -315,7 +315,43 @@ void ProcessAsynKeys(GLFWwindow* window)
 		if ( glfwGetKey( window, GLFW_KEY_B ) )	{	LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);	}
 
 
-		
+		//change lightype
+		if (glfwGetKey(window, GLFW_KEY_1)) { LightManager->vecLights.at(lightIndex)->SetLightType(sLight::POINT_LIGHT); }//
+		if (glfwGetKey(window, GLFW_KEY_2)) { LightManager->vecLights.at(lightIndex)->SetLightType(sLight::SPOT_LIGHT); }//
+
+		//Change Light LookAt
+		if (glfwGetKey(window, GLFW_KEY_R)) { LightManager->vecLights.at(lightIndex)->SetRelativeDirectionByLookAt(vec_pObjectsToDraw.at(index)->position); }
+
+
+
+		//Change SpotCone
+		if (glfwGetKey(window, GLFW_KEY_T))
+		{
+			LightManager->vecLights.at(lightIndex)->param1.y -= 0.1f;
+
+		}
+
+
+		if (glfwGetKey(window, GLFW_KEY_Y))
+		{
+			LightManager->vecLights.at(lightIndex)->param1.y += 0.1f;
+
+		}
+
+
+		if (glfwGetKey(window, GLFW_KEY_U))
+		{
+			LightManager->vecLights.at(lightIndex)->param1.z -= 0.1f;
+		}
+
+
+		if (glfwGetKey(window, GLFW_KEY_I))
+		{
+			LightManager->vecLights.at(lightIndex)->param1.z += 0.1f;
+		}
+
+
+
 
 		//change attenuation:
 

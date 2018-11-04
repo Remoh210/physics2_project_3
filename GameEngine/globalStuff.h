@@ -18,7 +18,7 @@
 #include "cLightManager.h"
 
 #include "Error/CErrorLog.h"
-
+#include "TextureManager/cBasicTextureManager.h"
 #include "DebugRenderer/iDebugRenderer.h"
 
 extern glm::vec3 cameraPos;
@@ -30,6 +30,8 @@ extern glm::vec3 Front;
 extern glm::vec3 Horizontal;
 extern float pitch;
 extern float yaw;
+
+extern cBasicTextureManager* g_pTheTextureManager;
 
 //extern std::vector<cMeshObject*> vec_pObjectsToDraw;
 

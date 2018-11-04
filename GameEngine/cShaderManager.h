@@ -8,7 +8,7 @@
 class cShaderManager
 {
 public:
-	class cShader  {
+	class cShader {
 	public:
 		cShader();
 		~cShader();
@@ -29,7 +29,7 @@ public:
 		void parseStringIntoMultiLine(std::string singleLineSouce);
 		bool bSourceIsMultiLine;
 		std::string fileName;
-			
+
 	};
 
 	class cShaderProgram {
@@ -40,9 +40,10 @@ public:
 		std::string friendlyName;	// We give it this name
 
 		// TODO: For the students to do, because it's FUN, FUN, FUN
+		void LoadUniformLocations(std::string uniformName);
 		std::map< std::string /*name of uniform variable*/,
-		          int /* uniform location ID */ > 
-								mapUniformName_to_UniformLocation;
+			int /* uniform location ID */ >
+			mapUniformName_to_UniformLocation;
 		// Returns -1 (just like OpenGL) if NOT found
 		int getUniformID_From_Name(std::string name);
 		// Look up the uniform location and save it.
@@ -53,46 +54,47 @@ public:
 	cShaderManager();
 	~cShaderManager();
 
-	bool useShaderProgram( unsigned int ID );
-	bool useShaderProgram( std::string friendlyName );
+	bool useShaderProgram(unsigned int ID);
+	bool useShaderProgram(std::string friendlyName);
 
-	bool createProgramFromFile( std::string friendlyName, 
-		                        cShader &vertexShad, 
-					            cShader &fragShader );
+	bool createProgramFromFile(std::string friendlyName,
+		cShader &vertexShad,
+		cShader &fragShader);
 
-	bool createProgramFromFile( std::string friendlyName, 
-		                        cShader &vertexShad, 
-								cShader &geomShad, 
-					            cShader &fragShader );
+	bool createProgramFromFile(std::string friendlyName,
+		cShader &vertexShad,
+		cShader &geomShad,
+		cShader &fragShader);
 
-	bool createProgramFromSource( std::string friendlyName, 
-								  cShader &vertexShad,
-								  cShader &fragShader );
+	bool createProgramFromSource(std::string friendlyName,
+		cShader &vertexShad,
+		cShader &fragShader);
 
-	bool createProgramFromSource( std::string friendlyName, 
-								  cShader &vertexShad,
-								  cShader &geomShad,			
-								  cShader &fragShader );
+	bool createProgramFromSource(std::string friendlyName,
+		cShader &vertexShad,
+		cShader &geomShad,
+		cShader &fragShader);
 
 
-	void setBasePath( std::string basepath );
-	unsigned int getIDFromFriendlyName( std::string friendlyName );
+	void setBasePath(std::string basepath);
+	unsigned int getIDFromFriendlyName(std::string friendlyName);
 
 	// Used to load the uniforms. Returns NULL if not found.
-	cShaderProgram* pGetShaderProgramFromFriendlyName( std::string friendlyName );
+	cShaderProgram* pGetShaderProgramFromFriendlyName(std::string friendlyName);
+	cShaderProgram* pGetShaderProgramFromID(int shaderID);
 
 
 	// Clears last error
 	std::string getLastError(void);
 private:
 	// Returns an empty string if it didn't work
-	bool m_loadSourceFromFile( cShader &shader );
+	bool m_loadSourceFromFile(cShader &shader);
 	std::string m_basepath;
 
-	bool m_compileShaderFromSource( cShader &shader, std::string &error );
+	bool m_compileShaderFromSource(cShader &shader, std::string &error);
 	// returns false if no error
-	bool m_wasThereACompileError( unsigned int shaderID, std::string &errorText );
-	bool m_wasThereALinkError( unsigned int progID, std::string &errorText );
+	bool m_wasThereACompileError(unsigned int shaderID, std::string &errorText);
+	bool m_wasThereALinkError(unsigned int progID, std::string &errorText);
 
 	std::string m_lastError;
 

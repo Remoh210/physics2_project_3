@@ -1,9 +1,9 @@
 #ifndef _sPlyVertex_HG_
 #define _sPlyVertex_HG_
 
-struct sPlyVertex 
+struct sPlyVertex
 {
-//	sPlyVertex() : x(0.0f), y(0.0f), z(0.0f) {};
+	//	sPlyVertex() : x(0.0f), y(0.0f), z(0.0f) {};
 	float x;
 	float y;
 	float z;
@@ -11,6 +11,8 @@ struct sPlyVertex
 	float nx;
 	float ny;
 	float nz;
+
+	float u, v;		// Load a single UV (texture coordinate)
 };
 
 #endif 

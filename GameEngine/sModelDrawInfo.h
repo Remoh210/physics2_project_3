@@ -14,16 +14,29 @@
 //	float x, y, z;		// vec3    
 //	float r, g, b;		// vec3 
 //};
-struct sVert_xyz_rgb_Nxyz
+//struct sVert_xyz_rgb_Nxyz
+//{
+//	sVert_xyz_rgb_Nxyz() : 
+//		x(0.0f), y(0.0f), z(0.0f), 
+//		r(0.0f), g(0.0f), b(0.0f),
+//		nx(0.0f), ny(0.0f), nz(0.0f) {};
+//	float x, y, z;		// vec3    
+//	float r, g, b;		// vec3 
+//	float nx, ny, nz;		// vec3 
+//};
+struct sVert_xyz_rgb_Nxyz_uv2
 {
-	sVert_xyz_rgb_Nxyz() : 
-		x(0.0f), y(0.0f), z(0.0f), 
+	sVert_xyz_rgb_Nxyz_uv2() :
+		x(0.0f), y(0.0f), z(0.0f),
 		r(0.0f), g(0.0f), b(0.0f),
-		nx(0.0f), ny(0.0f), nz(0.0f) {};
+		nx(0.0f), ny(0.0f), nz(0.0f),
+		u0(0.0f), v0(0.0f), u1(0.0f), v1(0.0f) {};
 	float x, y, z;		// vec3    
 	float r, g, b;		// vec3 
 	float nx, ny, nz;		// vec3 
+	float u0, v0, u1, v1;
 };
+
 struct sModelDrawInfo
 {
 	sModelDrawInfo();
@@ -50,7 +63,8 @@ struct sModelDrawInfo
 	// This is the vertex information being passed to the GPU
 	// (is in format that the shader needs)
 //	sVert_xyz_rgb* pVerticesToVBO;	// = new sVert_xyz_rgb[ARRAYSIZE]
-	sVert_xyz_rgb_Nxyz* pVerticesToVBO;	// = new sVert_xyz_rgb[ARRAYSIZE]
+//	sVert_xyz_rgb_Nxyz* pVerticesToVBO;	// = new sVert_xyz_rgb[ARRAYSIZE]
+	sVert_xyz_rgb_Nxyz_uv2* pVerticesToVBO;	// = new sVert_xyz_rgb[ARRAYSIZE]
 	// This buffer is indices as a 1D array (that the GPU needs)
 	unsigned int* pIndices;		// = new unsigned int[ARRAYSIZE]
 

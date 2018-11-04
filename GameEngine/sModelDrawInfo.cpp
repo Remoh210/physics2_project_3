@@ -15,7 +15,7 @@ sModelDrawInfo::sModelDrawInfo()
 
 	// These come from the file
 	this->pVerticesFromFile = NULL;
-	this->pTriangles = NULL;	
+	this->pTriangles = NULL;
 	// These are copied to the GPU
 	this->pVerticesToVBO = NULL;
 	this->pIndices = NULL;

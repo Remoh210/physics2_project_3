@@ -38,6 +38,13 @@ struct sAOB
 	glm::mat3 matOrientation;
 };
 
+struct sTextureInfo
+{
+	std::string name;
+	int cachedTextureID; 	// Set to -1 by default
+	float strength;		// Set to 0.0f by default
+};
+
 class cMeshObject
 {
 public:
@@ -124,6 +131,10 @@ public:
 	{
 		return this->m_uniqueID;
 	}
+
+
+	// Textures...
+	std::vector<sTextureInfo> vecTextures;
 
 private:
 	unsigned int m_uniqueID;			// Number that's unique to this instance

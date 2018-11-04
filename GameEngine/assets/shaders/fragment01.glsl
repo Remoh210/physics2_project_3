@@ -2,9 +2,10 @@
 //fragment01.glsl
 
 // In from a previous stage (vertex shader)
-in vec3 color;		// in from the vertex shader
+in vec3 color;			// in from the vertex shader
 in vec4 vertPosWorld;
-in vec3 vertNormal;	// "Model space" (only rotation)
+in vec3 vertNormal;		// "Model space" (only rotation)
+in vec4 vertUV_x2;		// Texture coordinates
 
 uniform vec4 objectDiffuse;		// becomes objectDiffuse in the shader
 uniform vec4 objectSpecular;	// rgb + a, which is the power)
@@ -48,10 +49,21 @@ const int DIRECTIONAL_LIGHT_TYPE = 2;
 const int NUMBEROFLIGHTS = 10;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 
+// CAN'T put texture samplers into an array (sadly)
+//uniform sampler textures[10];
 
-//theLights[0].position
-//theLights[0].diffuseColour
-//theLights[0].atten
+uniform sampler2D texture00;
+uniform sampler2D texture01;
+uniform sampler2D texture02;
+uniform sampler2D texture03;
+uniform sampler2D texture04;
+uniform sampler2D texture05;
+uniform sampler2D texture06;
+uniform sampler2D texture07;
+
+// This is 4 x 2 floats or 8 floats
+uniform vec4 texBlendWeights[2];	// x is 0, y is 1, z is 2
+
 
 void main()
 {
@@ -68,8 +80,28 @@ void main()
 	else
 	{
 		//gl_FragColor = vec4(objectColour, 1.0);
-		materialDiffuse = objectDiffuse;
-	}
+//		materialDiffuse = objectDiffuse;
+
+		vec4 tex0Col = texture( texture00, vertUV_x2.st ).rgba;
+		vec4 tex1Col = texture( texture01, vertUV_x2.st ).rgba;
+		vec4 tex2Col = texture( texture02, vertUV_x2.st ).rgba;
+		vec4 tex3Col = texture( texture03, vertUV_x2.st ).rgba;
+		vec4 tex4Col = texture( texture04, vertUV_x2.st ).rgba;
+		vec4 tex5Col = texture( texture05, vertUV_x2.st ).rgba;
+		vec4 tex6Col = texture( texture06, vertUV_x2.st ).rgba;
+		vec4 tex7Col = texture( texture07, vertUV_x2.st ).rgba;
+		
+		materialDiffuse =  objectDiffuse
+						  + (tex0Col * texBlendWeights[0].x) 	 // 0
+		                  + (tex1Col * texBlendWeights[0].y)     // 1
+						  + (tex2Col * texBlendWeights[0].z)     // 2
+		                  + (tex3Col * texBlendWeights[0].w)     // 3
+		                  + (tex4Col * texBlendWeights[1].x)     // 4
+		                  + (tex5Col * texBlendWeights[1].y)     // 5
+		                  + (tex6Col * texBlendWeights[1].z)     // 6
+		                  + (tex7Col * texBlendWeights[1].w);    // 7
+		
+	}//if ( useVertexColour )
 	
 	// Is this being lit? 
 	if ( bDontUseLighting )
@@ -226,5 +258,8 @@ void main()
 	
 	finalOutputColour.rgb = finalObjectColour.rgb;
 	finalOutputColour.a = 1.0f;
+	
+	// Brigher for the dim projector
+	finalOutputColour.rgb *= 1.25f;
 
 }
