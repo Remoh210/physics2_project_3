@@ -221,7 +221,7 @@ int main(void)
 		pTheMainLight->atten.z = 0.00001f;	//			float quadAtten = 0.001f;
 		pTheMainLight->diffuse = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);// White light
 		pTheMainLight->param2.x = 1.0f;
-		pTheMainLight->SetLightType(sLight::SPOT_LIGHT);
+		pTheMainLight->SetLightType(sLight::POINT_LIGHT);
 		pTheMainLight->SetSpotConeAngles(15.0f, 35.0f);
 		//	pTheOneLight->SetSpotConeAngles( 15.0f, 45.0f );
 			// Direction is RELATIVE to the LIGHT (for spots)

@@ -1,34 +1,48 @@
 Friendly_Name 
 Mesh_Name Utah_Teapot_xyz_n_GARBAGE_uv.ply
-Position -40 0 0
-DiffureRGB_Alpha  1 0 0 1
+Position 40 0 0
+DiffureRGB_Alpha  0 0 0 1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation -0.707107 0 0 0.707107
 Scale  0.5 0.5 0.5
-Friendly_Name skull
-Mesh_Name skull.ply
-Position 0 50 0
-DiffureRGB_Alpha  1 0.4 0.1 1
-SpecularRGB_Power 1 1 1 100
-QuatXYZW_rotation 0 0 0 1
-Scale  1.5 1.5 1.5
 Friendly_Name room
 Mesh_Name roomUV.ply
 Position 0 0 300
 DiffureRGB_Alpha  0 0 0 1
-SpecularRGB_Power 1 1 1 1
+SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
-Scale  50 50 50
+Scale  100 100 100
+Friendly_Name ufo
+Mesh_Name Ufo2UVb.ply
+Position 105 20 380
+DiffureRGB_Alpha  0 0 0 1
+SpecularRGB_Power 1 1 1 100
+QuatXYZW_rotation 0 0 0 1
+Scale  65.1996 65.1996 65.1996
 Friendly_Name table
 Mesh_Name table.ply
-Position 0 0 0
-DiffureRGB_Alpha  1 1 1 1
-SpecularRGB_Power 1 1 1 1
+Position 475 -30 820
+DiffureRGB_Alpha  0 0 0 1
+SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
-Scale  1 1 1
+Scale  2.9 2.9 2.9
+Friendly_Name knight
+Mesh_Name knight.ply
+Position 1355 355 -265
+DiffureRGB_Alpha  0 0 0 1
+SpecularRGB_Power 1 1 1 100
+QuatXYZW_rotation 0 0 0 1
+Scale  22.6 22.6 22.6
+Friendly_Name knight2
+Mesh_Name knight2.ply
+Position 1225 460 1945
+DiffureRGB_Alpha  0 0 0 1
+SpecularRGB_Power 1 1 1 100
+QuatXYZW_rotation 0 0 0 1
+Scale  20.4 20.4 20.4
 Friendly_Name DebugSphere
 Mesh_Name Sphere_320_faces_xyz_n.ply
-Position -69 2155 55
+Position 0 0 0
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1

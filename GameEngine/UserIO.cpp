@@ -216,8 +216,6 @@ bool AreAllModifiersUp(GLFWwindow* window)
 
 void ProcessAsynKeys(GLFWwindow* window)
 {
-	cMeshObject* Skull = findObjectByFriendlyName("skull");
-	cMeshObject* ChestTop = findObjectByFriendlyName("chest_top");
 	const float CAMERA_SPEED_SLOW = 5.0f;
 	const float CAMERA_SPEED_FAST = 10.0f;
 
@@ -267,27 +265,6 @@ void ProcessAsynKeys(GLFWwindow* window)
 			g_CameraEye.y -= cameraSpeed;
 		}
 
-
-		if (bIsPicked)
-		{
-			//cMeshObject* shootSphere = findObjectByFriendlyName("shootBall");
-			Skull->position = g_CameraEye + glm::vec3(0.0f, -20.0f, -60.0f);
-			//shootSphere->velocity = Front * 600.0f;
-			//shootSphere->bIsUpdatedByPhysics = true;
-			//shootSphere->bIsVisible = true;
-			//cloesetObj->position = Front;
-			//bIsPicked = false;
-		}
-		
-		if (glm::distance((glm::vec3)LightManager->vecLights.at(6)->position, Skull->position) < 200.0f && !bIsPicked)
-		{
-			//if (ChestTop->postRotation.z < glm::radians(90.0f))
-			//{
-			//	ChestTop->postRotation.z += 0.004f;
-			//	LightManager->vecLights.at(5)->param2.x = 1.0f;
-			//}
-
-		}
 
 	}//if(AreAllModifiersUp(window)
 
@@ -386,9 +363,29 @@ void ProcessAsynKeys(GLFWwindow* window)
 		//if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z += 0.1f; }
 		//if ( glfwGetKey( window, GLFW_KEY_C ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z -= 0.1f; }
 
-		if (glfwGetKey(window, GLFW_KEY_V)) { vec_pObjectsToDraw.at(index)->nonUniformScale += 0.1f; }
-		if (glfwGetKey(window, GLFW_KEY_B)) { vec_pObjectsToDraw.at(index)->nonUniformScale -= 0.1f; }
-		//Object Scale
+		if (glfwGetKey(window, GLFW_KEY_V)) { vec_pObjectsToDraw.at(index)->nonUniformScale += 0.2f; }
+		if (glfwGetKey(window, GLFW_KEY_B)) { vec_pObjectsToDraw.at(index)->nonUniformScale -= 0.2f; }
+
+
+
+		if (glfwGetKey(window, GLFW_KEY_UP))
+		{
+			if (vec_pObjectsToDraw.at(index)->vecTextures.size() > 1)
+			{
+				vec_pObjectsToDraw.at(index)->vecTextures.at(1).strength += 0.002f;
+				vec_pObjectsToDraw.at(index)->vecTextures.at(0).strength -= 0.002f;
+			}
+			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has onle one texture" << std::endl; }
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
+		{
+			if (vec_pObjectsToDraw.at(index)->vecTextures.size() > 1)
+			{
+				vec_pObjectsToDraw.at(index)->vecTextures.at(1).strength -= 0.002f;
+				vec_pObjectsToDraw.at(index)->vecTextures.at(0).strength += 0.002f;
+			}
+			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has onle one texture" << std::endl; }
+		}
 
 		
 
@@ -396,27 +393,6 @@ void ProcessAsynKeys(GLFWwindow* window)
 	
 	return;
 }
-
-
-
-//cMeshObject* CloseToObj(std::vector<cMeshObject*> models)
-//{
-//	for (std::vector<cMeshObject*>::iterator it = models.begin(); it != models.end(); ++it)
-//	{
-//		cMeshObject* CurModel = *it;
-//		float distance = glm::distance(CurModel->position, g_CameraEye);
-//		//std::cout << distance << std::endl;
-//		//glm::vec3 pos = CurModel->position;
-//		if (CurModel->bIsInteractable &&  distance < 250.0f )
-//		{
-//			std::cout << CurModel->meshName << std::endl;
-//			return CurModel;
-//		}
-//		else { return nullptr; }
-//		//else { std::cout << "nothing" << std::endl; }
-//	}
-//	//return false;
-//}
 
 
 void SwitchToWireFrame(std::vector<cMeshObject*> models)
