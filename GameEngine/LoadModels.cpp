@@ -55,6 +55,26 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	knight2Info.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(knight2Info, shaderProgramID);
 
+	sModelDrawInfo fireInfo;
+	fireInfo.meshFileName = "fireplace.ply";
+	fireInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(fireInfo, shaderProgramID);
+
+	sModelDrawInfo lampInfo;
+	lampInfo.meshFileName = "lantern.ply";
+	lampInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(lampInfo, shaderProgramID);
+
+	sModelDrawInfo CatInfo;
+	CatInfo.meshFileName = "cat.ply";
+	CatInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(CatInfo, shaderProgramID);
+
+	sModelDrawInfo breadInfo;
+	breadInfo.meshFileName = "bread.ply";
+	breadInfo.bVertexBufferIsDynamic = true;
+	pTheVAOMeshManager->LoadModelIntoVAO(breadInfo, shaderProgramID);
+
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
 
@@ -70,8 +90,12 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("wood.bmp", true);
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("knightTex.bmp", true);
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("knight2Tex.bmp", true);
+	::g_pTheTextureManager->Create2DTextureFromBMPFile("fireplace.bmp", true);
+	::g_pTheTextureManager->Create2DTextureFromBMPFile("lantern.bmp", true);
+	::g_pTheTextureManager->Create2DTextureFromBMPFile("cat.bmp", true);
+	::g_pTheTextureManager->Create2DTextureFromBMPFile("bread.bmp", true);
 
-
+	
 
 	return;
 }
@@ -90,7 +114,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 
 		// Make the terrain really shinny...
 		pTeapot->setSpecularPower(100.0f);
-
+		pTeapot->friendlyName = "Teapot";
 		pTeapot->meshName = "Utah_Teapot_xyz_n_GARBAGE_uv.ply";		// "Utah_Teapot_xyz.ply";
 		// Note scale...
 //		pTeapot->nonUniformScale = glm::vec3(0.005f,0.005f,0.005f);
@@ -207,6 +231,74 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pKnight2->vecTextures.push_back(knightTexture2);
 		vec_pObjectsToDraw.push_back(pKnight2);
 	}
+
+	{
+		cMeshObject* pFire = new cMeshObject();
+		pFire->position = glm::vec3(0.0f, 10.0f, 0.0f);
+		pFire->setDiffuseColour(glm::vec3(0.0f, 0.0f, 0.0f));
+		pFire->setSpecularPower(100.0f);
+		pFire->setUniformScale(10.0f);
+		pFire->friendlyName = "fire";
+		pFire->meshName = "fireplace.ply";
+		sTextureInfo fireTexture;
+		fireTexture.name = "fireplace.bmp";
+		fireTexture.strength = 1.0f;
+		pFire->vecTextures.push_back(fireTexture);
+		vec_pObjectsToDraw.push_back(pFire);
+	}
+
+
+
+	{
+		cMeshObject* pLamp = new cMeshObject();
+		pLamp->position = glm::vec3(0.0f, 10.0f, 0.0f);
+		pLamp->setDiffuseColour(glm::vec3(0.0f, 0.0f, 0.0f));
+		pLamp->setSpecularPower(100.0f);
+		pLamp->setUniformScale(10.0f);
+		pLamp->friendlyName = "lamp";
+		pLamp->meshName = "lantern.ply";
+		sTextureInfo lampTexture;
+		lampTexture.name = "lantern.bmp";
+		lampTexture.strength = 1.0f;
+		pLamp->vecTextures.push_back(lampTexture);
+		vec_pObjectsToDraw.push_back(pLamp);
+	}
+
+	{
+		cMeshObject* pCat = new cMeshObject();
+		pCat->position = glm::vec3(0.0f, 10.0f, 0.0f);
+		pCat->setDiffuseColour(glm::vec3(0.0f, 0.0f, 0.0f));
+		pCat->setSpecularPower(100.0f);
+		pCat->setUniformScale(10.0f);
+		pCat->friendlyName = "cat";
+		pCat->meshName = "cat.ply";
+		sTextureInfo catTexture;
+		catTexture.name = "cat.bmp";
+		catTexture.strength = 1.0f;
+		pCat->vecTextures.push_back(catTexture);
+		vec_pObjectsToDraw.push_back(pCat);
+	}
+
+
+	{
+		cMeshObject* pBread = new cMeshObject();
+		pBread->position = glm::vec3(0.0f, 10.0f, 0.0f);
+		pBread->setDiffuseColour(glm::vec3(0.0f, 0.0f, 0.0f));
+		pBread->setSpecularPower(100.0f);
+		pBread->setUniformScale(10.0f);
+		pBread->friendlyName = "bread";
+		pBread->meshName = "bread.ply";
+		sTextureInfo breadTexture;
+		breadTexture.name = "bread.bmp";
+		breadTexture.strength = 1.0f;
+		pBread->vecTextures.push_back(breadTexture);
+		vec_pObjectsToDraw.push_back(pBread);
+	}
+
+
+
+
+
 
 
 

@@ -40,6 +40,9 @@
     <Filter Include="TextureManager">
       <UniqueIdentifier>{4b3fb560-6cd0-4465-b682-6c9962cb2e85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{4d3183f2-041d-40fb-8d80-8233c8e159e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="TextureManager\CTextureFromBMP.h">
       <Filter>TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

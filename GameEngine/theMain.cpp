@@ -32,7 +32,8 @@ iDebugRenderer* g_pDebugRenderer = NULL;
 
 
 void UpdateWindowTitle(void);
-
+double currentTime = 0;
+double deltaTime = 0;
 
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
@@ -48,13 +49,12 @@ unsigned int numberOfObjectsToDraw = 0;
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 800;
 
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
 
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
-
-glm::vec3 Front;
-glm::vec3 Horizontal;
 
 //glm::vec3 g_CameraAt = glm::vec3(g_CameraEye, g_CameraEye.z + cameraFront.z, cameraUp.y);
 //glm::vec3 g_CameraAt = glm::vec3( 0.0, 0.0, 0.0f );
@@ -281,9 +281,10 @@ int main(void)
 
 	
 	//loadModels("ModelsDef.txt", vec_pObjectsToDraw);
-	//loadLights("lightsDef.txt", LightManager->vecLights);
+	loadLights("lightsDef.txt", LightManager->vecLights);
 	//Reload from the file
-	//loadModels("Models.txt", vec_pObjectsToDraw);
+	loadModels("Models.txt", vec_pObjectsToDraw);
+	loadLights("lights.txt", LightManager->vecLights);
 	//*****************************************************************
 	
 	// Draw the "scene" (run the program)
@@ -326,8 +327,8 @@ int main(void)
 			                                0.1f,			// Near clipping plane
 			                                5000.0f );	// Far clipping plane
 
-		matView = glm::lookAt(g_CameraEye, g_CameraEye + cameraFront, cameraUp);
-
+		//matView = glm::lookAt(g_CameraEye, g_CameraEye + cameraFront, cameraUp);
+		matView = camera.GetViewMatrix();
 
 		glUniform3f(eyeLocation_location, ::g_CameraEye.x, ::g_CameraEye.y, ::g_CameraEye.z);
 
@@ -359,8 +360,8 @@ int main(void)
 
 
 		// High res timer (likely in ms or ns)
-		double currentTime = glfwGetTime();		
-		double deltaTime = currentTime - lastTime; 
+		currentTime = glfwGetTime();		
+		deltaTime = currentTime - lastTime; 
 
 		for ( unsigned int objIndex = 0; 
 			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 

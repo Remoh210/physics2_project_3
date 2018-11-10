@@ -1,26 +1,24 @@
 #include "globalOpenGLStuff.h"
-
 #include "globalStuff.h"
 //#include <vector>
 #include <iostream>
 
 int index = 0;
 // This has all the keyboard, mouse, and controller stuff
-float lastX;
-float lastY;
-
-float pitch;
-float yaw;
 
 extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
 bool firstMouse = true;
 
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+
 bool bIsPicked = false;
 cMeshObject* closedModel;
 
 bool IsPicked = false;
+
 cMeshObject* CloseToObj(std::vector<cMeshObject*> models);
 
 cMeshObject* cloesetObj;
@@ -37,6 +35,9 @@ void key_callback( GLFWwindow* window,
 						  int action, 
 						  int mods)
 {
+
+
+
 	cMeshObject* Skull = findObjectByFriendlyName("skull");
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
@@ -147,36 +148,18 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (firstMouse)
 	{
-		lastX = SCR_WIDTH / 2.0f;;
-		lastY = SCR_HEIGHT / 2.0f;
+		lastX = xpos;
+		lastY = ypos;
 		firstMouse = false;
 	}
 
 	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
 	lastX = xpos;
 	lastY = ypos;
 
-	float sensitivity = 0.05;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-
-	//to prevent camera reverse pitch
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	
-	Front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	Front.y = sin(glm::radians(pitch));
-	Front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(Front);
-	Horizontal = glm::normalize(glm::cross(Front, cameraUp));
+	camera.ProcessMouseMovement(xoffset, yoffset);
 
 }
 
@@ -235,35 +218,19 @@ void ProcessAsynKeys(GLFWwindow* window)
 	{
 		// Note: The "== GLFW_PRESS" isn't really needed as it's actually "1" 
 		// (so the if() treats the "1" as true...)
-	
-		if ( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS )
-		{
-			g_CameraEye.x += cameraSpeed * Front.x;
-			g_CameraEye.z += cameraSpeed * Front.z;
-			//g_CameraEye.x += Front.x * cameraSpeed;
-		}
-		if ( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS )	// "backwards"
-		{	
-			g_CameraEye.x -= cameraSpeed * Front.x;
-			g_CameraEye.z -= cameraSpeed * Front.z;
-		}
-		if ( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS )	// "left"
-		{	
-			g_CameraEye -= Horizontal * cameraSpeed;
-			//g_CameraEye.x -= cameraSpeed;
-		}
-		if ( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS )	// "right"
-		{	
-			g_CameraEye += Horizontal * cameraSpeed;
-		}
-		if ( glfwGetKey( window, GLFW_KEY_Q ) == GLFW_PRESS )	// "up"
-		{	
-			g_CameraEye.y += cameraSpeed;
-		}
-		if ( glfwGetKey( window, GLFW_KEY_E ) == GLFW_PRESS )	// "down"
-		{	
-			g_CameraEye.y -= cameraSpeed;
-		}
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			camera.ProcessKeyboard(FORWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			camera.ProcessKeyboard(BACKWARD, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			camera.ProcessKeyboard(LEFT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			camera.ProcessKeyboard(RIGHT, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			camera.ProcessKeyboard(UP, deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			camera.ProcessKeyboard(DOWN, deltaTime);
 
 
 	}//if(AreAllModifiersUp(window)

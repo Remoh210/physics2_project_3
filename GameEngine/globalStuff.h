@@ -3,7 +3,7 @@
 
 
 #include "globalOpenGLStuff.h"
-
+#include "Camera.h"
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 
@@ -26,10 +26,7 @@ extern glm::vec3 cameraFront;
 extern glm::vec3 cameraUp;
 
 //camera control 
-extern glm::vec3 Front;
-extern glm::vec3 Horizontal;
-extern float pitch;
-extern float yaw;
+extern Camera camera;
 
 extern cBasicTextureManager* g_pTheTextureManager;
 
@@ -37,7 +34,7 @@ extern cBasicTextureManager* g_pTheTextureManager;
 
 extern glm::vec3 g_CameraEye;	// = glm::vec3( 0.0, 0.0, +10.0f );
 //extern glm::vec3 g_CameraAt;	// = glm::vec3( 0.0, 0.0, 0.0f );
-
+extern double deltaTime;
 //Global screen size
 extern const unsigned int SCR_WIDTH;
 extern const unsigned int SCR_HEIGHT;
