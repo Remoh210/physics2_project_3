@@ -13,9 +13,13 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 {
 
 	sModelDrawInfo tableInfo;
-	tableInfo.meshFileName = "table.ply";					// "mig29_xyz.ply";
+	tableInfo.meshFileName = "table.ply";				
 	pTheVAOMeshManager->LoadModelIntoVAO(tableInfo, shaderProgramID);
 
+	sModelDrawInfo AxeInfo;
+	AxeInfo.meshFileName = "AxePainted.ply";					// "mig29_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(AxeInfo, shaderProgramID);
+	
 
 
 	sModelDrawInfo teapotInfo;
@@ -94,6 +98,7 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("lantern.bmp", true);
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("cat.bmp", true);
 	::g_pTheTextureManager->Create2DTextureFromBMPFile("bread.bmp", true);
+	::g_pTheTextureManager->Create2DTextureFromBMPFile("AxeTex.bmp", true);
 
 	
 
@@ -297,20 +302,6 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 
 
 
-
-
-
-
-
-
-
-
-	//cMeshObject* pRogerRabbit = NULL;
-
-
-
-
-
 	{	// This sphere is the tiny little debug sphere
 		cMeshObject* pDebugSphere = new cMeshObject();
 		pDebugSphere->position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -324,6 +315,25 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pDebugSphere->pDebugRenderer = ::g_pDebugRenderer;
 
 		vec_pObjectsToDraw.push_back(pDebugSphere);
+	}
+
+	{	// This sphere is the tiny little debug sphere
+		cMeshObject* pAxe = new cMeshObject();
+		pAxe->position = glm::vec3(0.0f, 0.0f, 0.0f);
+		pAxe->setDiffuseColour(glm::vec3(0.0f, 0.0f, 0.0f));
+		pAxe->setSpecularPower(100.0f);
+		//	pDebugSphere->objColour = glm::vec3(0.0f, 1.0f, 0.0f);
+		float scale = 30.0f;
+		pAxe->friendlyName = "AxePainted";
+		pAxe->nonUniformScale = glm::vec3(scale, scale, scale);
+		pAxe->meshName = "AxePainted.ply";
+		pAxe->bIsWireFrame = false;
+		pAxe->bIsVisible = true;
+		sTextureInfo AxeTexture;
+		AxeTexture.name = "AxeTex.bmp";
+		AxeTexture.strength = 1.0f;
+		pAxe->vecTextures.push_back(AxeTexture);
+		vec_pObjectsToDraw.push_back(pAxe);
 	}
 
 

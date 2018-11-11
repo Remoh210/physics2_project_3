@@ -16,7 +16,7 @@ bool firstMouse = true;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 
-
+std::string Answer;
 void ManageScene(GLFWwindow* window);
 
 bool bIsPicked = false;
@@ -405,13 +405,13 @@ void SwitchToSolid(std::vector<cMeshObject*> models)
 
 void ManageScene(GLFWwindow* window)
 {
-	std::string Answer;
+	
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	bMouseInWindow = false;
 	std::cout << "Save or Load? -s for save, -l for load, -c for cancel." << std::endl;
 	std::cout << "Enter Answer: " << std::endl;
 	std::cout << "->";
-	std::getline(std::cin, Answer);
+	std::cin >> Answer;
 	if (Answer == "-s" || Answer == "-S") {
 		std::cout << "Which Scene to save? 1 or 2?" << std::endl;
 		std::cout << "->";
@@ -420,7 +420,7 @@ void ManageScene(GLFWwindow* window)
 			saveModelInfo("Models.txt", vec_pObjectsToDraw);
 			saveLightInfo("lights.txt", LightManager->vecLights);
 		}
-		if (Answer == "2") {
+		else if (Answer == "2") {
 			saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 			saveLightInfo("lights2.txt", LightManager->vecLights);
 		}
@@ -434,13 +434,13 @@ void ManageScene(GLFWwindow* window)
 			loadModels("Models.txt", vec_pObjectsToDraw);
 			loadLights("lights.txt", LightManager->vecLights);
 		}
-		if (Answer == "2") {
+		else if (Answer == "2") {
 			loadModels("Models2.txt", vec_pObjectsToDraw);
 			loadLights("lights2.txt", LightManager->vecLights);
 		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}
-	else  {
+	else {
 		std::cout << Answer << std::endl;
 		std::cout << "Cancelling.." << std::endl;
 	}

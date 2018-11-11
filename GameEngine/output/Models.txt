@@ -1,10 +1,10 @@
-Friendly_Name 
+Friendly_Name Teapot
 Mesh_Name Utah_Teapot_xyz_n_GARBAGE_uv.ply
-Position -600 0 1140
+Position 40 0 0
 DiffureRGB_Alpha  0 0 0 1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation -0.707107 0 0 0.707107
-Scale  2.9 2.9 2.9
+Scale  0.5 0.5 0.5
 Friendly_Name room
 Mesh_Name roomUV.ply
 Position -85 0 300
@@ -70,8 +70,15 @@ QuatXYZW_rotation 0 0 0 1
 Scale  102.8 102.8 102.8
 Friendly_Name DebugSphere
 Mesh_Name Sphere_320_faces_xyz_n.ply
-Position 0 0 0
+Position 226 2085 195
 DiffureRGB_Alpha  1 1 1 1
 SpecularRGB_Power 1 1 1 1
 QuatXYZW_rotation 0 0 0 1
 Scale  30 30 30
+Friendly_Name AxePainted
+Mesh_Name AxePainted.ply
+Position -365 350 2180
+DiffureRGB_Alpha  0 0 0 1
+SpecularRGB_Power 1 1 1 100
+QuatXYZW_rotation 0 0 0 1
+Scale  34.2 34.2 34.2
