@@ -27,7 +27,7 @@ extern glm::vec3 cameraUp;
 
 //camera control 
 extern Camera camera;
-
+extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
 
 //extern std::vector<cMeshObject*> vec_pObjectsToDraw;

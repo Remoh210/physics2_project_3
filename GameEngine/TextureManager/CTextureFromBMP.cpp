@@ -58,7 +58,7 @@ std::string CTextureFromBMP::getFileNameFullPath(void)
 
 
 bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std::string fileNameFullPath, 
-												    /*GLenum textureUnit,*/ bool bGenerateMIPMap )	
+												    /*GLenum textureUnit,*/ bool bGenerateMIPMap)	
 {
 	bool bReturnVal = true;
 
@@ -155,7 +155,13 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	//glBindTexture(GL_TEXTURE_2D, m_textureNumber);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, /*GL_CLAMP*/ GL_REPEAT );
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, /*GL_CLAMP*/ GL_REPEAT );
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST /*GL_LINEAR*/);
+
+
+	//SETlinear
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR /*GL_LINEAR*/);
+
+
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, /*GL_NEAREST*/ GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 

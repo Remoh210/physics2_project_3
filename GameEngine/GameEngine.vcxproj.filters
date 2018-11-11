@@ -43,6 +43,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{4d3183f2-041d-40fb-8d80-8233c8e159e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserIO">
+      <UniqueIdentifier>{a94f3f64-2b9c-415a-af01-df6eab8c15e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -68,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="cVAOMeshManager.cpp">
       <Filter>Mesh Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UserIO.cpp">
-      <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cMeshObject.cpp">
       <Filter>Header Files</Filter>
@@ -116,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="TextureManager\CTextureFromBMP.cpp">
       <Filter>TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserIO.cpp">
+      <Filter>UserIO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

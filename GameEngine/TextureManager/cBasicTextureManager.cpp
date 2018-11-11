@@ -15,7 +15,7 @@ bool cBasicTextureManager::Create2DTextureFromBMPFile( std::string textureFileNa
 
 
 	CTextureFromBMP* pTempTexture = new CTextureFromBMP();
-	if ( ! pTempTexture->CreateNewTextureFromBMPFile2( textureFileName, fileToLoadFullPath, /*textureUnit,*/ bGenerateMIPMap ) )
+	if ( ! pTempTexture->CreateNewTextureFromBMPFile2( textureFileName, fileToLoadFullPath, /*textureUnit,*/ bGenerateMIPMap) )
 	{
 		this->m_appendErrorString( "Can't load " );
 		this->m_appendErrorString( fileToLoadFullPath );

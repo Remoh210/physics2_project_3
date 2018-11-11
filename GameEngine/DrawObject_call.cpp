@@ -29,7 +29,15 @@ GLint texBW_1_UniLoc = -1;
 // Will bind the textures in use for this object on this draw call
 void BindTextures(cMeshObject* pCurrentMesh, GLuint shaderProgramID)
 {
+	if (g_pTheTextureManager->filtType == 1)
+	{
 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	if (g_pTheTextureManager->filtType == 2)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
 	// This is pretty much a hack, so we should likely pass the shader object 
 	// (pointer) to this function, and to the DrawObject call, too. 
 	// (Another option would be to pass the shader MANAGER instead, so 
@@ -68,6 +76,7 @@ void BindTextures(cMeshObject* pCurrentMesh, GLuint shaderProgramID)
 
 	for (int texBindIndex = 0; texBindIndex != pCurrentMesh->vecTextures.size(); texBindIndex++)
 	{
+
 		// Bind to the the "texBindIndex" texture unit
 		glActiveTexture(GL_TEXTURE0 + texBindIndex);
 

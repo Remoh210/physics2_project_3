@@ -8,6 +8,7 @@
 class cBasicTextureManager
 {
 public:
+	int filtType = 1;
 	bool Create2DTextureFromBMPFile( std::string textureFileName, bool bGenerateMIPMap );
 
 	// Picks a random texture from the textures loaded

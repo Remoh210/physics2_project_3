@@ -18,16 +18,20 @@
 #include <GLFW/glfw3.h>
 
 
-typedef unsigned char uchar;
 
 class CTextureFromBMP
 {
 public:
 	CTextureFromBMP();
 	~CTextureFromBMP();
+	
+	//TextureFilter  TexfiltType;
+
+	//void  SetTextureFilter(TextureFilter tf) { TexfiltType = tf; };
+	//void setTextureFilter(TextureFilter filt_type) {};
 	// Returns true if able to load texture and store it
 	// Updated: December 2010 for ATI cards, too!
-	bool CreateNewTextureFromBMPFile2( std::string textureName, std::string fileNameFullPath, /*GLenum textureUnit,*/ bool bGenerateMIPMap );		
+	bool CreateNewTextureFromBMPFile2( std::string textureName, std::string fileNameFullPath, /*GLenum textureUnit,*/ bool bGenerateMIPMap);
 
 	// _____  _     _                        _     _                         
 	//|_   _|| |_  (_) ___  _ __  __ _  _ _ | |_  (_) ___  _ _   ___ __ __ __

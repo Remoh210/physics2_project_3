@@ -1,7 +1,9 @@
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
+#include <string>
 //#include <vector>
 #include <iostream>
+//include "TextureCTextureFromBMP.h"
 
 int index = 0;
 // This has all the keyboard, mouse, and controller stuff
@@ -14,8 +16,12 @@ bool firstMouse = true;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 
+
+void ManageScene(GLFWwindow* window);
+
 bool bIsPicked = false;
 cMeshObject* closedModel;
+bool bMouseInWindow = false;
 
 bool IsPicked = false;
 
@@ -37,12 +43,20 @@ void key_callback( GLFWwindow* window,
 {
 
 
-
-	cMeshObject* Skull = findObjectByFriendlyName("skull");
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
+		
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_SLASH))
+	{
+
+		ManageScene(window);
+		
+	}
+
+
 
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
@@ -67,6 +81,15 @@ void key_callback( GLFWwindow* window,
 	{
 		loadModels("Models.txt", vec_pObjectsToDraw);
 		loadLights("lights.txt", LightManager->vecLights);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_R))
+	{
+		g_pTheTextureManager->filtType = 1;
+	}
+	if (glfwGetKey(window, GLFW_KEY_T))
+	{
+		g_pTheTextureManager->filtType = 2;
 	}
 
 
@@ -128,12 +151,6 @@ void key_callback( GLFWwindow* window,
 	
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 	{
-		float dist = glm::distance(Skull->position, g_CameraEye);
-		if (dist < 80.0f)
-		{
-			bIsPicked = !bIsPicked;
-
-		}
 
 
 		//LightManager->vecLights.at(lightIndex)->AtenSphere = false;
@@ -151,6 +168,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		lastX = xpos;
 		lastY = ypos;
 		firstMouse = false;
+		bMouseInWindow = true;
 	}
 
 	float xoffset = xpos - lastX;
@@ -159,7 +177,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
+	if(bMouseInWindow)
+	{
+		camera.ProcessMouseMovement(xoffset, yoffset);
+	}
 
 }
 
@@ -380,3 +401,53 @@ void SwitchToSolid(std::vector<cMeshObject*> models)
 
 	}
 }
+
+
+void ManageScene(GLFWwindow* window)
+{
+	std::string Answer;
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	bMouseInWindow = false;
+	std::cout << "Save or Load? -s for save, -l for load, -c for cancel." << std::endl;
+	std::cout << "Enter Answer: " << std::endl;
+	std::cout << "->";
+	std::getline(std::cin, Answer);
+	if (Answer == "-s" || Answer == "-S") {
+		std::cout << "Which Scene to save? 1 or 2?" << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		if (Answer == "1") {
+			saveModelInfo("Models.txt", vec_pObjectsToDraw);
+			saveLightInfo("lights.txt", LightManager->vecLights);
+		}
+		if (Answer == "2") {
+			saveModelInfo("Models2.txt", vec_pObjectsToDraw);
+			saveLightInfo("lights2.txt", LightManager->vecLights);
+		}
+		else{ std::cout << "cancelling.." << std::endl; }
+	}
+	else if (Answer == "-l") {
+		std::cout << "Which Scene to load? 1 or 2?" << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		if (Answer == "1") {
+			loadModels("Models.txt", vec_pObjectsToDraw);
+			loadLights("lights.txt", LightManager->vecLights);
+		}
+		if (Answer == "2") {
+			loadModels("Models2.txt", vec_pObjectsToDraw);
+			loadLights("lights2.txt", LightManager->vecLights);
+		}
+		else{ std::cout << "cancelling.." << std::endl; }
+	}
+	else  {
+		std::cout << Answer << std::endl;
+		std::cout << "Cancelling.." << std::endl;
+	}
+	std::cout << "Click on Progrm Window to Continue" << std::endl;
+	bMouseInWindow = true;
+	firstMouse = true;
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	
+};
