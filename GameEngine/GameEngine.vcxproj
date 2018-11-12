@@ -154,10 +154,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cAABB.cpp" />
+    <ClCompile Include="cCommandGroup.cpp" />
+    <ClCompile Include="cFollowObjectCommand.cpp" />
     <ClCompile Include="cLightHelper.cpp" />
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMeshObject.cpp" />
     <ClCompile Include="cMeshObject_Quaternion.cpp" />
+    <ClCompile Include="cMoveToCommand.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
@@ -182,10 +186,13 @@
     <ClCompile Include="UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
+    <ClInclude Include="cAABB.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="cCommandGroup.h" />
+    <ClInclude Include="cFollowObjectCommand.h" />
     <ClInclude Include="cLightHelper.h" />
     <ClInclude Include="cLightManager.h" />
+    <ClInclude Include="cMoveToCommand.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
     <ClInclude Include="cShaderManager.h" />
@@ -195,6 +202,7 @@
     <ClInclude Include="Error\COpenGLError.h" />
     <ClInclude Include="globalOpenGLStuff.h" />
     <ClInclude Include="globalStuff.h" />
+    <ClInclude Include="iCommand.h" />
     <ClInclude Include="linmath.h" />
     <ClInclude Include="sModelDrawInfo.h" />
     <ClInclude Include="sPlyTriangle.h" />

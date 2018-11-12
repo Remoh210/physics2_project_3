@@ -1,5 +1,6 @@
 #include "globalOpenGLStuff.h"
-#include "globalStuff.h"		// for g_pRogerRabbit
+#include "globalStuff.h"	
+#include "cAABB.h"// for g_pRogerRabbit
 
 #include "cVAOMeshManager.h"
 #include "cMeshObject.h"
@@ -335,6 +336,32 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pAxe->vecTextures.push_back(AxeTexture);
 		vec_pObjectsToDraw.push_back(pAxe);
 	}
+
+
+	// Our world is 200x200 units, centred on the origin
+	// I want 10x10x10 AABBs in this entire world
+	// Each AABB is 200 DIV 10 = 20 units in size
+	cAABB* pAABB1 = new cAABB();
+	// At the origin, but in the +ve quad
+
+	//pAABB1->setMinXYZ(glm::vec3(0, 0, 0));
+	//pAABB1->setSideLegth(20.0f);
+	unsigned long long AABB_ID1 = pAABB1->generateID(pAABB1->getMinXYZ());
+
+	cAABB* pAABB2 = new cAABB();
+	// At the origin, but in the +ve quad
+	//pAABB2->setMinXYZ(glm::vec3(-20.0, 460.0, -1280.0));
+	//pAABB2->setSideLegth(20.0f);
+	unsigned long long AABB_ID2 = pAABB1->generateID(pAABB2->getMinXYZ());
+
+
+	cAABBHierarchy* pTerrainAABBThing = new cAABBHierarchy();
+
+	//	unsigned long long AABB_ID = pAABB1->GetID();
+
+	//	pTerrainAABBThing->m_mapAABBs[AABB_ID] = pAABB1;
+
+
 
 
 	// ENDOF: Updated physics object

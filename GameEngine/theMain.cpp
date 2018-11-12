@@ -29,6 +29,7 @@
 
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
+cCommandGroup sceneCommandGroup;
 
 
 void UpdateWindowTitle(void);
@@ -280,11 +281,31 @@ int main(void)
 	cLightHelper* pLightHelper = new cLightHelper();
 
 	
-	//loadModels("ModelsDef.txt", vec_pObjectsToDraw);
-	loadLights("lightsDef.txt", LightManager->vecLights);
+
 	//Reload from the file
+//	saveModelInfo("Models.txt", vec_pObjectsToDraw);
+//	saveLightInfo("lights.txt", LightManager->vecLights);
 	loadModels("Models.txt", vec_pObjectsToDraw);
 	loadLights("lights.txt", LightManager->vecLights);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//*****************************************************************
 	
 	// Draw the "scene" (run the program)
@@ -330,7 +351,7 @@ int main(void)
 		//matView = glm::lookAt(g_CameraEye, g_CameraEye + cameraFront, cameraUp);
 		matView = camera.GetViewMatrix();
 
-		glUniform3f(eyeLocation_location, ::g_CameraEye.x, ::g_CameraEye.y, ::g_CameraEye.z);
+		glUniform3f(eyeLocation_location, camera.Position.x, camera.Position.y, camera.Position.z);
 
 		//matView = glm::lookAt( g_CameraEye,	// Eye
 		//	                    g_CameraAt,		// At
@@ -363,6 +384,14 @@ int main(void)
 		currentTime = glfwGetTime();		
 		deltaTime = currentTime - lastTime; 
 
+
+
+		double MAX_DELTA_TIME = 0.1;	// 100 ms
+		if (deltaTime > MAX_DELTA_TIME)
+		{
+			deltaTime = MAX_DELTA_TIME;
+		}
+
 		for ( unsigned int objIndex = 0; 
 			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 
 			  objIndex++ )
@@ -372,6 +401,8 @@ int main(void)
 			pCurrentMesh->Update( deltaTime );
 
 		}//for ( unsigned int objIndex = 0; 
+
+		sceneCommandGroup.Update(deltaTime);
 
 
 		// Call the debug renderer call

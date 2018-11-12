@@ -13,6 +13,8 @@ extern cLightManager* LightManager;
 int lightIndex = 0;
 bool firstMouse = true;
 
+void switchVis(cMeshObject* obj) {obj->bIsVisible = !obj->bIsVisible;}
+
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 
@@ -24,6 +26,7 @@ cMeshObject* closedModel;
 bool bMouseInWindow = false;
 
 bool IsPicked = false;
+void commandsInterface();
 
 cMeshObject* CloseToObj(std::vector<cMeshObject*> models);
 
@@ -77,6 +80,18 @@ void key_callback( GLFWwindow* window,
 		SwitchToSolid(vec_pObjectsToDraw);
 	}
 
+
+	if (glfwGetKey(window, GLFW_KEY_ENTER))
+	{
+		
+
+
+	}
+
+
+
+
+
 	if (glfwGetKey(window, GLFW_KEY_L))
 	{
 		loadModels("Models.txt", vec_pObjectsToDraw);
@@ -91,6 +106,13 @@ void key_callback( GLFWwindow* window,
 	{
 		g_pTheTextureManager->filtType = 2;
 	}
+
+	//VISABILITY
+	if (glfwGetKey(window, GLFW_KEY_SEMICOLON ))
+	{
+		switchVis(vec_pObjectsToDraw.at(index));
+	}
+
 
 
 	//Chose the model
@@ -409,6 +431,7 @@ void ManageScene(GLFWwindow* window)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	bMouseInWindow = false;
 	std::cout << "Save or Load? -s for save, -l for load, -c for cancel." << std::endl;
+	std::cout << "-m to move selected object: " << vec_pObjectsToDraw[index]->friendlyName << std::endl;
 	std::cout << "Enter Answer: " << std::endl;
 	std::cout << "->";
 	std::cin >> Answer;
@@ -440,14 +463,90 @@ void ManageScene(GLFWwindow* window)
 		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}
+	else if (Answer == "-m") {
+		commandsInterface();
+	}
 	else {
 		std::cout << Answer << std::endl;
 		std::cout << "Cancelling.." << std::endl;
 	}
 	std::cout << "Click on Progrm Window to Continue" << std::endl;
+
+
 	bMouseInWindow = true;
 	firstMouse = true;
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	
 };
+
+
+
+void commandsInterface()
+{
+	cCommandGroup* pMoveToCG = new cCommandGroup();
+
+	cMoveToCommand*  pMoveTo = new cMoveToCommand();
+
+	std::vector<sNVPair> vecInitValues;
+
+	sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];	
+
+	std::cout << "Move object" << std::endl;
+	std::cout << "1 - Move to object" << std::endl;
+	std::cout << "2 - Move to coordinates" << std::endl;
+	std::cout << "Enter Answer: " << std::endl;
+	std::cout << "->";
+	std::cin >> Answer;
+
+	if(Answer == "1")
+	{
+		for (int i = 0; i < vec_pObjectsToDraw.size(); i++) { std::cout << vec_pObjectsToDraw[i]->friendlyName << std::endl; }
+		std::cout << "Enter The name of the object: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
+		std::cout << "Enter Time in seconds: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
+		vecInitValues.push_back(ObjectToMove);	
+		vecInitValues.push_back(Destination);
+		vecInitValues.push_back(Time);
+		
+
+	}
+
+	else if (Answer == "2")
+	{
+		glm::vec3 vec3MoveTo;
+		std::cout << "Enter x: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		vec3MoveTo.x = (float)atoi(Answer.c_str());
+		std::cout << "Enter y: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		vec3MoveTo.y = (float)atoi(Answer.c_str());
+		std::cout << "Enter z: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		vec3MoveTo.z = (float)atoi(Answer.c_str());
+		
+		std::cout << "Enter Time in seconds: " << std::endl;
+		std::cout << "->";
+		std::cin >> Answer;
+		sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
+		sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
+		vecInitValues.push_back(ObjectToMove);	// idealCameraLocation
+		vecInitValues.push_back(Destination);
+		vecInitValues.push_back(Time);
+
+	}
+
+	pMoveTo->Initialize(vecInitValues);
+
+	pMoveToCG->vecCommands.push_back(pMoveTo);
+
+	sceneCommandGroup.vecCommandGroups.push_back(pMoveToCG);
+}

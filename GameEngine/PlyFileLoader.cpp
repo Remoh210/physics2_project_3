@@ -205,6 +205,7 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 			file << "QuatXYZW_rotation " << CurModel->m_meshQOrientation.x << " " << CurModel->m_meshQOrientation.y << " " << CurModel->m_meshQOrientation.z << " " << CurModel->m_meshQOrientation.w << "\n";
 //			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
 			file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
+			file << "IsVisible  " << CurModel->bIsVisible << "\n";
 		//	file << "Colour  " << CurModel->objColour.x << " " << CurModel->objColour.y << " " << CurModel->objColour.z << "\n";
 			//pTeapot->meshName = "Utah_Teapot_xyz_n.ply";
 			//pTeapot->setUniformScale(0.4f);
@@ -258,6 +259,7 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 		file >> unused >> CurModel->m_meshQOrientation.x >> CurModel->m_meshQOrientation.y >> CurModel->m_meshQOrientation.z >> CurModel->m_meshQOrientation.w;
 //		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
 		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
+		file >> unused >> CurModel->bIsVisible;
 //		file >> unused >> CurModel->objColour.x >> CurModel->objColour.y >> CurModel->objColour.z;
 	}
 	file.close();

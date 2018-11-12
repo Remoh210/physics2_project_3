@@ -20,6 +20,12 @@
 #include "Error/CErrorLog.h"
 #include "TextureManager/cBasicTextureManager.h"
 #include "DebugRenderer/iDebugRenderer.h"
+// The commands
+#include "cCommandGroup.h"
+// And the commands
+#include "cFollowObjectCommand.h"
+#include "cMoveToCommand.h"
+// ... and more
 
 extern glm::vec3 cameraPos;
 extern glm::vec3 cameraFront;
@@ -29,6 +35,8 @@ extern glm::vec3 cameraUp;
 extern Camera camera;
 extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
+
+extern cCommandGroup sceneCommandGroup;
 
 //extern std::vector<cMeshObject*> vec_pObjectsToDraw;
 
