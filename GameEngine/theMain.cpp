@@ -26,11 +26,12 @@
 
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
+#include "cAABB.h"
 
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cCommandGroup sceneCommandGroup;
-
+int cou;
 
 void UpdateWindowTitle(void);
 double currentTime = 0;
@@ -72,6 +73,17 @@ static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }
+
+cAABBHierarchy* g_pTheTerrain = new cAABBHierarchy();
+
+
+void DoPhysicsCheckpointNumberFour(double deltaTime);
+
+// For now, I'm doing this here, but you might want to do this
+//  in the object, in the "phsyics" thing, or wherever. 
+//  Or leave it here!!
+void LoadTerrainAABB(void);
+
 
 
 int main(void)
@@ -202,6 +214,9 @@ int main(void)
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
+
+
+	LoadTerrainAABB();
 	// Get the current time to start with
 	double lastTime = glfwGetTime();
 
@@ -411,6 +426,112 @@ int main(void)
 //#endif 
 
 
+
+
+
+		{// START OF: AABB debug stuff
+	//HACK: Draw Debug AABBs...
+
+	// Get that from FindObjectByID()
+			cMeshObject* pTheBunny = findObjectByFriendlyName("ufo");
+			// Highlight the AABB that the rabbit is in (Or the CENTRE of the rabbit, anyway)
+
+			float sideLength = 10.0f;
+			unsigned long long ID_of_AABB_We_are_in = cAABB::generateID(pTheBunny->position, sideLength);
+
+			// Is there a box here? 
+			std::map< unsigned long long /*ID of the AABB*/, cAABB* >::iterator itAABB_Bunny
+				= ::g_pTheTerrain->m_mapAABBs.find(ID_of_AABB_We_are_in);
+
+			// Is there an AABB there? 
+			if (itAABB_Bunny != ::g_pTheTerrain->m_mapAABBs.end())
+			{
+				// Yes, then get the triangles and do narrow phase collision
+
+				std::cout << "ID = " << ID_of_AABB_We_are_in
+					<< " with " << itAABB_Bunny->second->vecTriangles.size() << " triangles" << std::endl;
+
+				// *******************************************************************
+				// Here you can pass this vector of triangles into your narrow phase (aka project #1)
+				// and do whatever collision response you want
+				// *******************************************************************
+			}
+			else
+			{
+				//	std::cout << "ID = " << ID_of_AABB_We_are_in << " NOT PRESENT near bunny" << std::endl;
+			}
+
+
+			std::map< unsigned long long /*ID of the AABB*/, cAABB* >::iterator itAABB
+				= ::g_pTheTerrain->m_mapAABBs.begin();
+			for (; itAABB != ::g_pTheTerrain->m_mapAABBs.end(); itAABB++)
+			{
+				// You could draw a mesh cube object at the location, 
+				// but be careful that it's scalled and placed at the right location.
+				// i.e. our cube is centred on the origin and is ++2++ units wide, 
+				// because it's +1 unit from the centre (on all sides).
+
+				// Since this is debug, and the "draw debug line thing" is working, 
+				// this will just draw a bunch of lines... 
+
+				cAABB* pCurrentAABB = itAABB->second;
+
+				glm::vec3 cubeCorners[6];
+
+				cubeCorners[0] = pCurrentAABB->getMinXYZ();
+				cubeCorners[1] = pCurrentAABB->getMinXYZ();
+				cubeCorners[2] = pCurrentAABB->getMinXYZ();
+				cubeCorners[3] = pCurrentAABB->getMinXYZ();
+				cubeCorners[4] = pCurrentAABB->getMinXYZ();
+				cubeCorners[5] = pCurrentAABB->getMinXYZ();
+
+				// Max XYZ
+				cubeCorners[1].x += pCurrentAABB->getSideLength();
+				cubeCorners[1].y += pCurrentAABB->getSideLength();
+				cubeCorners[1].z += pCurrentAABB->getSideLength();
+
+				cubeCorners[2].x += pCurrentAABB->getSideLength();
+
+				cubeCorners[3].y += pCurrentAABB->getSideLength();
+
+				cubeCorners[4].z += pCurrentAABB->getSideLength();
+
+				// TODO: And the other corners... 
+				cubeCorners[5].x += pCurrentAABB->getSideLength();
+				cubeCorners[5].y += pCurrentAABB->getSideLength();
+
+
+				cMeshObject* pCubeForBallsToBounceIn = new cMeshObject();
+
+				pCubeForBallsToBounceIn->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
+				pCubeForBallsToBounceIn->bDontLight = true;
+				pCubeForBallsToBounceIn->position = pCurrentAABB->getCentre();
+				pCubeForBallsToBounceIn->friendlyName = "CubeBallsBounceIn";
+				pCubeForBallsToBounceIn->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
+				pCubeForBallsToBounceIn->setUniformScale(pCurrentAABB->getSideLength()/2);
+				pCubeForBallsToBounceIn->bIsWireFrame = true;
+				glm::mat4 iden = glm::mat4(1.0f);
+				DrawObject(pCubeForBallsToBounceIn, iden, program);
+
+
+				// Draw line from minXYZ to maxXYZ
+				//::g_pDebugRenderer->addLine(cubeCorners[0], cubeCorners[1],
+					//glm::vec3(1, 1, 1), 0.0f);
+			}
+		}// END OF: Scope for aabb debug stuff
+		// 
+
+
+
+
+
+
+
+
+
+
+
+
 		// update the "last time"
 		lastTime = currentTime;
 
@@ -571,4 +692,144 @@ cMeshObject* findObjectByUniqueID(unsigned int ID_to_find)
 }
 
 
+void LoadTerrainAABB(void)
+{
+	// *******
+	// This REALLY should be inside the cAABBHierarchy, likely... 
+	// *******
 
+
+	// Read the graphics mesh object, and load the triangle info
+	//	into the AABB thing.
+	// Where is the mesh (do the triangles need to be transformed)??
+
+	cMeshObject* pTerrain = findObjectByFriendlyName("The Terrain");
+
+	sModelDrawInfo terrainMeshInfo;
+	terrainMeshInfo.meshFileName = pTerrain->meshName;
+
+	::g_pTheVAOMeshManager->FindDrawInfoByModelName(terrainMeshInfo);
+
+
+	// How big is our AABBs? Side length?
+	float sideLength = 100.0f;		// Play with this lenght
+									// Smaller --> more AABBs, fewer triangles per AABB
+									// Larger --> More triangles per AABB	
+
+	for (unsigned int triIndex = 0; triIndex != terrainMeshInfo.numberOfTriangles; triIndex++)
+	{
+		// for each triangle, for each vertex, determine which AABB the triangle should be in
+		// (if your mesh has been transformed, then you need to transform the tirangles 
+		//  BEFORE you do this... or just keep the terrain UNTRANSFORMED)
+
+		sPlyTriangle currentTri = terrainMeshInfo.pTriangles[triIndex];
+
+		sPlyVertex currentVerts[3];
+		currentVerts[0] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_1];
+		currentVerts[1] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_2];
+		currentVerts[2] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_3];
+
+		// This is the structure we are eventually going to store in the AABB map...
+		cAABB::sAABB_Triangle curAABBTri;
+		curAABBTri.verts[0].x = currentVerts[0].x;
+		curAABBTri.verts[0].y = currentVerts[0].y;
+		curAABBTri.verts[0].z = currentVerts[0].z;
+		curAABBTri.verts[1].x = currentVerts[1].x;
+		curAABBTri.verts[1].y = currentVerts[1].y;
+		curAABBTri.verts[1].z = currentVerts[1].z;
+		curAABBTri.verts[2].x = currentVerts[2].x;
+		curAABBTri.verts[2].y = currentVerts[2].y;
+		curAABBTri.verts[2].z = currentVerts[2].z;
+
+		// Is the triangle "too big", and if so, split it (take centre and make 3 more)
+		// (Pro Tip: "too big" is the SMALLEST side is greater than HALF the AABB length)
+		// Use THOSE triangles as the test (and recursively do this if needed),
+		// +++BUT+++ store the ORIGINAL triangle info NOT the subdivided one
+		// 
+		// For the student to complete... 
+		// 
+
+
+		for (unsigned int vertIndex = 0; vertIndex != 3; vertIndex++)
+		{
+			// What AABB is "this" vertex in? 
+			unsigned long long AABB_ID =
+				cAABB::generateID(curAABBTri.verts[0],
+					sideLength);
+
+			// Do we have this AABB alredy? 
+			std::map< unsigned long long/*ID AABB*/, cAABB* >::iterator itAABB
+				= ::g_pTheTerrain->m_mapAABBs.find(AABB_ID);
+
+			if (itAABB == ::g_pTheTerrain->m_mapAABBs.end())
+			{
+				// We DON'T have an AABB, yet
+
+
+
+				std::cout << cou++ << std::endl;
+
+
+
+				cAABB* pAABB = new cAABB();
+				// Determine the AABB location for this point
+				// (like the generateID() method...)
+				glm::vec3 minXYZ = curAABBTri.verts[0];
+				minXYZ.x = (floor(minXYZ.x / sideLength)) * sideLength;
+				minXYZ.y = (floor(minXYZ.y / sideLength)) * sideLength;
+				minXYZ.z = (floor(minXYZ.z / sideLength)) * sideLength;
+
+				//pAABB->setMinXYZ(minXYZ);
+				//pAABB->setSideLegth(sideLength);
+
+				pAABB->setCenter(minXYZ + sideLength / 2);
+				pAABB->setHalfLegth(sideLength/2);
+
+				// Note: this is the SAME as the AABB_ID...
+				unsigned long long the_AABB_ID = pAABB->getID();
+
+				::g_pTheTerrain->m_mapAABBs[the_AABB_ID] = pAABB;
+
+				// Then set the iterator to the AABB, by running find again
+				itAABB = ::g_pTheTerrain->m_mapAABBs.find(the_AABB_ID);
+
+
+
+				//cMeshObject* pCubeForBallsToBounceIn = new cMeshObject();
+				//
+				//pCubeForBallsToBounceIn->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
+				//pCubeForBallsToBounceIn->bDontLight = true;
+				//pCubeForBallsToBounceIn->position = pAABB->getCentre();
+				//pCubeForBallsToBounceIn->friendlyName = "CubeBallsBounceIn";
+				//pCubeForBallsToBounceIn->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
+				//pCubeForBallsToBounceIn->setUniformScale(sideLength);
+				//pCubeForBallsToBounceIn->bIsWireFrame = true;
+				// Cube is 2x2x2, so with a scale of 100x means it's
+				//	200x200x200, centred around the origin (0,0,0)
+				// The GROUND_PLANE_Y = -3.0f, so place it +97.0 lines up the 'bottom'
+				//pCubeForBallsToBounceIn->position = glm::vec3(0.0f, 97.0f, 0.0f);
+				//pCubeForBallsToBounceIn->bIsWireFrame = true;
+
+			//	pCubeForBallsToBounceIn->pDebugRenderer = ::g_pDebugRenderer;
+
+				//pTerrain->nonUniformScale = glm::vec3(0.1f,0.1f,0.1f);
+				//vec_pObjectsToDraw.push_back(pCubeForBallsToBounceIn);
+
+
+			}//if( itAABB == ::g_pTheTerrain->m_mapAABBs.end() )
+
+			// At this point, the itAABB ++IS++ pointing to an AABB
+			// (either there WAS one already, or I just created on)
+
+			itAABB->second->vecTriangles.push_back(curAABBTri);
+
+		}//for ( unsigned int vertIndex = 0;
+
+	}//for ( unsigned int triIndex
+
+
+
+	// At runtime, need a "get the triangles" method...
+
+	return;
+}

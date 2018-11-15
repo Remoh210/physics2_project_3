@@ -1,13 +1,3 @@
-#pragma once
-
-#include <glm/glm.hpp>
-#include <glm/vec3.hpp>
-#include <map>
-#include <vector>
-
-
-#pragma once
-
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <map>
@@ -26,12 +16,15 @@ public:
 	glm::vec3 getCentre(void) { return this->center; };
 	glm::vec3 getMinXYZ(void) { return this->center - this->halfLegth; }
 	float getSideLength(void) { return this->halfLegth * 2; }
+	float getHalfLength(void) { return this->halfLegth; }
 
 
 	//ID
 	unsigned long long getID(void);
 	static unsigned long long generateID(glm::vec3 minXYZ);
 	static unsigned long long generateID(glm::vec3 minXYZ, float AABBsideLength);
+
+	
 
 	struct sAABB_Triangle
 	{

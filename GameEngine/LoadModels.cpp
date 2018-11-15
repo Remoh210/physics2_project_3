@@ -80,6 +80,15 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	breadInfo.bVertexBufferIsDynamic = true;
 	pTheVAOMeshManager->LoadModelIntoVAO(breadInfo, shaderProgramID);
 
+	sModelDrawInfo cube1x1x1;
+	cube1x1x1.meshFileName = "cube_flat_shaded_xyz_n_uv.ply";			// "cube_flat_shaded_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(cube1x1x1, shaderProgramID);
+
+	sModelDrawInfo terrain;
+	terrain.meshFileName = "terrain.ply";			// "cube_flat_shaded_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(terrain, shaderProgramID);
+
+
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
 
@@ -338,28 +347,28 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 	}
 
 
-	// Our world is 200x200 units, centred on the origin
-	// I want 10x10x10 AABBs in this entire world
-	// Each AABB is 200 DIV 10 = 20 units in size
-	cAABB* pAABB1 = new cAABB();
-	// At the origin, but in the +ve quad
+	{
+		cMeshObject* pCube = new cMeshObject();
+		pCube->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
+		pCube->bDontLight = true;
+		pCube->friendlyName = "DebugCube";
+		pCube->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
+		pCube->setUniformScale(1.0f);
+		vec_pObjectsToDraw.push_back(pCube);
 
-	//pAABB1->setMinXYZ(glm::vec3(0, 0, 0));
-	//pAABB1->setSideLegth(20.0f);
-	unsigned long long AABB_ID1 = pAABB1->generateID(pAABB1->getMinXYZ());
+	}
 
-	cAABB* pAABB2 = new cAABB();
-	// At the origin, but in the +ve quad
-	//pAABB2->setMinXYZ(glm::vec3(-20.0, 460.0, -1280.0));
-	//pAABB2->setSideLegth(20.0f);
-	unsigned long long AABB_ID2 = pAABB1->generateID(pAABB2->getMinXYZ());
+	{
+		cMeshObject* pTerrain = new cMeshObject();
+		pTerrain->bUseVertexColour = false;
+		//		pTerrain->u
+		pTerrain->meshName = "terrain.ply";		// "MeshLab_Fractal_Terrain_xyz.ply";
+		pTerrain->friendlyName = "The Terrain";
+		//pTerrain->bIsWireFrame = true;
+		pTerrain->bIsVisible = true;
+		vec_pObjectsToDraw.push_back(pTerrain);
+	}
 
-
-	cAABBHierarchy* pTerrainAABBThing = new cAABBHierarchy();
-
-	//	unsigned long long AABB_ID = pAABB1->GetID();
-
-	//	pTerrainAABBThing->m_mapAABBs[AABB_ID] = pAABB1;
 
 
 
