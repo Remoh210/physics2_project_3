@@ -66,7 +66,12 @@ extern cMeshObject* g_pRogerRabbit;
 bool LoadPlyFileData( std::string fileName );
 
 void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID );
+void CreateModels(std::string filename, cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID);
 void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw );
+
+
+void loadCameraInfo(std::string filename);
+void saveCameraInfo(std::string filename);
 
 cMeshObject* findObjectByFriendlyName(std::string theNameToFind);
 cMeshObject* findObjectByUniqueID( unsigned int IDToFind );

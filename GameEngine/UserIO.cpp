@@ -442,10 +442,12 @@ void ManageScene(GLFWwindow* window)
 		if (Answer == "1") {
 			saveModelInfo("Models.txt", vec_pObjectsToDraw);
 			saveLightInfo("lights.txt", LightManager->vecLights);
+			saveCameraInfo("camera.txt");
 		}
 		else if (Answer == "2") {
 			saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 			saveLightInfo("lights2.txt", LightManager->vecLights);
+			saveCameraInfo("camera2.txt");
 		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}
@@ -456,10 +458,12 @@ void ManageScene(GLFWwindow* window)
 		if (Answer == "1") {
 			loadModels("Models.txt", vec_pObjectsToDraw);
 			loadLights("lights.txt", LightManager->vecLights);
+			loadCameraInfo("camera.txt");
 		}
 		else if (Answer == "2") {
 			loadModels("Models2.txt", vec_pObjectsToDraw);
 			loadLights("lights2.txt", LightManager->vecLights);
+			loadCameraInfo("camera2.txt");
 		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}

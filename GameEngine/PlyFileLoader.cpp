@@ -206,6 +206,15 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 //			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
 			file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
 			file << "IsVisible  " << CurModel->bIsVisible << "\n";
+			if (CurModel->vecTextures.size() != 0) {
+				file << "Textures: " << CurModel->vecTextures.size() << "\n";
+				for (int i = 0; i < CurModel->vecTextures.size(); i++) {
+					file << "Texture" + std::to_string(i) + "_name " << CurModel->vecTextures[i].name << "\n";
+					file << "Texture" + std::to_string(i) + "_strength " << CurModel->vecTextures[i].strength << "\n";
+				}
+			}
+			else { file << "Textures:  " << 0 << "\n"; }
+
 		//	file << "Colour  " << CurModel->objColour.x << " " << CurModel->objColour.y << " " << CurModel->objColour.z << "\n";
 			//pTeapot->meshName = "Utah_Teapot_xyz_n.ply";
 			//pTeapot->setUniformScale(0.4f);
@@ -214,6 +223,67 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 		file.close();
 	}
 }
+
+
+
+
+
+
+
+void saveCameraInfo(std::string filename)
+{
+	filename = "output/" + filename;
+	std::string line;
+	std::ofstream file(filename.c_str());
+	if (file.is_open())
+	{
+
+			file << "Camera_position " << camera.Position.x << " " << camera.Position.y << " " << camera.Position.z << "\n";
+			file << "Camera_Speed " << camera.MovementSpeed << "\n";
+
+	//	std::cout << "Models information saved to " << filename.c_str() << std::endl;
+		file.close();
+	}
+}
+
+
+void loadCameraInfo(std::string filename)
+{
+	std::ifstream file(("output/" + filename).c_str());
+
+	if (!file.is_open()) { return; }
+
+	//while (true)
+	//{
+
+		std::string unused;
+
+	//	if (unused == "") break;
+
+
+
+
+		file >> unused >> camera.Position.x >> camera.Position.y >> camera.Position.z;
+		file >> unused >> camera.MovementSpeed;
+
+	//}
+	file.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Load models Info from the file
 
@@ -243,6 +313,7 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 
 	while (true)
 	{
+		int TexNumb = 0;
 		std::string friendlyName, unused;
 		file >> unused >> friendlyName;
 		if (friendlyName == "") break;
@@ -254,13 +325,19 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 
 		file >> unused >> CurModel->meshName;
 		file >> unused >> CurModel->position.x >> CurModel->position.y >> CurModel->position.z;
-		file >> unused >> CurModel->materialDiffuse.x    >> CurModel->materialDiffuse.y    >> CurModel->materialSpecular.z   >> CurModel->materialDiffuse.w;
-		file >> unused >> CurModel->materialSpecular.x   >> CurModel->materialSpecular.y   >> CurModel->materialSpecular.z   >> CurModel->materialSpecular.w;
+		file >> unused >> CurModel->materialDiffuse.x >> CurModel->materialDiffuse.y >> CurModel->materialDiffuse.z >> CurModel->materialDiffuse.w;
+		file >> unused >> CurModel->materialSpecular.x >> CurModel->materialSpecular.y >> CurModel->materialSpecular.z >> CurModel->materialSpecular.w;
 		file >> unused >> CurModel->m_meshQOrientation.x >> CurModel->m_meshQOrientation.y >> CurModel->m_meshQOrientation.z >> CurModel->m_meshQOrientation.w;
-//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
+		//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
 		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
 		file >> unused >> CurModel->bIsVisible;
-//		file >> unused >> CurModel->objColour.x >> CurModel->objColour.y >> CurModel->objColour.z;
+		file >> unused >> TexNumb;
+		if (TexNumb > 0) {
+			for (int i = 0; i < TexNumb; i++) {
+				file >> unused >> CurModel->vecTextures[i].name;
+				file >> unused >> CurModel->vecTextures[i].strength;
+			}
+		}
 	}
 	file.close();
 }
@@ -301,6 +378,97 @@ void loadLights(std::string filename, std::vector<sLight*> lights)
 		file >> unused >> CurLight->diffuse.x  >> CurLight->diffuse.y >> CurLight->diffuse.z >> CurLight->diffuse.w;
 		file >> unused >> CurLight->param2.x;
 
+	}
+	file.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void CreateModels(std::string filename, cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID)
+
+{
+	::g_pTheTextureManager->SetBasePath("assets/textures");
+	std::ifstream file(("output/" + filename).c_str());
+
+	//if (!file.is_open()) { return; }
+
+	//std::map<std::string, cMeshObject*> meshObjects;
+	//for (unsigned int x = 0; x < models.size(); x++)
+	//{
+	//	std::string friendlyName = models[x]->friendlyName;
+	//	meshObjects[friendlyName] = models[x];
+	//}
+
+	while (!file.eof())
+	{
+
+		
+
+		
+		int TexNumb = 0;
+		std::string unused, friendlyName;
+		file >> unused >> friendlyName;
+	//	file >> unused >> friendlyName;
+		if (friendlyName == "") break;
+
+	//	if (meshObjects.find(friendlyName) == meshObjects.end()) continue;
+
+	//	std::cout << "Loading models " << friendlyName << std::endl;
+		cMeshObject *CurModel = new cMeshObject();
+		sModelDrawInfo curModelInfo;
+	//	ufoTexture.name = "metal.bmp";
+//		ufoTexture.strength = 1.0f;
+//		pTeapot->vecTextures.push_back(ufoTexture);
+		
+		CurModel->friendlyName = friendlyName;
+		//
+		//meshName.erase(meshName.end() - 4, meshName.end());
+		//CurModel->friendlyName = meshName;
+
+		
+
+		file >> unused >> CurModel->meshName;
+		file >> unused >> CurModel->position.x >> CurModel->position.y >> CurModel->position.z;
+		file >> unused >> CurModel->materialDiffuse.x >> CurModel->materialDiffuse.y >> CurModel->materialDiffuse.z >> CurModel->materialDiffuse.w;
+		file >> unused >> CurModel->materialSpecular.x >> CurModel->materialSpecular.y >> CurModel->materialSpecular.z >> CurModel->materialSpecular.w;
+		file >> unused >> CurModel->m_meshQOrientation.x >> CurModel->m_meshQOrientation.y >> CurModel->m_meshQOrientation.z >> CurModel->m_meshQOrientation.w;
+		//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
+		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
+		file >> unused >> CurModel->bIsVisible;
+		file >> unused >> TexNumb;
+		if (TexNumb > 0) {
+			for (int i = 0; i < TexNumb; i++) {
+				sTextureInfo CurModelTex;
+				file >> unused >> CurModelTex.name;
+				file >> unused >> CurModelTex.strength;
+				CurModel->vecTextures.push_back(CurModelTex);
+				//Creating Texture even if there is alreade same textue NEED FIX
+				::g_pTheTextureManager->Create2DTextureFromBMPFile(CurModelTex.name, true);
+			}
+		}
+
+		curModelInfo.meshFileName = CurModel->meshName;
+		vec_pObjectsToDraw.push_back(CurModel);
+		pTheVAOMeshManager->LoadModelIntoVAO(curModelInfo, shaderProgramID);
+		//		file >> unused >> CurModel->objColour.x >> CurModel->objColour.y >> CurModel->objColour.z;
 	}
 	file.close();
 }

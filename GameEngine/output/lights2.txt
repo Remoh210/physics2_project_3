@@ -1,9 +1,9 @@
 Name MainLight
 light_type 0
-In_Out_Angles 20.8 35.5
-Position_xyz 226 2085 195
-Direction 0.0327503 -0.999123 -0.0261053
-Attenuation_xyz 0 0.000411018 7.48797e-10
+In_Out_Angles 15 35
+Position_xyz 686 3545 185
+Direction 0 -1 1
+Attenuation_xyz 0 9.23597e-06 2.2847e-07
 Diffuse_rgbw 1 1 1 1
 on_off 1
 Name Torch_Light0

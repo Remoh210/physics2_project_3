@@ -51,7 +51,7 @@ unsigned int numberOfObjectsToDraw = 0;
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 800;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
 
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -108,7 +108,7 @@ int main(void)
 
 
 
-
+	camera.MovementSpeed = 3000.0f;
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -212,11 +212,14 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
+	CreateModels("Models2.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 
 
+
 	LoadTerrainAABB();
+
 	// Get the current time to start with
 	double lastTime = glfwGetTime();
 
@@ -300,7 +303,7 @@ int main(void)
 	//Reload from the file
 //	saveModelInfo("Models.txt", vec_pObjectsToDraw);
 //	saveLightInfo("lights.txt", LightManager->vecLights);
-	loadModels("Models.txt", vec_pObjectsToDraw);
+	//loadModels("Models.txt", vec_pObjectsToDraw);
 	loadLights("lights.txt", LightManager->vecLights);
 
 
@@ -433,7 +436,7 @@ int main(void)
 	//HACK: Draw Debug AABBs...
 
 	// Get that from FindObjectByID()
-			cMeshObject* pTheBunny = findObjectByFriendlyName("ufo");
+			cMeshObject* pTheBunny = findObjectByFriendlyName("Ufo2UVb");
 			// Highlight the AABB that the rabbit is in (Or the CENTRE of the rabbit, anyway)
 
 			float sideLength = 10.0f;
@@ -513,7 +516,7 @@ int main(void)
 				glm::mat4 iden = glm::mat4(1.0f);
 				DrawObject(pCubeForBallsToBounceIn, iden, program);
 
-
+			
 				// Draw line from minXYZ to maxXYZ
 				//::g_pDebugRenderer->addLine(cubeCorners[0], cubeCorners[1],
 					//glm::vec3(1, 1, 1), 0.0f);
@@ -549,7 +552,7 @@ int main(void)
 			{
 
 
-				cMeshObject* pDebugSphere = findObjectByFriendlyName("DebugSphere");
+				cMeshObject* pDebugSphere = findObjectByFriendlyName("debugSphere");
 				pDebugSphere->bIsVisible = true;
 				pDebugSphere->bDontLight = true;
 				glm::vec4 oldDiffuse = pDebugSphere->materialDiffuse;
@@ -703,7 +706,7 @@ void LoadTerrainAABB(void)
 	//	into the AABB thing.
 	// Where is the mesh (do the triangles need to be transformed)??
 
-	cMeshObject* pTerrain = findObjectByFriendlyName("The Terrain");
+	cMeshObject* pTerrain = findObjectByFriendlyName("terrain");
 
 	sModelDrawInfo terrainMeshInfo;
 	terrainMeshInfo.meshFileName = pTerrain->meshName;
@@ -712,7 +715,7 @@ void LoadTerrainAABB(void)
 
 
 	// How big is our AABBs? Side length?
-	float sideLength = 100.0f;		// Play with this lenght
+	float sideLength = 50.0f;		// Play with this lenght
 									// Smaller --> more AABBs, fewer triangles per AABB
 									// Larger --> More triangles per AABB	
 
