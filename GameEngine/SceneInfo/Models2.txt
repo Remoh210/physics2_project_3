@@ -1,10 +1,10 @@
 Friendly_Name Ufo2UVb
 Mesh_Name Ufo2UVb.ply
-Position -690 -60 1935
+Position 0 0 0
 DiffureRGB_Alpha  0 1 0 1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
-Scale  120.399 120.399 120.399
+Scale  0.2 0.2 0.2
 IsVisible  1
 IsUpdByPhys  1
 IsWireFrame  0
@@ -63,6 +63,17 @@ Scale  30 30 30
 IsVisible  0
 IsUpdByPhys  0
 IsWireFrame  0
+Textures:  0
+Friendly_Name debugSphere
+Mesh_Name Sphere_320_faces_xyz_n.ply
+Position 0 0 0
+DiffureRGB_Alpha  1 1 1 1
+SpecularRGB_Power 1 1 1 1
+QuatXYZW_rotation 0 0 0 1
+Scale  30 30 30
+IsVisible  0
+IsUpdByPhys  0
+IsWireFrame  1
 Textures:  0
 Friendly_Name debugSphere
 Mesh_Name Sphere_320_faces_xyz_n.ply

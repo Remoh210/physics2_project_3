@@ -63,17 +63,24 @@ void DoPhysicsUpdate( double fDeltaTime,
 		if ( pCurMesh->bIsUpdatedByPhysics )
 		{
 
-			if (glm::length(pCurMesh->velocity) > 2.0f) {
-				std::cout << glm::length(pCurMesh->velocity) << std::endl;
+				std::cout << pCurMesh->velocity.x << std::endl;
 				pCurMesh->velocity.x = pCurMesh->velocity.x + (pCurMesh->accel.x * deltaTime);
 				pCurMesh->velocity.y = pCurMesh->velocity.y + (pCurMesh->accel.y * deltaTime);
 				pCurMesh->velocity.z = pCurMesh->velocity.z + (pCurMesh->accel.z * deltaTime);
-				if (glm::length(pCurMesh->velocity) < 2.0f) { pCurMesh->velocity = glm::vec3(0.0f); }
-			}
+
+		
 
 				pCurMesh->position.x = pCurMesh->position.x + (pCurMesh->velocity.x * deltaTime);
 				pCurMesh->position.y = pCurMesh->position.y + (pCurMesh->velocity.y * deltaTime);
 				pCurMesh->position.z = pCurMesh->position.z + (pCurMesh->velocity.z * deltaTime);
+
+				//if (glm::length(pCurMesh->velocity) > 2.0f) {
+				//	std::cout << glm::length(pCurMesh->velocity) << std::endl;
+				//	pCurMesh->velocity.x = pCurMesh->velocity.x *= 0.99f;
+				//	pCurMesh->velocity.y = pCurMesh->velocity.y *= 0.99f;
+				//	pCurMesh->velocity.z = pCurMesh->velocity.z *= 0.99f;
+				//	if (glm::length(pCurMesh->velocity) < 2.0f) { pCurMesh->velocity = glm::vec3(0.0f); }
+				//}
 
 
 			// The object can't go any lower than the "ground".

@@ -4,7 +4,7 @@
 //#include <vector>
 #include <iostream>
 //include "TextureCTextureFromBMP.h"
-
+float speed = 50.0f;
 int index = 0;
 // This has all the keyboard, mouse, and controller stuff
 
@@ -64,7 +64,7 @@ void key_callback( GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
-		saveModelInfo("Models.txt", vec_pObjectsToDraw);
+		saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 		saveLightInfo("lights.txt", LightManager->vecLights);
 	}
 
@@ -94,7 +94,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_L))
 	{
-		loadModels("Models.txt", vec_pObjectsToDraw);
+		loadModels("Models2.txt", vec_pObjectsToDraw);
 		loadLights("lights.txt", LightManager->vecLights);
 	}
 
@@ -238,9 +238,15 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	if ( IsAltDown(window) )	{ return false; }
 	// Yup, they are all UP
 	cMeshObject* player = findObjectByFriendlyName("Ufo2UVb");
-	player->accel.x = -10.5f;
+
 	player->bIsUpdatedByPhysics = true;
-	if (glfwGetKey(window, GLFW_KEY_UP)) { player->velocity.x += 1.0f; }
+	if (glfwGetKey(window, GLFW_KEY_UP)) { 
+		
+		player->accel += camera.Front * 2.0f;
+		//player->velocity = camera.Front * 200.0f;
+	}
+	else{ player->accel = -player->velocity * 1.0f; }
+	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
 	return true;
 }
 

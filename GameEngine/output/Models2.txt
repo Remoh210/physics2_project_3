@@ -1,10 +1,10 @@
 Friendly_Name Ufo2UVb
 Mesh_Name Ufo2UVb.ply
-Position -690 -60 1935
+Position 0 0 0
 DiffureRGB_Alpha  0 1 0 1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
-Scale  120.399 120.399 120.399
+Scale  1 1 1
 IsVisible  1
 Textures:  0
 Friendly_Name DebugCube
