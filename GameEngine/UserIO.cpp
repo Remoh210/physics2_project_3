@@ -238,8 +238,9 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	if ( IsAltDown(window) )	{ return false; }
 	// Yup, they are all UP
 	cMeshObject* player = findObjectByFriendlyName("Ufo2UVb");
+	player->accel.x = -10.5f;
 	player->bIsUpdatedByPhysics = true;
-	if (glfwGetKey(window, GLFW_KEY_UP)) { player->velocity.x += 0.2f; }
+	if (glfwGetKey(window, GLFW_KEY_UP)) { player->velocity.x += 1.0f; }
 	return true;
 }
 

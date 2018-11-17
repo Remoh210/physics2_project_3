@@ -2,6 +2,7 @@
 #include "globalStuff.h"	// 
 #include <glm/glm.hpp>
 #include <vector>
+#include <iostream>
 #include "sModelDrawInfo.h"
 
 typedef glm::vec3 Point;
@@ -62,14 +63,18 @@ void DoPhysicsUpdate( double fDeltaTime,
 		if ( pCurMesh->bIsUpdatedByPhysics )
 		{
 
+			if (glm::length(pCurMesh->velocity) > 2.0f) {
+				std::cout << glm::length(pCurMesh->velocity) << std::endl;
+				pCurMesh->velocity.x = pCurMesh->velocity.x + (pCurMesh->accel.x * deltaTime);
+				pCurMesh->velocity.y = pCurMesh->velocity.y + (pCurMesh->accel.y * deltaTime);
+				pCurMesh->velocity.z = pCurMesh->velocity.z + (pCurMesh->accel.z * deltaTime);
+				if (glm::length(pCurMesh->velocity) < 2.0f) { pCurMesh->velocity = glm::vec3(0.0f); }
+			}
 
-			pCurMesh->velocity.x = pCurMesh->velocity.x + ( pCurMesh->accel.x * deltaTime );
-			pCurMesh->velocity.y = pCurMesh->velocity.y + ( pCurMesh->accel.y * deltaTime );
-			pCurMesh->velocity.z = pCurMesh->velocity.z + ( pCurMesh->accel.z * deltaTime );
+				pCurMesh->position.x = pCurMesh->position.x + (pCurMesh->velocity.x * deltaTime);
+				pCurMesh->position.y = pCurMesh->position.y + (pCurMesh->velocity.y * deltaTime);
+				pCurMesh->position.z = pCurMesh->position.z + (pCurMesh->velocity.z * deltaTime);
 
-			pCurMesh->position.x = pCurMesh->position.x + ( pCurMesh->velocity.x * deltaTime );
-			pCurMesh->position.y = pCurMesh->position.y + ( pCurMesh->velocity.y * deltaTime );
-			pCurMesh->position.z = pCurMesh->position.z + ( pCurMesh->velocity.z * deltaTime );
 
 			// The object can't go any lower than the "ground".
 			// The "ground" is a plane along the x-z axis.
@@ -85,43 +90,43 @@ void DoPhysicsUpdate( double fDeltaTime,
 //
 //				}
 //
-////			if ( pCurMesh->position.y <= GROUND_PLANE_Y )
-			if ( pCurMesh->position.y  <= GROUND_PLANE_Y )
-			{
-				// Normal to the ground plane is 0, +1, 0 (+1 in the y)w
-				glm::vec3 normalToGround = glm::vec3( 0.0f, 1.0f, 0.0f );
-
-				// Calcualte the REFLECTION vector (based on the normal and ???)
-
-				glm::vec3 newVel = glm::reflect( pCurMesh->velocity, normalToGround );
-				// reverse the direction of travel IN THE Y. 
-				// Why??? 
-//				pCurMesh->velocity *= 0.99f;
-//				pCurMesh->velocity.y = fabs(pCurMesh->velocity.y) ;
-				pCurMesh->velocity = newVel;
-			}
-
+//////			if ( pCurMesh->position.y <= GROUND_PLANE_Y )
+//			if ( pCurMesh->position.y  <= GROUND_PLANE_Y )
+//			{
+//				// Normal to the ground plane is 0, +1, 0 (+1 in the y)w
+//				glm::vec3 normalToGround = glm::vec3( 0.0f, 1.0f, 0.0f );
+//
+//				// Calcualte the REFLECTION vector (based on the normal and ???)
+//
+//				glm::vec3 newVel = glm::reflect( pCurMesh->velocity, normalToGround );
+//				// reverse the direction of travel IN THE Y. 
+//				// Why??? 
+////				pCurMesh->velocity *= 0.99f;
+////				pCurMesh->velocity.y = fabs(pCurMesh->velocity.y) ;
+//				pCurMesh->velocity = newVel;
+//			}
+//
+////			if ( pCurMesh->position.x >= LIMIT_POS_X )
+//			// Sphere - Plane test... 
+//			// Is this sphere PENETRATED this plane
+//			// Is is INSIDE or OUTSIDE the plane?
 //			if ( pCurMesh->position.x >= LIMIT_POS_X )
-			// Sphere - Plane test... 
-			// Is this sphere PENETRATED this plane
-			// Is is INSIDE or OUTSIDE the plane?
-			if ( pCurMesh->position.x >= LIMIT_POS_X )
-			{
-				pCurMesh->velocity.x = -fabs(pCurMesh->velocity.x) ;
-			}
+//			{
+//				pCurMesh->velocity.x = -fabs(pCurMesh->velocity.x) ;
+//			}
+////			if ( pCurMesh->position.x <= LIMIT_NEG_X )
 //			if ( pCurMesh->position.x <= LIMIT_NEG_X )
-			if ( pCurMesh->position.x <= LIMIT_NEG_X )
-			{
-				pCurMesh->velocity.x = fabs(pCurMesh->velocity.x) ;
-			}
-			if ( pCurMesh->position.z >= LIMIT_POS_Z )
-			{
-				pCurMesh->velocity.z = -fabs(pCurMesh->velocity.z) ;
-			}
-			if ( pCurMesh->position.z <= LIMIT_NEG_Z )
-			{
-				pCurMesh->velocity.z = fabs(pCurMesh->velocity.z) ;
-			}
+//			{
+//				pCurMesh->velocity.x = fabs(pCurMesh->velocity.x) ;
+//			}
+//			if ( pCurMesh->position.z >= LIMIT_POS_Z )
+//			{
+//				pCurMesh->velocity.z = -fabs(pCurMesh->velocity.z) ;
+//			}
+//			if ( pCurMesh->position.z <= LIMIT_NEG_Z )
+//			{
+//				pCurMesh->velocity.z = fabs(pCurMesh->velocity.z) ;
+//			}
 
 
 		//	// Check if I'm contacting another sphere..

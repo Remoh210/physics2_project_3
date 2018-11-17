@@ -212,7 +212,7 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
+	CreateModels("Models2.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 
