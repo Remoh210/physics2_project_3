@@ -159,7 +159,7 @@ bool LoadPlyFileData(std::string fileName)
 
 void saveLightInfo(std::string filename, std::vector<sLight*> lights)
 {
-	filename = "output/" + filename;
+	filename = "SceneInfo/" + filename;
 	std::string line;
 	std::ofstream file(filename.c_str());
 	if (file.is_open())
@@ -189,7 +189,7 @@ void saveLightInfo(std::string filename, std::vector<sLight*> lights)
 //Save Models Info to the file
 void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 {
-	filename = "output/" + filename;
+	filename = "SceneInfo/" + filename;
 	std::string line;
 	std::ofstream file(filename.c_str());
 	if (file.is_open())
@@ -206,6 +206,8 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 //			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
 			file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
 			file << "IsVisible  " << CurModel->bIsVisible << "\n";
+			file << "IsUpdByPhys  " << CurModel->bIsUpdatedByPhysics << "\n";
+			file << "IsWireFrame  " << CurModel->bIsWireFrame << "\n";
 			if (CurModel->vecTextures.size() != 0) {
 				file << "Textures: " << CurModel->vecTextures.size() << "\n";
 				for (int i = 0; i < CurModel->vecTextures.size(); i++) {
@@ -232,7 +234,7 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 
 void saveCameraInfo(std::string filename)
 {
-	filename = "output/" + filename;
+	filename = "SceneInfo/" + filename;
 	std::string line;
 	std::ofstream file(filename.c_str());
 	if (file.is_open())
@@ -300,7 +302,7 @@ void loadCameraInfo(std::string filename)
 
 void loadModels(std::string filename, std::vector<cMeshObject*> models)
 {
-	std::ifstream file(("output/" + filename).c_str());
+	std::ifstream file(("SceneInfo/" + filename).c_str());
 
 	if (!file.is_open()) { return; }
 
@@ -331,6 +333,8 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 		//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
 		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
 		file >> unused >> CurModel->bIsVisible;
+		file >> unused >> CurModel->bIsUpdatedByPhysics;
+		file >> unused >> CurModel->bIsWireFrame;
 		file >> unused >> TexNumb;
 		if (TexNumb > 0) {
 			for (int i = 0; i < TexNumb; i++) {
@@ -406,7 +410,7 @@ void CreateModels(std::string filename, cVAOMeshManager* pTheVAOMeshManager, GLu
 
 {
 	::g_pTheTextureManager->SetBasePath("assets/textures");
-	std::ifstream file(("output/" + filename).c_str());
+	std::ifstream file(("SceneInfo/" + filename).c_str());
 
 	//if (!file.is_open()) { return; }
 
@@ -453,6 +457,8 @@ void CreateModels(std::string filename, cVAOMeshManager* pTheVAOMeshManager, GLu
 		//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;
 		file >> unused >> CurModel->nonUniformScale.x >> CurModel->nonUniformScale.y >> CurModel->nonUniformScale.z;
 		file >> unused >> CurModel->bIsVisible;
+		file >> unused >> CurModel->bIsUpdatedByPhysics;
+		file >> unused >> CurModel->bIsWireFrame;
 		file >> unused >> TexNumb;
 		if (TexNumb > 0) {
 			for (int i = 0; i < TexNumb; i++) {

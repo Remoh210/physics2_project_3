@@ -212,7 +212,7 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	CreateModels("Models2.txt", ::g_pTheVAOMeshManager, program);
+	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 
@@ -437,9 +437,10 @@ int main(void)
 
 	// Get that from FindObjectByID()
 			cMeshObject* pTheBunny = findObjectByFriendlyName("Ufo2UVb");
+			cMeshObject* pter = findObjectByFriendlyName("terrain");
 			// Highlight the AABB that the rabbit is in (Or the CENTRE of the rabbit, anyway)
 
-			float sideLength = 10.0f;
+			float sideLength = 20.0f;
 			unsigned long long ID_of_AABB_We_are_in = cAABB::generateID(pTheBunny->position, sideLength);
 
 			// Is there a box here? 
@@ -469,6 +470,7 @@ int main(void)
 				= ::g_pTheTerrain->m_mapAABBs.begin();
 			for (; itAABB != ::g_pTheTerrain->m_mapAABBs.end(); itAABB++)
 			{
+
 				// You could draw a mesh cube object at the location, 
 				// but be careful that it's scalled and placed at the right location.
 				// i.e. our cube is centred on the origin and is ++2++ units wide, 
@@ -480,7 +482,7 @@ int main(void)
 				cAABB* pCurrentAABB = itAABB->second;
 
 				glm::vec3 cubeCorners[6];
-
+				
 				cubeCorners[0] = pCurrentAABB->getMinXYZ();
 				cubeCorners[1] = pCurrentAABB->getMinXYZ();
 				cubeCorners[2] = pCurrentAABB->getMinXYZ();
@@ -502,6 +504,7 @@ int main(void)
 				// TODO: And the other corners... 
 				cubeCorners[5].x += pCurrentAABB->getSideLength();
 				cubeCorners[5].y += pCurrentAABB->getSideLength();
+
 
 
 				cMeshObject* pCubeForBallsToBounceIn = new cMeshObject();
@@ -715,7 +718,7 @@ void LoadTerrainAABB(void)
 
 
 	// How big is our AABBs? Side length?
-	float sideLength = 50.0f;		// Play with this lenght
+	float sideLength = 100.0f;		// Play with this lenght
 									// Smaller --> more AABBs, fewer triangles per AABB
 									// Larger --> More triangles per AABB	
 
@@ -726,6 +729,7 @@ void LoadTerrainAABB(void)
 		//  BEFORE you do this... or just keep the terrain UNTRANSFORMED)
 
 		sPlyTriangle currentTri = terrainMeshInfo.pTriangles[triIndex];
+		
 
 		sPlyVertex currentVerts[3];
 		currentVerts[0] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_1];
