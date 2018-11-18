@@ -1,7 +1,7 @@
 Friendly_Name Utah_Teapot_xyz_n_GARBAGE_uv
 Mesh_Name Utah_Teapot_xyz_n_GARBAGE_uv.ply
 Position 240 460 40
-DiffureRGB_Alpha  0 0 0 0.3
+DiffureRGB_Alpha  0 0 0 1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation -0.707107 0 0 0.707107
 Scale  1.9 1.9 1.9
@@ -38,7 +38,7 @@ Textures:  0
 Friendly_Name table
 Mesh_Name table.ply
 Position 510 -30 910
-DiffureRGB_Alpha  0 0 0 1
+DiffureRGB_Alpha  0 0 0 0.2
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
 Scale  2.9 2.9 2.9
@@ -60,18 +60,22 @@ Scale  22.6 22.6 22.6
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name knightTex.bmp
+Texture0_strength 1
 Friendly_Name knight2
 Mesh_Name knight2.ply
 Position 1270 460 1945
-DiffureRGB_Alpha  0 0 0 1
+DiffureRGB_Alpha  0 0 0 0.3
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
 Scale  20.4 20.4 20.4
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name knight2Tex.bmp
+Texture0_strength 1
 Friendly_Name fireplace
 Mesh_Name fireplace.ply
 Position -615 -170 20
@@ -82,18 +86,22 @@ Scale  64.2002 64.2002 64.2002
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name fireplace.bmp
+Texture0_strength 1
 Friendly_Name lantern
 Mesh_Name lantern.ply
 Position 360 130 1010
-DiffureRGB_Alpha  0 0 0 1
+DiffureRGB_Alpha  0 0 0 0.3
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
 Scale  1.80001 1.80001 1.80001
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name lantern.bmp
+Texture0_strength 1
 Friendly_Name cat
 Mesh_Name cat.ply
 Position 0 10 1895
@@ -104,7 +112,9 @@ Scale  7.2 7.2 7.2
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name cat.bmp
+Texture0_strength 1
 Friendly_Name bread
 Mesh_Name bread.ply
 Position 760 120 900
@@ -115,7 +125,9 @@ Scale  102.8 102.8 102.8
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name bread.bmp
+Texture0_strength 1
 Friendly_Name Sphere_320_faces_xyz_n
 Mesh_Name Sphere_320_faces_xyz_n.ply
 Position 686 2170 185
@@ -137,7 +149,9 @@ Scale  30 30 30
 IsVisible  1
 IsUpdByPhys  0
 IsWireFrame  0
-Textures:  0
+Textures:  1
+Texture0_name AxeTex.bmp
+Texture0_strength 1
 Friendly_Name DebugCube
 Mesh_Name cube_flat_shaded_xyz_n_uv.ply
 Position 0 0 0

@@ -246,7 +246,7 @@ bool AreAllModifiersUp(GLFWwindow* window)
 		//player->velocity = camera.Front * 200.0f;
 	}
 	else{ player->accel = -player->velocity * 1.0f; }
-	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
+//	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
 	return true;
 }
 
