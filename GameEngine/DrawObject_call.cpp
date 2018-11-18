@@ -13,6 +13,8 @@
 
 #include "cMeshObject.h"
 
+#include <iostream>
+
 bool HACK_bTextureUniformLocationsLoaded = false;
 GLint tex00_UniLoc = -1;
 GLint tex01_UniLoc = -1;
@@ -29,15 +31,7 @@ GLint texBW_1_UniLoc = -1;
 // Will bind the textures in use for this object on this draw call
 void BindTextures(cMeshObject* pCurrentMesh, GLuint shaderProgramID)
 {
-	if (g_pTheTextureManager->filtType == 1)
-	{
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	if (g_pTheTextureManager->filtType == 2)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
 	// This is pretty much a hack, so we should likely pass the shader object 
 	// (pointer) to this function, and to the DrawObject call, too. 
 	// (Another option would be to pass the shader MANAGER instead, so 
@@ -76,7 +70,6 @@ void BindTextures(cMeshObject* pCurrentMesh, GLuint shaderProgramID)
 
 	for (int texBindIndex = 0; texBindIndex != pCurrentMesh->vecTextures.size(); texBindIndex++)
 	{
-
 		// Bind to the the "texBindIndex" texture unit
 		glActiveTexture(GL_TEXTURE0 + texBindIndex);
 
@@ -146,31 +139,15 @@ void DrawObject(cMeshObject* pCurrentMesh,
 	BindTextures(pCurrentMesh, shaderProgramID);
 
 
+
+
+
+
+
 	//************************************
 	matModel = glm::mat4x4(1.0f);		// mat4x4_identity(m);
 
 
-//glm::mat4 preRot_X = glm::rotate( glm::mat4(1.0f), 
-//									pCurrentMesh->preRotation.x, 
-//									glm::vec3( 1.0f, 0.0, 0.0f ) );
-//matModel = matModel * preRot_X;
-//
-//// Calculate some rotation matrix values;
-//glm::mat4 preRot_Y = glm::rotate( glm::mat4(1.0f), 
-//									pCurrentMesh->preRotation.y, 
-//									glm::vec3( 0.0f, 1.0, 0.0f ) );
-//matModel = matModel * preRot_Y;
-//
-//
-//glm::mat4 preRot_Z = glm::rotate( glm::mat4(1.0f), 
-//									pCurrentMesh->preRotation.z, 
-//									glm::vec3( 0.0f, 0.0, 1.0f ) );
-//matModel = matModel * preRot_Z;
-
-	////mat4x4_rotate_Z(m, m, (float) glfwGetTime());
-	//glm::mat4 rotateZ = glm::rotate( glm::mat4(1.0f), 
-	//								 (float) glfwGetTime(), 
-	//								 glm::vec3( 0.0f, 0.0, 1.0f ) );
 	//m = m * rotateZ;
 
 	glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
@@ -255,6 +232,30 @@ void DrawObject(cMeshObject* pCurrentMesh,
 	//				pCurrentMesh->objColour.r, 
 	//				pCurrentMesh->objColour.g, 
 	//				pCurrentMesh->objColour.b ); 
+
+
+	// ***************************************************
+
+	// I'll do quick sort or whatever sexy sorts
+	// One pass of bubble sort is fine...
+
+	// Enable blend or "alpha" transparency
+	glEnable(GL_BLEND);
+
+	//glDisable( GL_BLEND );
+	// Source == already on framebuffer
+	// Dest == what you're about to draw
+	// This is the "regular alpha blend transparency"
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	GLint wholeObjectAlphaTransparency_LocID = glGetUniformLocation(shaderProgramID,
+		"wholeObjectAlphaTransparency");
+	// Take the 4th value from the material and pass it as alpha
+	glUniform1f(wholeObjectAlphaTransparency_LocID, pCurrentMesh->materialDiffuse.a);
+
+	// ****************************************************
+
+
 	glUniform4f(objectDiffuse_UniLoc,
 		pCurrentMesh->materialDiffuse.r,
 		pCurrentMesh->materialDiffuse.g,
@@ -318,6 +319,10 @@ void DrawObject(cMeshObject* pCurrentMesh,
 
 		glBindVertexArray(0);
 
+	}
+	else
+	{
+		std::cout << pCurrentMesh->meshName << " was not found" << std::endl;
 	}
 
 	return;

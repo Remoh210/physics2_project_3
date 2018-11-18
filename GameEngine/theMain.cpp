@@ -364,7 +364,7 @@ int main(void)
 		matProjection = glm::perspective( 1.0f,			// FOV
 			                                ratio,		// Aspect ratio
 			                                0.1f,			// Near clipping plane
-			                                5000.0f );	// Far clipping plane
+			                                15000.0f );	// Far clipping plane
 
 		//matView = glm::lookAt(g_CameraEye, g_CameraEye + cameraFront, cameraUp);
 		matView = camera.GetViewMatrix();
@@ -383,6 +383,45 @@ int main(void)
 
 
 
+		cMeshObject* pSkyBox = findObjectByFriendlyName("SkyBoxObject");
+		// Place skybox object at camera location
+		pSkyBox->position = camera.Position;
+		pSkyBox->bIsVisible = true;
+		pSkyBox->bIsWireFrame = false;
+
+		//		glDisable( GL_CULL_FACE );		// Force drawing the sphere
+		//		                                // Could also invert the normals
+				// Draw the BACK facing (because the normals of the sphere face OUT and we 
+				//  are inside the centre of the sphere..
+		//		glCullFace( GL_FRONT );
+
+		// Bind the cube map texture to the cube map in the shader
+		GLuint cityTextureUNIT_ID = 30;			// Texture unit go from 0 to 79
+		glActiveTexture(cityTextureUNIT_ID + GL_TEXTURE0);	// GL_TEXTURE0 = 33984
+
+		int cubeMapTextureID = ::g_pTheTextureManager->getTextureIDFromName("CityCubeMap");
+
+		// Cube map is now bound to texture unit 30
+		//		glBindTexture( GL_TEXTURE_2D, cubeMapTextureID );
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTextureID);
+
+		//uniform samplerCube textureSkyBox;
+		GLint skyBoxCubeMap_UniLoc = glGetUniformLocation(program, "textureSkyBox");
+		glUniform1i(skyBoxCubeMap_UniLoc, cityTextureUNIT_ID);
+
+		//uniform bool useSkyBoxTexture;
+		GLint useSkyBoxTexture_UniLoc = glGetUniformLocation(program, "useSkyBoxTexture");
+		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_TRUE);
+
+		glm::mat4 matIdentity = glm::mat4(1.0f);
+		DrawObject(pSkyBox, matIdentity, program);
+
+		//		glEnable( GL_CULL_FACE );
+		//		glCullFace( GL_BACK );
+
+		pSkyBox->bIsVisible = false;
+		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_FALSE);
+
 
 		// Draw all the objects in the "scene"
 		for ( unsigned int objIndex = 0; 
@@ -396,6 +435,48 @@ int main(void)
 			DrawObject(pCurrentMesh, matModel, program);
 
 		}//for ( unsigned int objIndex = 0; 
+
+
+
+		//{
+		//	GLint bAddReflect_UniLoc = glGetUniformLocation(program, "bAddReflect");
+		//	//			glUniform1f( bAddReflect_UniLoc, (float)GL_TRUE );
+
+		//	GLint bAddRefract_UniLoc = glGetUniformLocation(program, "bAddRefract");
+		//	glUniform1f(bAddRefract_UniLoc, (float)GL_TRUE);
+
+		//	cMeshObject* pBunny = findObjectByFriendlyName("Ufo2UVb");
+
+		//	glm::vec3 oldPos = pBunny->position;
+		//	glm::vec3 oldScale = pBunny->nonUniformScale;
+		//	glm::quat oldOrientation = pBunny->getQOrientation();
+
+		//	pBunny->position = glm::vec3(0.0f, 25.0f, 0.0f);
+		//	pBunny->setUniformScale(100.0f);
+		//	pBunny->setMeshOrientationEulerAngles(0.0f, 0.0f, 0.0f, true);
+
+		//	glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
+
+		//	DrawObject(pBunny, matModel, program);
+
+		//	pBunny->position = oldPos;
+		//	pBunny->nonUniformScale = oldScale;
+		//	pBunny->setQOrientation(oldOrientation);
+
+		//	glUniform1f(bAddReflect_UniLoc, (float)GL_FALSE);
+		//	glUniform1f(bAddRefract_UniLoc, (float)GL_FALSE);
+		//}
+
+
+
+
+
+
+
+
+
+
+
 
 
 		// High res timer (likely in ms or ns)

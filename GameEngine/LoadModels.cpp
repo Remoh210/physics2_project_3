@@ -41,9 +41,15 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	sphereInfo.meshFileName = "Sphere_320_faces_xyz_n.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInfo, shaderProgramID);
 
+	sModelDrawInfo sphereInvertedNormalsInfo;
+	sphereInvertedNormalsInfo.meshFileName = "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply";			// "Sphere_320_faces_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(sphereInvertedNormalsInfo, shaderProgramID);
+
 	//sModelDrawInfo roomInfo;
 	//roomInfo.meshFileName = "roomUV.ply";			// "Sphere_320_faces_xyz.ply";
 	//pTheVAOMeshManager->LoadModelIntoVAO(roomInfo, shaderProgramID);
+
+
 
 	//sModelDrawInfo skullInfo;
 	//skullInfo.meshFileName = "skull.ply";	
@@ -94,7 +100,19 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	// At this point, mesh in in GPU
 	std::cout << "Mesh was loaded OK" << std::endl;
 
-
+	::g_pTheTextureManager->SetBasePath("assets/textures/cubemaps");
+	std::string errorString;
+	if (::g_pTheTextureManager->CreateCubeTextureFromBMPFiles("CityCubeMap",
+		"city_lf.bmp", "city_rt.bmp",				// reverse these
+		"city_dn.bmp", "city_up.bmp",				// Rotate the image "right 90 degrees")
+		"city_ft.bmp", "city_bk.bmp", true, errorString))
+	{
+		std::cout << "Loaded the city cube map OK" << std::endl;
+	}
+	else
+	{
+		std::cout << "Error: city cube map DIDN't load. On no!" << std::endl;
+	}
 	//::g_pTheTextureManager->SetBasePath("assets/textures");
 
 	//if (!::g_pTheTextureManager->Create2DTextureFromBMPFile("roomTex.bmp", true))
@@ -149,6 +167,23 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 //		vec_pObjectsToDraw.push_back(pTeapot);
 //	}
 //
+
+	{	// This will be our "skybox" object.
+		// (could also be a cube, or whatever)
+		cMeshObject* pSkyBoxObject = new cMeshObject();
+		pSkyBoxObject->setDiffuseColour(glm::vec3(1.0f, 105.0f / 255.0f, 180.0f / 255.0f));
+		pSkyBoxObject->bUseVertexColour = false;
+		pSkyBoxObject->friendlyName = "SkyBoxObject";
+		float scale = 5000.0f;
+		pSkyBoxObject->nonUniformScale = glm::vec3(scale, scale, scale);
+		pSkyBoxObject->meshName = "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply";			// "Sphere_320_faces_xyz.ply";
+//		pSkyBoxObject->bIsWireFrame = true;
+
+		// Invisible until I need to draw it
+		pSkyBoxObject->bIsVisible = false;
+
+		vec_pObjectsToDraw.push_back(pSkyBoxObject);
+	}
 //	//{
 //	//	cMeshObject* pSkull = new cMeshObject();
 //	//	pSkull->position = glm::vec3(0.0f, 50.0f, 0.0f);

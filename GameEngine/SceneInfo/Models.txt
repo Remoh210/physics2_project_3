@@ -1,7 +1,7 @@
 Friendly_Name Utah_Teapot_xyz_n_GARBAGE_uv
 Mesh_Name Utah_Teapot_xyz_n_GARBAGE_uv.ply
 Position 240 460 40
-DiffureRGB_Alpha  0 0 0 1
+DiffureRGB_Alpha  0 0 0 0.3
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation -0.707107 0 0 0.707107
 Scale  1.9 1.9 1.9

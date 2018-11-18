@@ -1,7 +1,7 @@
 Friendly_Name Ufo2UVb
 Mesh_Name Ufo2UVb.ply
 Position 0 0 0
-DiffureRGB_Alpha  0 1 0 1
+DiffureRGB_Alpha  0 0.4 0 0.1
 SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation 0 0 0 1
 Scale  1 1 1

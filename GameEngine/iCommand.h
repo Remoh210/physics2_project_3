@@ -6,16 +6,17 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include "cMeshObject.h"
+#include "sNVPair.h"
 
-struct sNVPair
-{
-	cMeshObject* pMeshObj;
-	std::string name;
-	std::string sValue;
-	float fValue;
-	int iValue;
-	glm::vec3 v3Value;
-};
+//struct sNVPair
+//{
+//	cMeshObject* pMeshObj;
+//	std::string name;
+//	std::string sValue;
+//	float fValue;
+//	int iValue;
+//	glm::vec3 v3Value;
+//};
 
 class iCommand
 {

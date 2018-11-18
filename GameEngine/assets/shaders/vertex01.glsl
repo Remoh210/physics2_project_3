@@ -18,9 +18,31 @@ out vec3 vertNormal;	// "Model space"
 out vec4 vertUV_x2;		// To the next shader stage
 
 
+// Note, we're in the VERTEX shader now, baby!
+uniform sampler2D texHeightMap;
+uniform bool bUseHeightMap;			// "turn on" the vertex displacement
+uniform float heightMapRatio;		// Increase the range of the displacement
+
+
 void main()
 {
+	// Make a copy of the "model space" vertex
 	vec3 posTemp = vPosition;
+	
+	// Apply vertex displacement?
+	if ( bUseHeightMap )
+	{
+		// Note: I'm only sampling ONE of the colours, because it's black and white
+		// Returns 0.0 to 1.0
+		float height = texture( texHeightMap, vUV_x2.st ).r;
+		
+		height = height * heightMapRatio;
+		
+		posTemp.y = 0.0f;		// "Flatten" the mesh
+		posTemp.y = height;		// Set the heigth
+		// You could also "adjust" an existing mesh
+	
+	}//if ( bUseHeightMap )
 	
 	// Note these are 'backwards'
 	mat4 MVP = matProj * matView * matModel;

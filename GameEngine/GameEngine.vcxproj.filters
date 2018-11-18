@@ -135,6 +135,15 @@
     <ClCompile Include="cMoveToCommand.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="sNVPair.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimationCurveCommand.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="cWait.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -207,6 +216,15 @@
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="cMoveToCommand.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="sNVPair.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="cAnimationCurveCommand.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="cWait.h">
       <Filter>Scripting</Filter>
     </ClInclude>
   </ItemGroup>

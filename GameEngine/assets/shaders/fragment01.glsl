@@ -61,8 +61,19 @@ uniform sampler2D texture05;
 uniform sampler2D texture06;
 uniform sampler2D texture07;
 
+// Cube map texture (NOT a sampler3D)
+uniform samplerCube textureSkyBox;
+uniform bool useSkyBoxTexture;
+
+// 
+uniform bool bAddReflect;		// Add reflection
+uniform bool bAddRefract;		// Add refraction
+uniform float refractionIndex;
+
 // This is 4 x 2 floats or 8 floats
 uniform vec4 texBlendWeights[2];	// x is 0, y is 1, z is 2
+
+uniform float wholeObjectAlphaTransparency;
 
 
 void main()
@@ -71,6 +82,66 @@ void main()
 	vec4 materialDiffuse = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	vec4 materialSpecular = objectSpecular;
+
+	// is this the skybox texture?
+	if (useSkyBoxTexture == true)
+	{
+		//finalOutputColour.rgb = vec3(1.0f, 0.0f, 0.0f);
+
+		// Note for cube maps, the texture coordinates are 3D
+		// (so here we are using the normal on the surface 
+		//  of the sphere, like a "ray cast" really)
+		vec3 skyPixelColour = texture( textureSkyBox, vertNormal.xyz ).rgb;
+		
+		finalOutputColour.rgb = skyPixelColour;
+		finalOutputColour.a = 1.0f;
+		return;
+	}
+
+	// Reflection and refraction if you want to use these later...
+	vec3 rgbReflect = vec3(0.0f,0.0f,0.0f);
+	vec3 rgbRefract = vec3(0.0f,0.0f,0.0f);
+	
+	// Add a FULLY reflective object 
+	if ( bAddReflect )
+	{
+		// Calculate ray from vertex to eye
+		vec3 viewVector = eyeLocation.xyz - vertPosWorld.xyz;
+		viewVector = normalize(viewVector); 
+		
+		// Calcualte the reflection vector
+		vec3 vReflect = reflect(viewVector, vertNormal.xyz);
+		
+		rgbReflect = texture( textureSkyBox, vReflect ).rgb;
+	}//if ( bAddReflect )
+	
+	if (bAddRefract)
+	{
+		// Calculate ray from vertex to eye
+		vec3 viewVector = eyeLocation.xyz - vertPosWorld.xyz;
+		viewVector = normalize(viewVector); 
+		
+		// Calcualte the reflection vector
+		vec3 vRefract = refract(viewVector, vertNormal.xyz, 1.10);
+		
+		rgbRefract = texture( textureSkyBox, vRefract ).rgb;
+	}//if (bAddRefract)	
+	
+	
+	// You could add the reflection and refraction colours to your
+	// object's colour, but here I'm going to combine and exit early.
+//	if ( bAddReflect || bAddRefract )
+//	{
+//		float amountOfReflect = 0.5f;
+//		float amountOfRefract = 0.5f;
+//	
+//		finalOutputColour.rgb =   (rgbReflect * amountOfReflect)
+//		                        + (rgbRefract * amountOfRefract);
+//		finalOutputColour.a = 1.0f;	
+//		return;	
+//	}
+	
+	
 
 	if ( useVertexColour )
 	{
@@ -158,7 +229,7 @@ void main()
 
 			// TODO: Still need to do specular, but this gives you an idea
 			finalOutputColour.rgb = finalObjectColour.rgb;
-			finalOutputColour.a = 1.0f;
+			finalOutputColour.a = wholeObjectAlphaTransparency;
 
 			return;		
 		}
@@ -257,9 +328,75 @@ void main()
 	}//for(intindex=0...
 	
 	finalOutputColour.rgb = finalObjectColour.rgb;
-	finalOutputColour.a = 1.0f;
+	finalOutputColour.a = wholeObjectAlphaTransparency;
 	
 	// Brigher for the dim projector
 	finalOutputColour.rgb *= 1.25f;
+	
+	
+	
+	// Add any reflection or refraction 
+	if ( bAddRefract )
+	{
+		float amountToAdd = 0.25f;
+		// Drop the amount of current colour by a little bit...
+		finalOutputColour *= ( 1.0f - amountToAdd );
+		// ... and add the refractive colour		
+		finalOutputColour.rgb += ( amountToAdd * rgbRefract );
+	}
+	if ( bAddReflect )
+	{
+		float amountToAdd = 0.25f;
+		// Drop the amount of current colour by a little bit...
+		finalOutputColour *= ( 1.0f - amountToAdd );
+		// ... and add the reflective colour
+		finalOutputColour.rgb += ( amountToAdd * rgbReflect );
+	}
+	
+	
+	
+	// Make the colour "black"
+//	finalOutputColour.rgb *= 0.001f;
+	
+	// How far away from the centre of the circle am I?
+	// ( 0.5, 0.5) 
+	
+//	vec2 cirCentre = vec2( 0.5f, 0.5f );
+//	float cirRadius = 0.3f;	
+//	
+//	if ( distance(cirCentre, vertUV_x2.st ) >= cirRadius )
+//	{
+//		// Outside the circle
+//		finalOutputColour.rgb += vec3(0,1,0);		// Green
+//	}
+//	else 
+//	{
+//		// Inside the circle
+//		finalOutputColour.rgb += vec3(1,0,0);		// Red
+//	}
+	
+	
+	
+	// Step
+//	if ( vertUV_x2.s <= 0.25 )			// s == u
+//	{
+//		finalOutputColour.rgb += vec3(1,0,0);		// Red
+//	}
+//	else 
+//	{
+//		finalOutputColour.rgb += vec3(0,1,0);		// green
+//	}
+
+//	finalOutputColour.r += mix( 0.0f, 1.0f, vertUV_x2.s );	// u
+//	finalOutputColour.g += mix( 1.0f, 0.0f, vertUV_x2.s );	// u
+//	CameraSpeed = mix( MaxSpeed, 0.0f, HowFarIntoTheGreyAreaWeAre );	// u
+	
+//	finalOutputColour.r += smoothstep( 0.0f, 1.0f, vertUV_x2.s );	// u
+//	finalOutputColour.g += smoothstep( 1.0f, 0.0f, vertUV_x2.s );	// u
+	
+	
+	// EVERYTHING is 50% transparent
+	finalOutputColour.a = wholeObjectAlphaTransparency;
+	
 
 }

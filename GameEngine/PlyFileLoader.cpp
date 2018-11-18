@@ -451,7 +451,7 @@ void CreateModels(std::string filename, cVAOMeshManager* pTheVAOMeshManager, GLu
 
 		file >> unused >> CurModel->meshName;
 		file >> unused >> CurModel->position.x >> CurModel->position.y >> CurModel->position.z;
-		file >> unused >> CurModel->materialDiffuse.x >> CurModel->materialDiffuse.y >> CurModel->materialDiffuse.z >> CurModel->materialDiffuse.w;
+		file >> unused >> CurModel->materialDiffuse.r >> CurModel->materialDiffuse.g >> CurModel->materialDiffuse.b >> CurModel->materialDiffuse.a;
 		file >> unused >> CurModel->materialSpecular.x >> CurModel->materialSpecular.y >> CurModel->materialSpecular.z >> CurModel->materialSpecular.w;
 		file >> unused >> CurModel->m_meshQOrientation.x >> CurModel->m_meshQOrientation.y >> CurModel->m_meshQOrientation.z >> CurModel->m_meshQOrientation.w;
 		//		file >> unused >> CurModel->postRotation.x >> CurModel->postRotation.y >> CurModel->postRotation.z;

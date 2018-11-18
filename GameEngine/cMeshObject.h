@@ -59,6 +59,11 @@ private:
 public:
 	glm::quat m_meshQOrientation;
 	glm::quat getQOrientation(void) { return this->m_meshQOrientation; };
+	void setQOrientation(glm::quat newOrientation)
+	{
+		this->m_meshQOrientation = newOrientation;
+	}
+
 	void setMeshOrientationEulerAngles(glm::vec3 newAnglesEuler, bool bIsDegrees = false);
 	void setMeshOrientationEulerAngles(float x, float y, float z, bool bIsDegrees = false);
 	void adjMeshOrientationEulerAngles(glm::vec3 adjAngleEuler, bool bIsDegrees = false);

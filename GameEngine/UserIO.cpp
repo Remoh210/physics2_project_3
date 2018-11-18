@@ -242,7 +242,7 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	player->bIsUpdatedByPhysics = true;
 	if (glfwGetKey(window, GLFW_KEY_UP)) { 
 		
-		player->accel += camera.Front * 2.0f;
+		player->accel += camera.Front * 1.01f;
 		//player->velocity = camera.Front * 200.0f;
 	}
 	else{ player->accel = -player->velocity * 1.0f; }
