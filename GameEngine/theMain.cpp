@@ -55,8 +55,13 @@ const unsigned int SCR_HEIGHT = 800;
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
 bool distToCam(cMeshObject* leftObj, cMeshObject* rightObj) {
-	return glm::distance(leftObj->position, camera.Position) > glm::distance(rightObj->position, camera.Position); // here go your sort conditions
+	return glm::distance(leftObj->position, camera.Position) < glm::distance(rightObj->position, camera.Position); // here go your sort conditions
 }
+bool transp(cMeshObject* leftObj, cMeshObject* rightObj) {
+	return leftObj->materialDiffuse.a < rightObj->materialDiffuse.a; // here go your sort conditions
+}
+
+std::vector <cMeshObject*> vec_sorted_drawObj;
 
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -221,7 +226,7 @@ int main(void)
 	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
-
+	vec_sorted_drawObj = vec_pObjectsToDraw;
 
 
 	LoadTerrainAABB();
@@ -389,6 +394,30 @@ int main(void)
 
 
 
+
+
+;
+
+
+		//std::sort(vec_sorted_drawObj.begin(), vec_sorted_drawObj.end(), transp);
+		//std::sort(vec_sorted_drawObj.begin(), vec_sorted_drawObj.end(), distToCam);
+		
+
+
+
+		// Draw all the objects in the "scene"
+		for ( unsigned int objIndex = 0; 
+			  objIndex != (unsigned int)vec_pObjectsToDraw.size();
+			  objIndex++ )
+		{	
+			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
+			
+			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
+
+			DrawObject(pCurrentMesh, matModel, program);
+
+		}//for ( unsigned int objIndex = 0; 
+
 		cMeshObject* pSkyBox = findObjectByFriendlyName("SkyBoxObject");
 		// Place skybox object at camera location
 		pSkyBox->position = camera.Position;
@@ -427,30 +456,6 @@ int main(void)
 
 		pSkyBox->bIsVisible = false;
 		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_FALSE);
-
-;
-
-
-
-		std::sort(vec_pObjectsToDraw.begin(), vec_pObjectsToDraw.end(), distToCam);
-
-
-
-
-		// Draw all the objects in the "scene"
-		for ( unsigned int objIndex = 0; 
-			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 
-			  objIndex++ )
-		{	
-			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
-			
-			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
-
-			DrawObject(pCurrentMesh, matModel, program);
-
-		}//for ( unsigned int objIndex = 0; 
-
-
 
 		//{
 		//	GLint bAddReflect_UniLoc = glGetUniformLocation(program, "bAddReflect");
