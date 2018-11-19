@@ -178,7 +178,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pSkyBoxObject->nonUniformScale = glm::vec3(scale, scale, scale);
 		pSkyBoxObject->meshName = "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply";			// "Sphere_320_faces_xyz.ply";
 //		pSkyBoxObject->bIsWireFrame = true;
-
+		pSkyBoxObject->bIsDebug = true;
 		// Invisible until I need to draw it
 		pSkyBoxObject->bIsVisible = false;
 
@@ -359,6 +359,7 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pDebugSphere->nonUniformScale = glm::vec3(scale, scale, scale);
 		pDebugSphere->meshName = "Sphere_320_faces_xyz_n.ply";		
 		pDebugSphere->bIsWireFrame = true;
+		pDebugSphere->bIsDebug = true;
 		pDebugSphere->bIsVisible = false;
 
 

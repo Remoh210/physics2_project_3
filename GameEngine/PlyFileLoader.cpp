@@ -197,25 +197,28 @@ void saveModelInfo(std::string filename, std::vector<cMeshObject*> models)
 		for (std::vector<cMeshObject*>::iterator it = models.begin(); it != models.end(); ++it)
 		{
 			cMeshObject* CurModel = *it;
-			file << "Friendly_Name " << CurModel->friendlyName << "\n";
-			file << "Mesh_Name " << CurModel->meshName << "\n";
-			file << "Position " << CurModel->position.x << " " << CurModel->position.y << " " << CurModel->position.z << "\n";
-			file << "DiffureRGB_Alpha  " << CurModel->materialDiffuse.x    << " " << CurModel->materialDiffuse.y    << " " << CurModel->materialDiffuse.z    << " " << CurModel->materialDiffuse.w    << "\n";
-			file << "SpecularRGB_Power " << CurModel->materialSpecular.x   << " " << CurModel->materialSpecular.y   << " " << CurModel->materialSpecular.z   << " " << CurModel->materialSpecular.w   << "\n";
-			file << "QuatXYZW_rotation " << CurModel->m_meshQOrientation.x << " " << CurModel->m_meshQOrientation.y << " " << CurModel->m_meshQOrientation.z << " " << CurModel->m_meshQOrientation.w << "\n";
-//			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
-			file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
-			file << "IsVisible  " << CurModel->bIsVisible << "\n";
-			file << "IsUpdByPhys  " << CurModel->bIsUpdatedByPhysics << "\n";
-			file << "IsWireFrame  " << CurModel->bIsWireFrame << "\n";
-			if (CurModel->vecTextures.size() != 0) {
-				file << "Textures: " << CurModel->vecTextures.size() << "\n";
-				for (int i = 0; i < CurModel->vecTextures.size(); i++) {
-					file << "Texture" + std::to_string(i) + "_name " << CurModel->vecTextures[i].name << "\n";
-					file << "Texture" + std::to_string(i) + "_strength " << CurModel->vecTextures[i].strength << "\n";
+			if (CurModel->bIsDebug == false) {
+				file << "Friendly_Name " << CurModel->friendlyName << "\n";
+				file << "Mesh_Name " << CurModel->meshName << "\n";
+				file << "Position " << CurModel->position.x << " " << CurModel->position.y << " " << CurModel->position.z << "\n";
+				file << "DiffureRGB_Alpha  " << CurModel->materialDiffuse.x << " " << CurModel->materialDiffuse.y << " " << CurModel->materialDiffuse.z << " " << CurModel->materialDiffuse.w << "\n";
+				file << "SpecularRGB_Power " << CurModel->materialSpecular.x << " " << CurModel->materialSpecular.y << " " << CurModel->materialSpecular.z << " " << CurModel->materialSpecular.w << "\n";
+				file << "QuatXYZW_rotation " << CurModel->m_meshQOrientation.x << " " << CurModel->m_meshQOrientation.y << " " << CurModel->m_meshQOrientation.z << " " << CurModel->m_meshQOrientation.w << "\n";
+				//			file << "Rotation " << CurModel->postRotation.x << " " << CurModel->postRotation.y << " " << CurModel->postRotation.z << "\n";
+				file << "Scale  " << CurModel->nonUniformScale.x << " " << CurModel->nonUniformScale.y << " " << CurModel->nonUniformScale.z << "\n";
+				file << "IsVisible  " << CurModel->bIsVisible << "\n";
+				file << "IsUpdByPhys  " << CurModel->bIsUpdatedByPhysics << "\n";
+				file << "IsWireFrame  " << CurModel->bIsWireFrame << "\n";
+				if (CurModel->vecTextures.size() != 0) {
+					file << "Textures: " << CurModel->vecTextures.size() << "\n";
+					for (int i = 0; i < CurModel->vecTextures.size(); i++) {
+						file << "Texture" + std::to_string(i) + "_name " << CurModel->vecTextures[i].name << "\n";
+						file << "Texture" + std::to_string(i) + "_strength " << CurModel->vecTextures[i].strength << "\n";
+					}
 				}
+				else { file << "Textures:  " << 0 << "\n"; }
+				
 			}
-			else { file << "Textures:  " << 0 << "\n"; }
 
 		//	file << "Colour  " << CurModel->objColour.x << " " << CurModel->objColour.y << " " << CurModel->objColour.z << "\n";
 			//pTeapot->meshName = "Utah_Teapot_xyz_n.ply";

@@ -12,6 +12,7 @@ cMeshObject::cMeshObject()
 	//	this->m_meshQOrientation = glm::quat( glm::vec3(0.0f,0.0f,0.0f));
 
 		// 
+	this->bIsDebug = false;
 	this->bIsVisible = true;
 	this->bIsWireFrame = false;
 
@@ -32,7 +33,7 @@ cMeshObject::cMeshObject()
 	this->velocity = glm::vec3(0.0f);
 	this->accel = glm::vec3(0.0f);
 	this->bIsUpdatedByPhysics = false;	// physics ignores by default
-
+	this->bIsUpdatedByPhysics = false;
 //	this->radius = 0.0f;
 
 	this->pDebugRenderer = NULL;

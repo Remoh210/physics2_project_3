@@ -78,6 +78,7 @@ public:
 
 	bool bIsWireFrame;	//  = true;  C++
 	bool bIsVisible;
+	bool bIsDebug;
 
 	// ignore this for now...
 	// Around its own axis (NOT the origin)

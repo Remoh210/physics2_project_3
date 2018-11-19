@@ -63,7 +63,6 @@ void DoPhysicsUpdate( double fDeltaTime,
 		if ( pCurMesh->bIsUpdatedByPhysics )
 		{
 
-				std::cout << pCurMesh->velocity.x << std::endl;
 				pCurMesh->velocity.x = pCurMesh->velocity.x + (pCurMesh->accel.x * deltaTime);
 				pCurMesh->velocity.y = pCurMesh->velocity.y + (pCurMesh->accel.y * deltaTime);
 				pCurMesh->velocity.z = pCurMesh->velocity.z + (pCurMesh->accel.z * deltaTime);

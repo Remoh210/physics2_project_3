@@ -55,10 +55,7 @@ const unsigned int SCR_HEIGHT = 800;
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
 bool distToCam(cMeshObject* leftObj, cMeshObject* rightObj) {
-	return glm::distance(leftObj->position, camera.Position) < glm::distance(rightObj->position, camera.Position); // here go your sort conditions
-}
-bool transp(cMeshObject* leftObj, cMeshObject* rightObj) {
-	return leftObj->materialDiffuse.a < rightObj->materialDiffuse.a; // here go your sort conditions
+	return glm::distance(leftObj->position, camera.Position) > glm::distance(rightObj->position, camera.Position); // here go your sort conditions
 }
 
 std::vector <cMeshObject*> vec_sorted_drawObj;
@@ -77,6 +74,7 @@ cVAOMeshManager* g_pTheVAOMeshManager = NULL;
 cLightManager* LightManager = NULL;
 
 std::vector<cMeshObject*> vec_transObj;
+std::vector<cMeshObject*> vec_non_transObj;
 
 cBasicTextureManager* g_pTheTextureManager = NULL;
 
@@ -118,8 +116,8 @@ int main(void)
 	}
 
 
-
-	camera.MovementSpeed = 3000.0f;
+	//CAMERA SPEED
+	camera.MovementSpeed = 1000.0f;
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -226,10 +224,23 @@ int main(void)
 	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
-	vec_sorted_drawObj = vec_pObjectsToDraw;
+	//vec_sorted_drawObj = vec_pObjectsToDraw;
+
+			// Draw all the objects in the "scene"
+	for (unsigned int objIndex = 0;
+		objIndex != (unsigned int)vec_pObjectsToDraw.size();
+		objIndex++)
+	{
+		cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
+		if (pCurrentMesh->materialDiffuse.a < 1.0f) { vec_transObj.push_back(pCurrentMesh); }
+		else { vec_non_transObj.push_back(pCurrentMesh); }
+
+	}//for ( unsigned int objIndex = 0; 
 
 
 	LoadTerrainAABB();
+
+
 
 	// Get the current time to start with
 	double lastTime = glfwGetTime();
@@ -395,147 +406,10 @@ int main(void)
 
 
 
-
-;
-
-
-		//std::sort(vec_sorted_drawObj.begin(), vec_sorted_drawObj.end(), transp);
-		//std::sort(vec_sorted_drawObj.begin(), vec_sorted_drawObj.end(), distToCam);
-		
-
-
-
-		// Draw all the objects in the "scene"
-		for ( unsigned int objIndex = 0; 
-			  objIndex != (unsigned int)vec_pObjectsToDraw.size();
-			  objIndex++ )
-		{	
-			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
-			
-			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
-
-			DrawObject(pCurrentMesh, matModel, program);
-
-		}//for ( unsigned int objIndex = 0; 
-
-		cMeshObject* pSkyBox = findObjectByFriendlyName("SkyBoxObject");
-		// Place skybox object at camera location
-		pSkyBox->position = camera.Position;
-		pSkyBox->bIsVisible = true;
-		pSkyBox->bIsWireFrame = false;
-
-		//		glDisable( GL_CULL_FACE );		// Force drawing the sphere
-		//		                                // Could also invert the normals
-				// Draw the BACK facing (because the normals of the sphere face OUT and we 
-				//  are inside the centre of the sphere..
-		//		glCullFace( GL_FRONT );
-
-		// Bind the cube map texture to the cube map in the shader
-		GLuint cityTextureUNIT_ID = 30;			// Texture unit go from 0 to 79
-		glActiveTexture(cityTextureUNIT_ID + GL_TEXTURE0);	// GL_TEXTURE0 = 33984
-
-		int cubeMapTextureID = ::g_pTheTextureManager->getTextureIDFromName("CityCubeMap");
-
-		// Cube map is now bound to texture unit 30
-		//		glBindTexture( GL_TEXTURE_2D, cubeMapTextureID );
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTextureID);
-
-		//uniform samplerCube textureSkyBox;
-		GLint skyBoxCubeMap_UniLoc = glGetUniformLocation(program, "textureSkyBox");
-		glUniform1i(skyBoxCubeMap_UniLoc, cityTextureUNIT_ID);
-
-		//uniform bool useSkyBoxTexture;
-		GLint useSkyBoxTexture_UniLoc = glGetUniformLocation(program, "useSkyBoxTexture");
-		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_TRUE);
-
-		glm::mat4 matIdentity = glm::mat4(1.0f);
-		DrawObject(pSkyBox, matIdentity, program);
-
-		//		glEnable( GL_CULL_FACE );
-		//		glCullFace( GL_BACK );
-
-		pSkyBox->bIsVisible = false;
-		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_FALSE);
-
-		//{
-		//	GLint bAddReflect_UniLoc = glGetUniformLocation(program, "bAddReflect");
-		//	//			glUniform1f( bAddReflect_UniLoc, (float)GL_TRUE );
-
-		//	GLint bAddRefract_UniLoc = glGetUniformLocation(program, "bAddRefract");
-		//	glUniform1f(bAddRefract_UniLoc, (float)GL_TRUE);
-
-		//	cMeshObject* pBunny = findObjectByFriendlyName("Ufo2UVb");
-
-		//	glm::vec3 oldPos = pBunny->position;
-		//	glm::vec3 oldScale = pBunny->nonUniformScale;
-		//	glm::quat oldOrientation = pBunny->getQOrientation();
-
-		//	pBunny->position = glm::vec3(0.0f, 25.0f, 0.0f);
-		//	pBunny->setUniformScale(100.0f);
-		//	pBunny->setMeshOrientationEulerAngles(0.0f, 0.0f, 0.0f, true);
-
-		//	glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
-
-		//	DrawObject(pBunny, matModel, program);
-
-		//	pBunny->position = oldPos;
-		//	pBunny->nonUniformScale = oldScale;
-		//	pBunny->setQOrientation(oldOrientation);
-
-		//	glUniform1f(bAddReflect_UniLoc, (float)GL_FALSE);
-		//	glUniform1f(bAddRefract_UniLoc, (float)GL_FALSE);
-		//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// High res timer (likely in ms or ns)
-		currentTime = glfwGetTime();		
-		deltaTime = currentTime - lastTime; 
-
-
-
-		double MAX_DELTA_TIME = 0.1;	// 100 ms
-		if (deltaTime > MAX_DELTA_TIME)
-		{
-			deltaTime = MAX_DELTA_TIME;
-		}
-
-		for ( unsigned int objIndex = 0; 
-			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 
-			  objIndex++ )
-		{	
-			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
-			
-			pCurrentMesh->Update( deltaTime );
-
-		}//for ( unsigned int objIndex = 0; 
-
-		sceneCommandGroup.Update(deltaTime);
-
-
-		// Call the debug renderer call
-//#ifdef _DEBUG
-		::g_pDebugRendererACTUAL->RenderDebugObjects( matView, matProjection, deltaTime );
-//#endif 
-
-
-
-
-
 		{// START OF: AABB debug stuff
-	//HACK: Draw Debug AABBs...
+//HACK: Draw Debug AABBs...
 
-	// Get that from FindObjectByID()
+// Get that from FindObjectByID()
 			cMeshObject* pTheBunny = findObjectByFriendlyName("Ufo2UVb");
 			cMeshObject* pter = findObjectByFriendlyName("terrain");
 			// Highlight the AABB that the rabbit is in (Or the CENTRE of the rabbit, anyway)
@@ -582,7 +456,7 @@ int main(void)
 				cAABB* pCurrentAABB = itAABB->second;
 
 				glm::vec3 cubeCorners[6];
-				
+
 				cubeCorners[0] = pCurrentAABB->getMinXYZ();
 				cubeCorners[1] = pCurrentAABB->getMinXYZ();
 				cubeCorners[2] = pCurrentAABB->getMinXYZ();
@@ -614,18 +488,164 @@ int main(void)
 				pCubeForBallsToBounceIn->position = pCurrentAABB->getCentre();
 				pCubeForBallsToBounceIn->friendlyName = "CubeBallsBounceIn";
 				pCubeForBallsToBounceIn->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
-				pCubeForBallsToBounceIn->setUniformScale(pCurrentAABB->getSideLength()/2);
+				pCubeForBallsToBounceIn->setUniformScale(pCurrentAABB->getSideLength() / 2);
 				pCubeForBallsToBounceIn->bIsWireFrame = true;
 				glm::mat4 iden = glm::mat4(1.0f);
 				DrawObject(pCubeForBallsToBounceIn, iden, program);
 
-			
+
 				// Draw line from minXYZ to maxXYZ
 				//::g_pDebugRenderer->addLine(cubeCorners[0], cubeCorners[1],
 					//glm::vec3(1, 1, 1), 0.0f);
 			}
 		}// END OF: Scope for aabb debug stuff
 		// 
+;
+
+
+		//std::sort(vec_sorted_drawObj.begin(), vec_sorted_drawObj.end(), transp);
+		std::sort(vec_transObj.begin(), vec_transObj.end(), distToCam);
+		
+		cMeshObject* pSkyBox = findObjectByFriendlyName("SkyBoxObject");
+		// Place skybox object at camera location
+		pSkyBox->position = camera.Position;
+		pSkyBox->bIsVisible = true;
+		pSkyBox->bIsWireFrame = false;
+
+		//		glDisable( GL_CULL_FACE );		// Force drawing the sphere
+		//		                                // Could also invert the normals
+				// Draw the BACK facing (because the normals of the sphere face OUT and we 
+				//  are inside the centre of the sphere..
+		//		glCullFace( GL_FRONT );
+
+		// Bind the cube map texture to the cube map in the shader
+		GLuint cityTextureUNIT_ID = 30;			// Texture unit go from 0 to 79
+		glActiveTexture(cityTextureUNIT_ID + GL_TEXTURE0);	// GL_TEXTURE0 = 33984
+
+		int cubeMapTextureID = ::g_pTheTextureManager->getTextureIDFromName("CityCubeMap");
+
+		// Cube map is now bound to texture unit 30
+		//		glBindTexture( GL_TEXTURE_2D, cubeMapTextureID );
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTextureID);
+
+		//uniform samplerCube textureSkyBox;
+		GLint skyBoxCubeMap_UniLoc = glGetUniformLocation(program, "textureSkyBox");
+		glUniform1i(skyBoxCubeMap_UniLoc, cityTextureUNIT_ID);
+
+		//uniform bool useSkyBoxTexture;
+		GLint useSkyBoxTexture_UniLoc = glGetUniformLocation(program, "useSkyBoxTexture");
+		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_TRUE);
+
+		glm::mat4 matIdentity = glm::mat4(1.0f);
+		DrawObject(pSkyBox, matIdentity, program);
+
+		//		glEnable( GL_CULL_FACE );
+		//		glCullFace( GL_BACK );
+
+		pSkyBox->bIsVisible = false;
+		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_FALSE);
+
+
+		// Draw all the objects in the "scene"
+		for ( unsigned int objIndex = 0; 
+			  objIndex != (unsigned int)vec_non_transObj.size();
+			  objIndex++ )
+		{	
+			cMeshObject* pCurrentMesh = vec_non_transObj[objIndex];
+			
+			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
+
+			DrawObject(pCurrentMesh, matModel, program);
+
+		}//for ( unsigned int objIndex = 0; 
+
+		for (unsigned int objIndex = 0;
+			objIndex != (unsigned int)vec_transObj.size();
+			objIndex++)
+		{
+			cMeshObject* pCurrentMesh = vec_transObj[objIndex];
+
+			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
+
+			DrawObject(pCurrentMesh, matModel, program);
+
+		}//for ( unsigned int objIndex = 0; 
+
+
+
+
+
+
+
+		//{
+		//	GLint bAddReflect_UniLoc = glGetUniformLocation(program, "bAddReflect");
+		//	//			glUniform1f( bAddReflect_UniLoc, (float)GL_TRUE );
+
+		//	GLint bAddRefract_UniLoc = glGetUniformLocation(program, "bAddRefract");
+		//	glUniform1f(bAddRefract_UniLoc, (float)GL_TRUE);
+
+		//	cMeshObject* pBunny = findObjectByFriendlyName("Ufo2UVb");
+
+		//	glm::vec3 oldPos = pBunny->position;
+		//	glm::vec3 oldScale = pBunny->nonUniformScale;
+		//	glm::quat oldOrientation = pBunny->getQOrientation();
+
+		//	pBunny->position = glm::vec3(0.0f, 25.0f, 0.0f);
+		//	pBunny->setUniformScale(100.0f);
+		//	pBunny->setMeshOrientationEulerAngles(0.0f, 0.0f, 0.0f, true);
+
+		//	glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
+
+		//	DrawObject(pBunny, matModel, program);
+
+		//	pBunny->position = oldPos;
+		//	pBunny->nonUniformScale = oldScale;
+		//	pBunny->setQOrientation(oldOrientation);
+
+		//	glUniform1f(bAddReflect_UniLoc, (float)GL_FALSE);
+		//	glUniform1f(bAddRefract_UniLoc, (float)GL_FALSE);
+		//}
+
+
+
+
+
+		// High res timer (likely in ms or ns)
+		currentTime = glfwGetTime();		
+		deltaTime = currentTime - lastTime; 
+
+
+
+		double MAX_DELTA_TIME = 0.1;	// 100 ms
+		if (deltaTime > MAX_DELTA_TIME)
+		{
+			deltaTime = MAX_DELTA_TIME;
+		}
+
+
+		for ( unsigned int objIndex = 0; 
+			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 
+			  objIndex++ )
+		{	
+			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
+			
+			pCurrentMesh->Update( deltaTime );
+
+		}//for ( unsigned int objIndex = 0; 
+
+		sceneCommandGroup.Update(deltaTime);
+
+
+		// Call the debug renderer call
+//#ifdef _DEBUG
+		::g_pDebugRendererACTUAL->RenderDebugObjects( matView, matProjection, deltaTime );
+//#endif 
+
+
+
+
+
+
 
 
 

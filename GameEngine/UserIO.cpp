@@ -395,7 +395,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 				vec_pObjectsToDraw.at(index)->vecTextures.at(1).strength += 0.002f;
 				vec_pObjectsToDraw.at(index)->vecTextures.at(0).strength -= 0.002f;
 			}
-			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has onle one texture" << std::endl; }
+			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has only one texture" << std::endl; }
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN))
 		{
@@ -404,7 +404,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 				vec_pObjectsToDraw.at(index)->vecTextures.at(1).strength -= 0.002f;
 				vec_pObjectsToDraw.at(index)->vecTextures.at(0).strength += 0.002f;
 			}
-			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has onle one texture" << std::endl; }
+			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has only one texture" << std::endl; }
 		}
 
 		
