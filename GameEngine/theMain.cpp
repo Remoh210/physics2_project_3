@@ -23,6 +23,7 @@
 #include "cShaderManager.h"
 #include "cMeshObject.h"
 #include "cVAOMeshManager.h"
+#include <algorithm>
 
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
@@ -53,6 +54,9 @@ const unsigned int SCR_HEIGHT = 800;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
+bool distToCam(cMeshObject* leftObj, cMeshObject* rightObj) {
+	return glm::distance(leftObj->position, camera.Position) > glm::distance(rightObj->position, camera.Position); // here go your sort conditions
+}
 
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -423,6 +427,14 @@ int main(void)
 
 		pSkyBox->bIsVisible = false;
 		glUniform1f(useSkyBoxTexture_UniLoc, (float)GL_FALSE);
+
+;
+
+
+
+		std::sort(vec_pObjectsToDraw.begin(), vec_pObjectsToDraw.end(), distToCam);
+
+
 
 
 		// Draw all the objects in the "scene"
@@ -923,3 +935,7 @@ void LoadTerrainAABB(void)
 
 	return;
 }
+
+
+
+
