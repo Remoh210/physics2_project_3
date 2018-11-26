@@ -14,7 +14,7 @@ const float LIMIT_POS_X =  100.0f;			// Lowest the objects can go
 const float LIMIT_NEG_X = -100.0f;			// Lowest the objects can go
 const float LIMIT_POS_Z =  100.0f;			// Lowest the objects can go
 const float LIMIT_NEG_Z = -100.0f;			// Lowest the objects can go
-
+Point ClosestPtPointTriangle(Point p, Point a, Point b, Point c);
 
 
 
@@ -169,6 +169,36 @@ void DoPhysicsUpdate( double fDeltaTime,
 		}//if ( pCurMesh
 	}//for ( std::vector< cMeshObject*
 
+	if (vec_cur_AABB_tris.size() > 0) 
+	{
+		// Test for collisions
+		for (std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
+			itObjectA != vec_pObjectsToDraw.end(); itObjectA++)
+		{
+			cMeshObject* pCurObj = *itObjectA;
+
+			if (pCurObj->bIsUpdatedByPhysics) {
+				for (std::vector<cAABB::sAABB_Triangle>::iterator itTri = vec_cur_AABB_tris.begin(); itTri != vec_cur_AABB_tris.end(); itTri++)
+				{
+					cAABB::sAABB_Triangle CurTri = *itTri;
+					glm::vec3 closestPointToTri = ClosestPtPointTriangle(pCurObj->position,
+						CurTri.verts[0], CurTri.verts[1], CurTri.verts[2]);
+
+					// is this point LESS THAN the radius of the sphere? 
+					if (glm::distance(closestPointToTri, pCurObj->position) < 1.0f)
+					{
+						pCurObj->bIsUpdatedByPhysics = false;
+						std::cout << " collision " << std::endl;
+					}
+
+				}
+			}
+			
+
+		}
+	}
+
+
 
 	// Test for collisions
 	for ( std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
@@ -223,6 +253,9 @@ void DoPhysicsUpdate( double fDeltaTime,
 	
 	return;
 }
+
+
+//Triangles from AABB Hierarchy and Player collishion check
 
 
 Point ClosestPtPointTriangle(Point p, Point a, Point b, Point c)

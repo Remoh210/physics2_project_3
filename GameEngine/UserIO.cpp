@@ -239,7 +239,7 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	// Yup, they are all UP
 	cMeshObject* player = findObjectByFriendlyName("Ufo2UVb");
 
-	player->bIsUpdatedByPhysics = true;
+	//player->bIsUpdatedByPhysics = true;
 	if (glfwGetKey(window, GLFW_KEY_UP)) { 
 		
 		player->accel += camera.Front * 1.01f;

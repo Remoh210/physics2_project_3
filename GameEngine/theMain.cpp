@@ -27,13 +27,13 @@
 
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
-#include "cAABB.h"
+
 
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cCommandGroup sceneCommandGroup;
 int cou;
-
+std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
 void UpdateWindowTitle(void);
 double currentTime = 0;
 double deltaTime = 0;
@@ -221,7 +221,7 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
+	CreateModels("Models2.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
@@ -414,7 +414,19 @@ int main(void)
 			cMeshObject* pter = findObjectByFriendlyName("terrain");
 			// Highlight the AABB that the rabbit is in (Or the CENTRE of the rabbit, anyway)
 
-			float sideLength = 20.0f;
+			float sideLength = 50.0f;
+			cMeshObject* pCubeForBallsToBounceIn = new cMeshObject();
+
+			pCubeForBallsToBounceIn->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
+			pCubeForBallsToBounceIn->bDontLight = true;
+			pCubeForBallsToBounceIn->position = pTheBunny->position;
+			pCubeForBallsToBounceIn->friendlyName = "CubeBallsBounceIn";
+			pCubeForBallsToBounceIn->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
+			pCubeForBallsToBounceIn->setUniformScale(sideLength / 2);
+			pCubeForBallsToBounceIn->bIsWireFrame = true;
+			glm::mat4 iden = glm::mat4(1.0f);
+			DrawObject(pCubeForBallsToBounceIn, iden, program);
+
 			unsigned long long ID_of_AABB_We_are_in = cAABB::generateID(pTheBunny->position, sideLength);
 
 			// Is there a box here? 
@@ -426,9 +438,10 @@ int main(void)
 			{
 				// Yes, then get the triangles and do narrow phase collision
 
-				std::cout << "ID = " << ID_of_AABB_We_are_in
-					<< " with " << itAABB_Bunny->second->vecTriangles.size() << " triangles" << std::endl;
+			//	std::cout << "ID = " << ID_of_AABB_We_are_in
+				//	<< " with " << itAABB_Bunny->second->vecTriangles.size() << " triangles" << std::endl;
 
+				vec_cur_AABB_tris = itAABB_Bunny->second->vecTriangles;
 				// *******************************************************************
 				// Here you can pass this vector of triangles into your narrow phase (aka project #1)
 				// and do whatever collision response you want
@@ -436,6 +449,9 @@ int main(void)
 			}
 			else
 			{
+				if (vec_cur_AABB_tris.size() > 0) {
+					vec_cur_AABB_tris.clear();
+				}
 				//	std::cout << "ID = " << ID_of_AABB_We_are_in << " NOT PRESENT near bunny" << std::endl;
 			}
 
@@ -838,7 +854,7 @@ void LoadTerrainAABB(void)
 
 
 	// How big is our AABBs? Side length?
-	float sideLength = 100.0f;		// Play with this lenght
+	float sideLength = 50.0f;		// Play with this lenght
 									// Smaller --> more AABBs, fewer triangles per AABB
 									// Larger --> More triangles per AABB	
 
