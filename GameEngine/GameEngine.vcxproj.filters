@@ -144,6 +144,9 @@
     <ClCompile Include="cWait.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerCollision.cpp">
+      <Filter>Phsyics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">

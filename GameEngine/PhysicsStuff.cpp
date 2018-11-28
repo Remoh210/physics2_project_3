@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "sModelDrawInfo.h"
+//#include "PlayerCollision.cpp"
 
 typedef glm::vec3 Point;
 typedef glm::vec3 Vector;
@@ -39,12 +40,13 @@ bool AreSpheresPenetrating( cMeshObject* pA, cMeshObject* pB );
 
 bool TestForCollision( cMeshObject* pA, cMeshObject* pB );
 
-
+void PlayerColTest(double deltaTime, GLuint shaderProgramID);
 // Called every frame
 void DoPhysicsUpdate( double fDeltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw )
 {
 	float deltaTime = static_cast<float>(fDeltaTime);
+	//PlayerColTest(fDeltaTime, program);
 
 	// Make sure it's not tooooooo big
 	const float LARGEST_DELTATIME = 0.10f;			// 10 ms = 10 Hz
@@ -187,7 +189,7 @@ void DoPhysicsUpdate( double fDeltaTime,
 					// is this point LESS THAN the radius of the sphere? 
 					if (glm::distance(closestPointToTri, pCurObj->position) < 1.0f)
 					{
-						pCurObj->bIsUpdatedByPhysics = false;
+						pCurObj->velocity = glm::vec3(0.0f);
 						std::cout << " collision " << std::endl;
 					}
 
@@ -198,7 +200,7 @@ void DoPhysicsUpdate( double fDeltaTime,
 		}
 	}
 
-
+	PlayerColTest(fDeltaTime, program);
 
 	// Test for collisions
 	for ( std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();

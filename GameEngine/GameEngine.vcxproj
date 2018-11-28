@@ -179,6 +179,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="PhysicsStuff.cpp" />
+    <ClCompile Include="PlayerCollision.cpp" />
     <ClCompile Include="PlyFileLoader.cpp" />
     <ClCompile Include="sModelDrawInfo.cpp" />
     <ClCompile Include="sNVPair.cpp" />

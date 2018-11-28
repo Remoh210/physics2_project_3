@@ -28,7 +28,7 @@
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
 
-
+GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cCommandGroup sceneCommandGroup;
@@ -176,7 +176,7 @@ int main(void)
 
 
 
-	GLuint program = pTheShaderManager->getIDFromFriendlyName("BasicUberShader");
+	program = pTheShaderManager->getIDFromFriendlyName("BasicUberShader");
 
 
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
@@ -387,9 +387,10 @@ int main(void)
 			                                ratio,		// Aspect ratio
 			                                0.1f,			// Near clipping plane
 			                                15000.0f );	// Far clipping plane
-
-		//matView = glm::lookAt(g_CameraEye, g_CameraEye + cameraFront, cameraUp);
-		matView = camera.GetViewMatrix();
+				//return glm::lookAt(Position, Position + Front, Up);
+		glm::vec3 migpos = findObjectByFriendlyName("mig")->position;
+		matView = glm::lookAt(camera.Position, migpos, camera.WorldUp);
+		//matView = camera.GetViewMatrix();
 
 		glUniform3f(eyeLocation_location, camera.Position.x, camera.Position.y, camera.Position.z);
 

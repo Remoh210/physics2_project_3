@@ -38,13 +38,17 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	//pTheVAOMeshManager->LoadModelIntoVAO(terrainInfo, shaderProgramID);
 	//
 	sModelDrawInfo sphereInfo;
-	sphereInfo.meshFileName = "Sphere_320_faces_xyz_n.ply";			// "Sphere_320_faces_xyz.ply";
+	sphereInfo.meshFileName = "Sphere_320.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInfo, shaderProgramID);
 
 	sModelDrawInfo sphereInvertedNormalsInfo;
 	sphereInvertedNormalsInfo.meshFileName = "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInvertedNormalsInfo, shaderProgramID);
 
+
+	sModelDrawInfo mig;
+	mig.meshFileName = "mig.ply";			// "Sphere_320_faces_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(mig, shaderProgramID);
 	//sModelDrawInfo roomInfo;
 	//roomInfo.meshFileName = "roomUV.ply";			// "Sphere_320_faces_xyz.ply";
 	//pTheVAOMeshManager->LoadModelIntoVAO(roomInfo, shaderProgramID);
@@ -349,21 +353,26 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 //
 //
 //
-	{	// this sphere is the tiny little debug sphere
-		cMeshObject* pDebugSphere = new cMeshObject();
-		pDebugSphere->position = glm::vec3(0.0f, 0.0f, 0.0f);
-	//	pdebugsphere->objcolour = glm::vec3(0.0f, 1.0f, 0.0f);
-		float scale = 30.0f;
-		pDebugSphere->bDontLight = true;
-		pDebugSphere->friendlyName = "debugSphere";
-		pDebugSphere->nonUniformScale = glm::vec3(scale, scale, scale);
-		pDebugSphere->meshName = "Sphere_320_faces_xyz_n.ply";		
-		pDebugSphere->bIsWireFrame = true;
-		pDebugSphere->bIsDebug = true;
-		pDebugSphere->bIsVisible = false;
+	{	// This sphere is the tiny little debug sphere
+	cMeshObject* pPlayerSphere = new cMeshObject();
+	//		pPlayerSphere->objColour = glm::vec3( 1.0f, 105.0f/255.0f, 180.0f/255.0f );
+	pPlayerSphere->setDiffuseColour(glm::vec3(1.0f, 105.0f / 255.0f, 180.0f / 255.0f));
+	pPlayerSphere->friendlyName = "DebugSphere";
+	float scale = 1.0f;
+	pPlayerSphere->nonUniformScale = glm::vec3(scale, scale, scale);
+	pPlayerSphere->meshName = "Sphere_320.ply";
+	pPlayerSphere->bIsWireFrame = true;
 
+	pPlayerSphere->position = glm::vec3(-100.0f, 10.0f, 0.0f);
+	//pPlayerSphere->velocity = glm::vec3(5.0f, 10.0f, 0.0f);		// starts at "up" at 10 mps
+	//pPlayerSphere->accel = glm::vec3(0.0f, -5.0f, 0.0f);
+	pPlayerSphere->bIsUpdatedByPhysics = true;
+	pPlayerSphere->bIsDebug = true;
 
-		vec_pObjectsToDraw.push_back(pDebugSphere);
+	pPlayerSphere->pDebugRenderer = ::g_pDebugRenderer;
+
+	//pTerrain->nonUniformScale = glm::vec3(0.1f,0.1f,0.1f);
+	vec_pObjectsToDraw.push_back(pPlayerSphere);
 	}
 //
 //	{	// This sphere is the tiny little debug sphere
