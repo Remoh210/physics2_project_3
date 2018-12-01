@@ -222,7 +222,7 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	CreateModels("Models2.txt", ::g_pTheVAOMeshManager, program);
+	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
@@ -415,10 +415,12 @@ int main(void)
 			                                ratio,		// Aspect ratio
 			                                0.1f,			// Near clipping plane
 			                                15000.0f );	// Far clipping plane
-				//return glm::lookAt(Position, Position + Front, Up);
-		glm::vec3 migpos = findObjectByFriendlyName("mig")->position;
-		matView = glm::lookAt(camera.Position, migpos, camera.WorldUp);
-		//matView = camera.GetViewMatrix();
+
+
+		//glm::vec3 migpos = findObjectByFriendlyName("mig")->position;
+		//matView = glm::lookAt(camera.Position, migpos, camera.WorldUp);
+
+		matView = camera.GetViewMatrix();
 
 		glUniform3f(eyeLocation_location, camera.Position.x, camera.Position.y, camera.Position.z);
 

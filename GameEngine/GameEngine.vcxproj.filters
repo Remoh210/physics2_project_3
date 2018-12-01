@@ -49,7 +49,7 @@
     <Filter Include="Scripting">
       <UniqueIdentifier>{8a48b958-d6bf-4a39-b288-952b05d51481}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LUA">
+    <Filter Include="Scripting\LUA">
       <UniqueIdentifier>{fb1b0ff1-29f2-4e4b-82a9-42f9342e06a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -151,7 +151,7 @@
       <Filter>Phsyics</Filter>
     </ClCompile>
     <ClCompile Include="cLuaBrain.cpp">
-      <Filter>LUA</Filter>
+      <Filter>Scripting\LUA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,9 +171,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cVAOMeshManager.h">
-      <Filter>Mesh Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="sModelDrawInfo.h">
       <Filter>Mesh Manager</Filter>
     </ClInclude>
     <ClInclude Include="globalStuff.h">
@@ -237,7 +234,10 @@
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="cLuaBrain.h">
-      <Filter>LUA</Filter>
+      <Filter>Scripting\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="sModelDrawInfo.h">
+      <Filter>Mesh Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
