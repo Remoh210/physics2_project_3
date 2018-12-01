@@ -49,6 +49,9 @@
     <Filter Include="Scripting">
       <UniqueIdentifier>{8a48b958-d6bf-4a39-b288-952b05d51481}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LUA">
+      <UniqueIdentifier>{fb1b0ff1-29f2-4e4b-82a9-42f9342e06a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -147,6 +150,9 @@
     <ClCompile Include="PlayerCollision.cpp">
       <Filter>Phsyics</Filter>
     </ClCompile>
+    <ClCompile Include="cLuaBrain.cpp">
+      <Filter>LUA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -229,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="cWait.h">
       <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="cLuaBrain.h">
+      <Filter>LUA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,7 @@
 GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
+cLuaBrain* p_LuaScripts = NULL;
 cCommandGroup sceneCommandGroup;
 int cou;
 std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
@@ -331,10 +332,37 @@ int main(void)
 
 
 
+	::p_LuaScripts = new cLuaBrain();
+	// Point to all the game objects
+	// (We are passing a pointer to the vector of game object pointers... yeah)
+	::p_LuaScripts->SetObjectVector(&(::vec_pObjectsToDraw));
 
 
+	// A test script
+	std::stringstream ssMoveTo;
+	//	ssMoveTo << "x = 1\n";
+	//	ssMoveTo << "print(x)\n" << std::endl;
 
+	ssMoveTo << "r, x, y, z, vx, vy, vz = getObjectState(";
+	ssMoveTo << "\"Ufo2UVb\"";
+	ssMoveTo << ") \n";
+	// New function
+//	ssMoveTo << "JustinTrudeauIsOurPM(\"Justin\", 47, 3.14159) \n";
+	//
+//	ssMoveTo << "if ( r == true ) then \n";
+//	ssMoveTo << "    print( \"xyz=\", x, \",\", y, \", \", z )  \n";
+//	ssMoveTo << "end \n";
 
+	ssMoveTo << " x = x - 1.01  \n";
+	ssMoveTo << " y = y + 1.01  \n";
+	ssMoveTo << "setObjectState(";
+	ssMoveTo << "\"Ufo2UVb\"";
+	ssMoveTo << ", x, y, z, Vx, Vy, Vz ) \n";
+
+	std::cout << ssMoveTo.str() << std::endl;
+
+	::p_LuaScripts->LoadScript("MoveToOBJ17", ssMoveTo.str());
+	//::p_LuaScripts->LoadScript("MoveToOBJ18", ssMoveTo.str());
 
 
 
@@ -638,7 +666,8 @@ int main(void)
 		{
 			deltaTime = MAX_DELTA_TIME;
 		}
-
+		// update the "last time"
+		lastTime = currentTime;
 
 		for ( unsigned int objIndex = 0; 
 			  objIndex != (unsigned int)vec_pObjectsToDraw.size(); 
@@ -658,31 +687,14 @@ int main(void)
 		::g_pDebugRendererACTUAL->RenderDebugObjects( matView, matProjection, deltaTime );
 //#endif 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		// update the "last time"
-		lastTime = currentTime;
+		
 
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
 
 
-
+		::p_LuaScripts->Update(deltaTime);
 
 		for (std::vector<sLight*>::iterator it = LightManager->vecLights.begin(); it != LightManager->vecLights.end(); ++it)
 		{

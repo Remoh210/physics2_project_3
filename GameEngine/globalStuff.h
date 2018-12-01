@@ -15,7 +15,7 @@
 #include "cMeshObject.h"
 #include "sModelDrawInfo.h"
 #include "cVAOMeshManager.h"
-
+#include "cLuaBrain.h"
 #include "cLightManager.h"
 
 #include "Error/CErrorLog.h"
@@ -76,7 +76,7 @@ void saveCameraInfo(std::string filename);
 
 cMeshObject* findObjectByFriendlyName(std::string theNameToFind);
 cMeshObject* findObjectByUniqueID( unsigned int IDToFind );
-
+extern cLuaBrain* p_LuaScripts;
 
 void saveLightInfo(std::string filename, std::vector<sLight*> lights);
 

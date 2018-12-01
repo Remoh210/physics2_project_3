@@ -225,53 +225,53 @@ void CErrorLog::m_PrintEndlineCharacter(void)
 
 #ifdef WIN32
 #include <Windows.h>
-#include "../Utilities/CStringHelper.h"
+//#include "../Utilities/CStringHelper.h"
 #endif
 
-void CErrorLog::GetListOfExistingLogs( std::vector< CSensibleLogFileData > &vecLogFileNames )
-{
-#ifdef WIN32
-	std::wstring dir = L"*.log";
-	WIN32_FIND_DATA ffd;
-	HANDLE h = FindFirstFile( dir.c_str(), &ffd);
-	while(FindNextFile(h, &ffd))
-	{
-		CSensibleLogFileData logFile;
-		logFile.logFileNameRaw = CStringHelper::UnicodeToASCII_QnD( ffd.cFileName );
-		logFile.parseLogFileNameAndUpdate();
-		vecLogFileNames.push_back( logFile );
-	}
-	//DWORD dw = GetLastError();// returns ERROR_NO_MORE_FILES
-#endif 
-	return;
-}
+//void CErrorLog::GetListOfExistingLogs( std::vector< CSensibleLogFileData > &vecLogFileNames )
+//{
+//#ifdef WIN32
+//	std::wstring dir = L"*.log";
+//	WIN32_FIND_DATA ffd;
+//	HANDLE h = FindFirstFile( dir.c_str(), &ffd);
+//	while(FindNextFile(h, &ffd))
+//	{
+//		CSensibleLogFileData logFile;
+//		logFile.logFileNameRaw = CStringHelper::UnicodeToASCII_QnD( ffd.cFileName );
+//		logFile.parseLogFileNameAndUpdate();
+//		vecLogFileNames.push_back( logFile );
+//	}
+//	//DWORD dw = GetLastError();// returns ERROR_NO_MORE_FILES
+//#endif 
+//	return;
+//}
 
 ////#include <iostream>
-bool CErrorLog::DeleteOldLogFiles( int numberOfLogsToKeep /*=3*/ )
-{
-	std::vector< CSensibleLogFileData > vecOldLogs;
-	this->GetListOfExistingLogs( vecOldLogs );
-
-	// Newest log files are at the start of the vector (oldest at end)
-	std::sort( vecOldLogs.rbegin(), vecOldLogs.rend() );
-
-	int fileToKeepCount = numberOfLogsToKeep;
-	bool bAllGood = true;
-	for ( std::vector< CSensibleLogFileData >::iterator itLF = vecOldLogs.begin(); itLF != vecOldLogs.end(); itLF++, fileToKeepCount-- )
-	{	// Saved the right number of files?
-		if ( fileToKeepCount <= 0 )
-		{	// Yup, so delete this one
-#ifdef WIN32
-			if ( ! DeleteFile( CStringHelper::ASCIIToUnicodeQnD( itLF->logFileNameRaw ).c_str() ) )
-			{
-				bAllGood = false;
-			}
-#endif
-		}//if ( fileToKeepCount < 0 )
-	}//for ( std::vector< CSensibleLogFileData >::iterator itLF
-
-	return bAllGood;
-}
+//bool CErrorLog::DeleteOldLogFiles( int numberOfLogsToKeep /*=3*/ )
+//{
+//	std::vector< CSensibleLogFileData > vecOldLogs;
+//	this->GetListOfExistingLogs( vecOldLogs );
+//
+//	// Newest log files are at the start of the vector (oldest at end)
+//	std::sort( vecOldLogs.rbegin(), vecOldLogs.rend() );
+//
+//	int fileToKeepCount = numberOfLogsToKeep;
+//	bool bAllGood = true;
+//	for ( std::vector< CSensibleLogFileData >::iterator itLF = vecOldLogs.begin(); itLF != vecOldLogs.end(); itLF++, fileToKeepCount-- )
+//	{	// Saved the right number of files?
+//		if ( fileToKeepCount <= 0 )
+//		{	// Yup, so delete this one
+//#ifdef WIN32
+//			if ( ! DeleteFile( CStringHelper::ASCIIToUnicodeQnD( itLF->logFileNameRaw ).c_str() ) )
+//			{
+//				bAllGood = false;
+//			}
+//#endif
+//		}//if ( fileToKeepCount < 0 )
+//	}//for ( std::vector< CSensibleLogFileData >::iterator itLF
+//
+//	return bAllGood;
+//}
 
 // "RunLog (Sat Feb 13 13-45-57 2016).log"
 // "RunLog (Tue Nov 24 13-13-07 2015).log"
