@@ -2,6 +2,7 @@
 #include "cFollowObjectCommand.h"
 #include "cMoveToCommand.h"
 #include <iostream>
+#include <fstream>
 
 
 
@@ -348,6 +349,30 @@ int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
 	lua_pushboolean(L, true);	// index is OK
 
 	return 1;		// I'm returning ONE thing
+
+}
+
+//Load Script File (from assets/script)
+void cLuaBrain::LoadScriptFile(std::string scriptName) 
+{ 
+	std::string scriptNameWithPath;
+	scriptNameWithPath = "assets/scripts/" + scriptName;
+	
+	std::ifstream f(scriptNameWithPath);
+	std::string strScript;
+	if (f) 
+	{
+		std::getline(f, strScript, '\0');
+		std::cout << "Script " << scriptNameWithPath << " is loaded" << std::endl;
+		std::cout << strScript << std::endl;
+		LoadScript(scriptName, strScript);
+	}
+	else 
+	{ 
+		std::cout << "Script " << scriptNameWithPath << " not found" << std::endl;
+	}
+	
+
 
 }
 

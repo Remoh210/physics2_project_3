@@ -52,6 +52,15 @@
     <Filter Include="Scripting\LUA">
       <UniqueIdentifier>{fb1b0ff1-29f2-4e4b-82a9-42f9342e06a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting\LuaScripts">
+      <UniqueIdentifier>{bd80e832-a6be-469e-9fdb-fe6cf981b1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Commands">
+      <UniqueIdentifier>{39034b5f-39ad-4db1-a05f-dad915192edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Commands\cCommands">
+      <UniqueIdentifier>{0272b0c5-6159-4322-9ddc-eda191719a0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -129,29 +138,29 @@
     <ClCompile Include="cAABB.cpp">
       <Filter>Phsyics</Filter>
     </ClCompile>
-    <ClCompile Include="cCommandGroup.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="cFollowObjectCommand.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="cMoveToCommand.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="sNVPair.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="cAnimationCurveCommand.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="cWait.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerCollision.cpp">
       <Filter>Phsyics</Filter>
     </ClCompile>
     <ClCompile Include="cLuaBrain.cpp">
       <Filter>Scripting\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="cCommandGroup.cpp">
+      <Filter>Scripting\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sNVPair.cpp">
+      <Filter>Scripting\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="cFollowObjectCommand.cpp">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="cMoveToCommand.cpp">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="cWait.cpp">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimationCurveCommand.cpp">
+      <Filter>Scripting\Commands\cCommands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,32 +221,32 @@
     <ClInclude Include="cAABB.h">
       <Filter>Phsyics</Filter>
     </ClInclude>
-    <ClInclude Include="cCommandGroup.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="iCommand.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="cFollowObjectCommand.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="cMoveToCommand.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="sNVPair.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="cAnimationCurveCommand.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="cWait.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="cLuaBrain.h">
       <Filter>Scripting\LUA</Filter>
     </ClInclude>
     <ClInclude Include="sModelDrawInfo.h">
       <Filter>Mesh Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sNVPair.h">
+      <Filter>Scripting\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="cCommandGroup.h">
+      <Filter>Scripting\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="iCommand.h">
+      <Filter>Scripting\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="cFollowObjectCommand.h">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="cMoveToCommand.h">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="cWait.h">
+      <Filter>Scripting\Commands\cCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="cAnimationCurveCommand.h">
+      <Filter>Scripting\Commands\cCommands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

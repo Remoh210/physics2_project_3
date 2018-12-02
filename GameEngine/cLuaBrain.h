@@ -26,6 +26,7 @@ public:
 	void LoadScript( std::string scriptName, 
 					 std::string scriptSource );
 	void DeleteScript( std::string scriptName );
+	void LoadScriptFile(std::string scriptName);
 	// Passes a pointer to the game object vector
 	void SetObjectVector( std::vector< cMeshObject* >* p_vecGOs );
 	// Call all the active scripts that are loaded
