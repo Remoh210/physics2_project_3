@@ -362,6 +362,7 @@ int main(void)
 	std::cout << ssMoveTo.str() << std::endl;
 
 	::p_LuaScripts->LoadScript("MoveToOBJ17", ssMoveTo.str());
+
 	//::p_LuaScripts->LoadScript("MoveToOBJ18", ssMoveTo.str());
 
 

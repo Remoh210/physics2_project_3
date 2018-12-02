@@ -138,8 +138,11 @@ void key_callback( GLFWwindow* window,
 		std::cout << "Light " << LightManager->vecLights.at(lightIndex)->lightName << " is Chosen" << std::endl;
 	}
 
+	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
+	{
 
-
+	}
+	
 	//TURN ON The Light
 
 	if (key == GLFW_KEY_9 && action == GLFW_PRESS)

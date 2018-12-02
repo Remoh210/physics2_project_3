@@ -1,6 +1,6 @@
 #include "cLuaBrain.h"
-
 #include <iostream>
+
 
 int KillAllHumans(lua_State *L)
 {
@@ -18,6 +18,7 @@ cLuaBrain::cLuaBrain()
 {
 	this->m_p_vecGOs = nullptr;
 
+	this->luaCommandGroup = new cCommandGroup();
 	// Create new Lua state.
 	// NOTE: this is common to ALL script in this case
 	this->m_pLuaState = luaL_newstate();
@@ -36,6 +37,9 @@ cLuaBrain::cLuaBrain()
 
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_GetObjectState);
 	lua_setglobal(this->m_pLuaState, "getObjectState");
+
+	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_MoveObjEaseInOut);
+	lua_setglobal(this->m_pLuaState, "moveTo");
 
 	return;
 }
@@ -285,4 +289,36 @@ std::string cLuaBrain::m_decodeLuaErrorToString(int error)
 
 	// Who knows what this error is?
 	return "Lua: UNKNOWN error";
+}
+
+
+
+
+int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
+{
+	std::string objectFriendlyName = lua_tostring(L, 1);	/* get argument */
+
+	// Exist? 
+	cMeshObject* pGO = cLuaBrain::m_findObjectByFriendlyName(objectFriendlyName);
+
+	if (pGO == nullptr)
+	{	// No, it's invalid
+		lua_pushboolean(L, false);
+		// I pushed 1 thing on stack, so return 1;
+		return 1;
+	}
+
+	// Object ID is valid
+	// Get the values that lua pushed and update object
+	pGO->position.x = lua_tonumber(L, 2);	/* get argument */
+	pGO->position.y = lua_tonumber(L, 3);	/* get argument */
+	pGO->position.z = lua_tonumber(L, 4);	/* get argument */
+	pGO->velocity.x = lua_tonumber(L, 5);	/* get argument */
+	pGO->velocity.y = lua_tonumber(L, 6);	/* get argument */
+	pGO->velocity.z = lua_tonumber(L, 7);	/* get argument */
+
+	lua_pushboolean(L, true);	// index is OK
+
+	return 1;		// I'm returning ONE thing
+
 }
