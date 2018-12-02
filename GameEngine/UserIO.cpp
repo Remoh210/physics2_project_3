@@ -140,7 +140,26 @@ void key_callback( GLFWwindow* window,
 
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
 	{
+		// A test script
+		std::stringstream ssMoveTo;
+		//	ssMoveTo << "x = 1\n";
+		//	ssMoveTo << "print(x)\n" << std::endl;
 
+
+		// New function
+	//	ssMoveTo << "JustinTrudeauIsOurPM(\"Justin\", 47, 3.14159) \n";
+		//
+	//	ssMoveTo << "if ( r == true ) then \n";
+	//	ssMoveTo << "    print( \"xyz=\", x, \",\", y, \", \", z )  \n";
+	//	ssMoveTo << "end \n";
+
+		ssMoveTo << "moveTo(";
+		ssMoveTo << "\"Ufo2UVb\"";
+		ssMoveTo << ", 0, 0, 0, 10) \n";
+
+		std::cout << ssMoveTo.str() << std::endl;
+
+		::p_LuaScripts->RunThis(ssMoveTo.str());
 	}
 	
 	//TURN ON The Light

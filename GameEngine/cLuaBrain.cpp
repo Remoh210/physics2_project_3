@@ -1,6 +1,11 @@
 #include "cLuaBrain.h"
+#include "cFollowObjectCommand.h"
+#include "cMoveToCommand.h"
 #include <iostream>
 
+
+
+cCommandGroup luaCommandGroup;
 
 int KillAllHumans(lua_State *L)
 {
@@ -18,7 +23,7 @@ cLuaBrain::cLuaBrain()
 {
 	this->m_p_vecGOs = nullptr;
 
-	this->luaCommandGroup = new cCommandGroup();
+	//this->luaCommandGroup = new cCommandGroup();
 	// Create new Lua state.
 	// NOTE: this is common to ALL script in this case
 	this->m_pLuaState = luaL_newstate();
@@ -301,6 +306,7 @@ int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
 	// Exist? 
 	cMeshObject* pGO = cLuaBrain::m_findObjectByFriendlyName(objectFriendlyName);
 
+
 	if (pGO == nullptr)
 	{	// No, it's invalid
 		lua_pushboolean(L, false);
@@ -308,17 +314,41 @@ int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
 		return 1;
 	}
 
+	cMoveToCommand*  pMoveTo = new cMoveToCommand();
+
+	cCommandGroup* pMoveToCG = new cCommandGroup();
+
+	std::vector<sNVPair> vecInitValues;
+
+	sNVPair ObjectToMove;	ObjectToMove.pMeshObj = pGO;
+
 	// Object ID is valid
 	// Get the values that lua pushed and update object
-	pGO->position.x = lua_tonumber(L, 2);	/* get argument */
-	pGO->position.y = lua_tonumber(L, 3);	/* get argument */
-	pGO->position.z = lua_tonumber(L, 4);	/* get argument */
-	pGO->velocity.x = lua_tonumber(L, 5);	/* get argument */
-	pGO->velocity.y = lua_tonumber(L, 6);	/* get argument */
-	pGO->velocity.z = lua_tonumber(L, 7);	/* get argument */
+	float x = lua_tonumber(L, 2);	/* get argument */
+	float y = lua_tonumber(L, 3);	/* get argument */
+	float z = lua_tonumber(L, 4);	/* get argument */
+
+	sNVPair Destination;	Destination.v3Value = glm::vec3(x, y, z);
+
+
+	float Time = lua_tonumber(L, 5);	/* get argument */
+	//pGO->velocity.y = lua_tonumber(L, 6);	/* get argument */
+	//pGO->velocity.z = lua_tonumber(L, 7);	/* get argument */
+
+	vecInitValues.push_back(ObjectToMove);
+	vecInitValues.push_back(Destination);
+	vecInitValues.push_back(Time);
+
+	pMoveTo->Initialize(vecInitValues);
+
+	pMoveToCG->vecCommands.push_back(pMoveTo);
+
+	luaCommandGroup.vecCommandGroups.push_back(pMoveToCG);
 
 	lua_pushboolean(L, true);	// index is OK
 
 	return 1;		// I'm returning ONE thing
 
 }
+
+void cLuaBrain::UpdateCG(float deltaTime) { luaCommandGroup.Update(deltaTime); }

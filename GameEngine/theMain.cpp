@@ -361,7 +361,7 @@ int main(void)
 
 	std::cout << ssMoveTo.str() << std::endl;
 
-	::p_LuaScripts->LoadScript("MoveToOBJ17", ssMoveTo.str());
+//	::p_LuaScripts->LoadScript("MoveToOBJ17", ssMoveTo.str());
 
 	//::p_LuaScripts->LoadScript("MoveToOBJ18", ssMoveTo.str());
 
@@ -683,6 +683,7 @@ int main(void)
 		}//for ( unsigned int objIndex = 0; 
 
 		sceneCommandGroup.Update(deltaTime);
+		
 
 
 		// Call the debug renderer call
@@ -696,7 +697,7 @@ int main(void)
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
 
-
+		::p_LuaScripts->UpdateCG(deltaTime);
 		::p_LuaScripts->Update(deltaTime);
 
 		for (std::vector<sLight*>::iterator it = LightManager->vecLights.begin(); it != LightManager->vecLights.end(); ++it)

@@ -14,6 +14,8 @@ extern "C" {
 #include <map>
 #include "cCommandGroup.h"
 
+
+
 class cLuaBrain
 {
 public:
@@ -28,9 +30,10 @@ public:
 	void SetObjectVector( std::vector< cMeshObject* >* p_vecGOs );
 	// Call all the active scripts that are loaded
 	void Update(float deltaTime);
+	void UpdateCG(float deltaTime);
 
 
-	static int l_MoveObjEaseInOut(lua_State *L);
+    static int l_MoveObjEaseInOut(lua_State *L);
 
 	static int l_KillAllHumans( lua_State *L );	
 	// Called by Lua
@@ -57,7 +60,7 @@ private:
 	static std::vector< cMeshObject* >* m_p_vecGOs;
 	// returns nullptr if not found
 	static cMeshObject* m_findObjectByFriendlyName(std::string friendlyname);
-	cCommandGroup* luaCommandGroup;
+	
 
 	lua_State* m_pLuaState;
 

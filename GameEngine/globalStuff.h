@@ -37,6 +37,7 @@ extern Camera camera;
 extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
 
+//extern cCommandGroup* luaCommandGroup;
 extern cCommandGroup sceneCommandGroup;
 extern std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
 //extern std::vector<cMeshObject*> vec_pObjectsToDraw;
