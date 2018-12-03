@@ -164,6 +164,8 @@
     <ClCompile Include="cMeshObject.cpp" />
     <ClCompile Include="cMeshObject_Quaternion.cpp" />
     <ClCompile Include="cMoveToCommand.cpp" />
+    <ClCompile Include="cMoveToEase.cpp" />
+    <ClCompile Include="cMoveToEaseIO.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
@@ -183,6 +185,7 @@
     <ClCompile Include="PlayerCollision.cpp" />
     <ClCompile Include="PlyFileLoader.cpp" />
     <ClCompile Include="sModelDrawInfo.cpp" />
+    <ClCompile Include="SmoothStep.cpp" />
     <ClCompile Include="sNVPair.cpp" />
     <ClCompile Include="TextureManager\C24BitBMPpixel.cpp" />
     <ClCompile Include="TextureManager\cBasicTextureManager.cpp" />
@@ -200,6 +203,8 @@
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cLuaBrain.h" />
     <ClInclude Include="cMoveToCommand.h" />
+    <ClInclude Include="cMoveToEase.h" />
+    <ClInclude Include="cMoveToEaseIO.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
     <ClInclude Include="cShaderManager.h" />
@@ -213,6 +218,7 @@
     <ClInclude Include="iCommand.h" />
     <ClInclude Include="linmath.h" />
     <ClInclude Include="sModelDrawInfo.h" />
+    <ClInclude Include="SmoothStep.h" />
     <ClInclude Include="sNVPair.h" />
     <ClInclude Include="sPlyTriangle.h" />
     <ClInclude Include="sPlyVertex.h" />

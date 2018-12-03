@@ -26,6 +26,8 @@
 // And the commands
 #include "cFollowObjectCommand.h"
 #include "cMoveToCommand.h"
+#include "cMoveToEase.h"
+#include "cMoveToEaseIO.h"
 // ... and more
 extern GLuint program;
 extern glm::vec3 cameraPos;

@@ -28,8 +28,11 @@ private:
 	// ... go at this maximum speed
 	float maxSpeed;
 
-
 	bool m_bIsDone;
+
+	glm::vec3 m_adjustVelocity(glm::vec3 vVel);
+	glm::vec3 m_adjustVelocity_2(glm::vec3 vVel);
+
 };
 
 #endif

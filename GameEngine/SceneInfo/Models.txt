@@ -6,7 +6,7 @@ SpecularRGB_Power 1 1 1 100
 QuatXYZW_rotation -0.707107 0 0 0.707107
 Scale  1.9 1.9 1.9
 IsVisible  1
-IsUpdByPhys  0
+IsUpdByPhys  1
 IsWireFrame  0
 Textures: 1
 Texture0_name metal.bmp

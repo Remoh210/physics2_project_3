@@ -7,6 +7,7 @@
 #include <glm/vec3.hpp>
 #include "cMeshObject.h"
 #include "sNVPair.h"
+#include "SmoothStep.h"
 
 //struct sNVPair
 //{
