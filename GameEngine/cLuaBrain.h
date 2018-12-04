@@ -27,30 +27,21 @@ public:
 					 std::string scriptSource );
 	void DeleteScript( std::string scriptName );
 	void LoadScriptFile(std::string scriptName);
-	// Passes a pointer to the game object vector
 	void SetObjectVector( std::vector< cMeshObject* >* p_vecGOs );
-	// Call all the active scripts that are loaded
 	void Update(float deltaTime);
 	void UpdateCG(float deltaTime);
 
+	//Command Groups
+	static int l_newCG(lua_State *L);
+	static int l_newCom(lua_State *L);
 
-    static int l_MoveObjEaseInOut(lua_State *L);
-
-	static int l_KillAllHumans( lua_State *L );	
-	// Called by Lua
-	// Passes object ID, new velocity, etc.
-	// Returns valid (true or false)
-	// Passes: 
-	// - position (xyz)
-	// - velocity (xyz)
-	// called "setObjectState" in lua
+	//Commands
+   // static int l_MoveObjEaseInOut(lua_State *L);
+	//static int l_KillAllHumans( lua_State *L );	
+	static int l_GetObjectState(lua_State *L);
 	static int l_UpdateObject( lua_State *L );		// c function
-	// Passes object ID
-	// Returns valid (true or false)
-	// - position (xyz)
-	// - velocity (xyz)
-	// called "getObjectState" in lua
-	static int l_GetObjectState( lua_State *L );
+
+	
 
 	cMeshObject* pMyGameObject;
 
@@ -61,6 +52,7 @@ private:
 	static std::vector< cMeshObject* >* m_p_vecGOs;
 	// returns nullptr if not found
 	static cMeshObject* m_findObjectByFriendlyName(std::string friendlyname);
+	static cCommandGroup* m_findCGbyName(std::string groupName, cCommandGroup lua_CG);
 	
 
 	lua_State* m_pLuaState;

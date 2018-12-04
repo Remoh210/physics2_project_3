@@ -55,20 +55,23 @@
     <Filter Include="Scripting\LuaScripts">
       <UniqueIdentifier>{bd80e832-a6be-469e-9fdb-fe6cf981b1c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Commands">
-      <UniqueIdentifier>{39034b5f-39ad-4db1-a05f-dad915192edf}</UniqueIdentifier>
+    <Filter Include="Scripting\CommandGroups">
+      <UniqueIdentifier>{c67fb977-3f40-4ae0-9665-03881747bf13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Commands\cCommands">
+    <Filter Include="Scripting\cCommands">
       <UniqueIdentifier>{0272b0c5-6159-4322-9ddc-eda191719a0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Commands\cCommands\MoveCommands">
+    <Filter Include="Scripting\cCommands\MoveCommands">
       <UniqueIdentifier>{bda1fdce-933f-4e11-a704-d2cb48939bd8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Commands\cCommands\Follow">
+    <Filter Include="Scripting\cCommands\Follow">
       <UniqueIdentifier>{cfbe6aa7-e93c-464d-b560-c05f2c00afe5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Commands\cCommands\Other">
+    <Filter Include="Scripting\cCommands\Other">
       <UniqueIdentifier>{4be88623-bd20-460e-aff4-7612a3f5cca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\cCommands\OrientCommands">
+      <UniqueIdentifier>{97ea618a-1849-44af-a601-92b6d8dfa498}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,32 +156,35 @@
     <ClCompile Include="cLuaBrain.cpp">
       <Filter>Scripting\LUA</Filter>
     </ClCompile>
-    <ClCompile Include="cCommandGroup.cpp">
-      <Filter>Scripting\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="sNVPair.cpp">
-      <Filter>Scripting\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="SmoothStep.cpp">
-      <Filter>Scripting\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="cMoveToEase.cpp">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClCompile>
     <ClCompile Include="cMoveToCommand.cpp">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClCompile>
     <ClCompile Include="cFollowObjectCommand.cpp">
-      <Filter>Scripting\Commands\cCommands\Follow</Filter>
+      <Filter>Scripting\cCommands\Follow</Filter>
     </ClCompile>
     <ClCompile Include="cAnimationCurveCommand.cpp">
-      <Filter>Scripting\Commands\cCommands\Other</Filter>
+      <Filter>Scripting\cCommands\Other</Filter>
     </ClCompile>
     <ClCompile Include="cWait.cpp">
-      <Filter>Scripting\Commands\cCommands\Other</Filter>
+      <Filter>Scripting\cCommands\Other</Filter>
     </ClCompile>
     <ClCompile Include="cMoveToEaseIO.cpp">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="cOrientTo.cpp">
+      <Filter>Scripting\cCommands\OrientCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="cCommandGroup.cpp">
+      <Filter>Scripting\CommandGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="SmoothStep.cpp">
+      <Filter>Scripting\CommandGroups</Filter>
+    </ClCompile>
+    <ClCompile Include="sNVPair.cpp">
+      <Filter>Scripting\CommandGroups</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,35 +251,38 @@
     <ClInclude Include="sModelDrawInfo.h">
       <Filter>Mesh Manager</Filter>
     </ClInclude>
-    <ClInclude Include="sNVPair.h">
-      <Filter>Scripting\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="cCommandGroup.h">
-      <Filter>Scripting\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="iCommand.h">
-      <Filter>Scripting\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="SmoothStep.h">
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="cMoveToEase.h">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClInclude>
     <ClInclude Include="cMoveToCommand.h">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClInclude>
     <ClInclude Include="cFollowObjectCommand.h">
-      <Filter>Scripting\Commands\cCommands\Follow</Filter>
+      <Filter>Scripting\cCommands\Follow</Filter>
     </ClInclude>
     <ClInclude Include="cWait.h">
-      <Filter>Scripting\Commands\cCommands\Other</Filter>
+      <Filter>Scripting\cCommands\Other</Filter>
     </ClInclude>
     <ClInclude Include="cAnimationCurveCommand.h">
-      <Filter>Scripting\Commands\cCommands\Other</Filter>
+      <Filter>Scripting\cCommands\Other</Filter>
     </ClInclude>
     <ClInclude Include="cMoveToEaseIO.h">
-      <Filter>Scripting\Commands\cCommands\MoveCommands</Filter>
+      <Filter>Scripting\cCommands\MoveCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="cOrientTo.h">
+      <Filter>Scripting\cCommands\OrientCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="sNVPair.h">
+      <Filter>Scripting\CommandGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="cCommandGroup.h">
+      <Filter>Scripting\CommandGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="iCommand.h">
+      <Filter>Scripting\CommandGroups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

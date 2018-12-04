@@ -1,12 +1,14 @@
 #include "cLuaBrain.h"
 #include "cFollowObjectCommand.h"
 #include "cMoveToCommand.h"
+#include "cMoveToEaseIO.h"
+#include "cOrientTo.h"
 #include <iostream>
 #include <fstream>
 
 
 
-cCommandGroup luaCommandGroup;
+cCommandGroup luaCommandGroup("LuaMainGroup");
 
 int KillAllHumans(lua_State *L)
 {
@@ -31,21 +33,29 @@ cLuaBrain::cLuaBrain()
 
 	luaL_openlibs(this->m_pLuaState);					/* Lua 5.3.3 */
 
-//	lua_pushcfunction( this->m_pLuaState, l_KillAllHumans );
-//	lua_setglobal( this->m_pLuaState, "WhatBenderTheRobotSays" );
+	//All in One command
+	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newCG);
+	lua_setglobal(this->m_pLuaState, "newCG");
 
-	lua_pushcfunction(this->m_pLuaState, KillAllHumans);
-	lua_setglobal(this->m_pLuaState, "JustinTrudeauIsOurPM");
 
-	// 	static int l_UpdateObject( lua_State *L );		// c function
+	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newCom);
+	lua_setglobal(this->m_pLuaState, "newCom");
+
+
+
+
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_UpdateObject);
 	lua_setglobal(this->m_pLuaState, "setObjectState");
+
+
+
+	//Old
 
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_GetObjectState);
 	lua_setglobal(this->m_pLuaState, "getObjectState");
 
-	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_MoveObjEaseInOut);
-	lua_setglobal(this->m_pLuaState, "moveTo");
+	//lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_MoveObjEaseInOut);
+	//lua_setglobal(this->m_pLuaState, "moveTo");
 
 	return;
 }
@@ -298,59 +308,71 @@ std::string cLuaBrain::m_decodeLuaErrorToString(int error)
 }
 
 
-
-
-int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
+int cLuaBrain::l_newCG(lua_State *L)
 {
-	std::string objectFriendlyName = lua_tostring(L, 1);	/* get argument */
+	std::string groupName = lua_tostring(L, 1);	// The name of the group
 
-	// Exist? 
-	cMeshObject* pGO = cLuaBrain::m_findObjectByFriendlyName(objectFriendlyName);
+	cCommandGroup* NewGroup = new cCommandGroup(groupName);
+	luaCommandGroup.vecCommandGroups.push_back(NewGroup);
 
-
-	if (pGO == nullptr)
-	{	// No, it's invalid
-		lua_pushboolean(L, false);
-		// I pushed 1 thing on stack, so return 1;
-		return 1;
-	}
-
-	cMoveToCommand*  pMoveTo = new cMoveToCommand();
-
-	cCommandGroup* pMoveToCG = new cCommandGroup();
-
-	std::vector<sNVPair> vecInitValues;
-
-	sNVPair ObjectToMove;	ObjectToMove.pMeshObj = pGO;
-
-	// Object ID is valid
-	// Get the values that lua pushed and update object
-	float x = lua_tonumber(L, 2);	/* get argument */
-	float y = lua_tonumber(L, 3);	/* get argument */
-	float z = lua_tonumber(L, 4);	/* get argument */
-
-	sNVPair Destination;	Destination.v3Value = glm::vec3(x, y, z);
-
-
-	float Time = lua_tonumber(L, 5);	/* get argument */
-	//pGO->velocity.y = lua_tonumber(L, 6);	/* get argument */
-	//pGO->velocity.z = lua_tonumber(L, 7);	/* get argument */
-
-	vecInitValues.push_back(ObjectToMove);
-	vecInitValues.push_back(Destination);
-	vecInitValues.push_back(Time);
-
-	pMoveTo->Initialize(vecInitValues);
-
-	pMoveToCG->vecCommands.push_back(pMoveTo);
-
-	luaCommandGroup.vecCommandGroups.push_back(pMoveToCG);
-
-	lua_pushboolean(L, true);	// index is OK
-
-	return 1;		// I'm returning ONE thing
-
+	lua_pushboolean(L, true);
+	return 1;
 }
+
+
+
+
+//int cLuaBrain::l_MoveObjEaseInOut(lua_State *L)
+//{
+//	std::string objectFriendlyName = lua_tostring(L, 1);	/* get argument */
+//
+//	// Exist? 
+//	cMeshObject* pGO = cLuaBrain::m_findObjectByFriendlyName(objectFriendlyName);
+//
+//
+//	if (pGO == nullptr)
+//	{	// No, it's invalid
+//		lua_pushboolean(L, false);
+//		// I pushed 1 thing on stack, so return 1;
+//		return 1;
+//	}
+//
+//	cMoveToCommand*  pMoveTo = new cMoveToCommand();
+//
+//	cCommandGroup* pMoveToCG = new cCommandGroup();
+//
+//	std::vector<sNVPair> vecInitValues;
+//
+//	sNVPair ObjectToMove;	ObjectToMove.pMeshObj = pGO;
+//
+//	// Object ID is valid
+//	// Get the values that lua pushed and update object
+//	float x = lua_tonumber(L, 2);	/* get argument */
+//	float y = lua_tonumber(L, 3);	/* get argument */
+//	float z = lua_tonumber(L, 4);	/* get argument */
+//
+//	sNVPair Destination;	Destination.v3Value = glm::vec3(x, y, z);
+//
+//
+//	float Time = lua_tonumber(L, 5);	/* get argument */
+//	//pGO->velocity.y = lua_tonumber(L, 6);	/* get argument */
+//	//pGO->velocity.z = lua_tonumber(L, 7);	/* get argument */
+//
+//	vecInitValues.push_back(ObjectToMove);
+//	vecInitValues.push_back(Destination);
+//	vecInitValues.push_back(Time);
+//
+//	pMoveTo->Initialize(vecInitValues);
+//
+//	pMoveToCG->vecCommands.push_back(pMoveTo);
+//
+//	luaCommandGroup.vecCommandGroups.push_back(pMoveToCG);
+//
+//	lua_pushboolean(L, true);	// index is OK
+//
+//	return 1;		// I'm returning ONE thing
+//
+//}
 
 //Load Script File (from assets/script)
 void cLuaBrain::LoadScriptFile(std::string scriptName) 
@@ -377,3 +399,166 @@ void cLuaBrain::LoadScriptFile(std::string scriptName)
 }
 
 void cLuaBrain::UpdateCG(float deltaTime) { luaCommandGroup.Update(deltaTime); }
+
+
+int cLuaBrain::l_newCom(lua_State *L)
+{
+	std::string groupName = lua_tostring(L, 1);	
+	std::string commandName = lua_tostring(L, 2); 
+	std::string ObjFriendlyName = lua_tostring(L, 3);
+	float x = lua_tonumber(L, 4);				
+	float y = lua_tonumber(L, 5);				
+	float z = lua_tonumber(L, 6);				
+	float time = lua_tonumber(L, 7);	
+	float x1 = lua_tonumber(L, 8);				
+	float y1 = lua_tonumber(L, 9);				
+	float z1 = lua_tonumber(L, 10);					
+	std::string targetFriendlyName = lua_tostring(L, 11);			
+	std::string script = lua_tostring(L, 12);
+
+
+	cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+
+	cMeshObject* theObject = cLuaBrain::m_findObjectByFriendlyName(ObjFriendlyName);
+
+	cMeshObject* targetObj;
+	if (targetFriendlyName != "")
+		targetObj = cLuaBrain::m_findObjectByFriendlyName(targetFriendlyName);
+	else
+		targetObj = nullptr;
+
+	//// Create the new command using the commandName
+	//if (commandName == "FollowCurve")
+	//{
+	//	cComFollowCurve* theCommand = new cComFollowCurve();
+
+	//	theCommand->setMyID(cCommandHandler::m_nextCommandID);
+	//	cCommandHandler::m_nextCommandID++;
+
+	//	theCommand->setMyGO(theObject);
+
+	//	glm::vec3 targetPosition = glm::vec3(x1, y1, z1);
+	//	glm::vec3 curvePosition = glm::vec3(x2, y2, z2);
+
+	//	theCommand->init(targetPosition, secondParameter, curvePosition);
+
+	//	theGroup->theCommands.push_back(theCommand);
+	//}
+	//else if (commandName == "FollowObject")
+	//{
+	//	cComFollowObject* theCommand = new cComFollowObject();
+
+	//	theCommand->setMyID(cCommandHandler::m_nextCommandID);
+	//	cCommandHandler::m_nextCommandID++;
+
+	//	theCommand->setMyGO(theObject);
+	//	theCommand->setTargetGO(targetObject);
+
+	//	glm::vec3 followParam = glm::vec3(x1, y1, z1);
+	//	glm::vec3 relativeToTarget = glm::vec3(x2, y2, z2);
+
+	//	theCommand->init(followParam, secondParameter, relativeToTarget);
+	//	theCommand->setTargetGO(targetObject);
+
+	//	theGroup->theCommands.push_back(theCommand);
+	//}
+/*else*/if (commandName == "MoveToEaseIO")
+	{
+		cMoveToEaseIO* newCommand = new cMoveToEaseIO();
+
+		std::vector<sNVPair> vecInitValues;
+
+		sNVPair ObjectToMove;	ObjectToMove.pMeshObj = theObject;
+
+		sNVPair Destination;	Destination.v3Value = glm::vec3(x, y, z);
+
+		sNVPair Time;			Time.fValue = time;
+
+		sNVPair SlowDownIn;				SlowDownIn.fValue = x1;
+		sNVPair SlowDownOut;			SlowDownOut.fValue = y1;
+		sNVPair TargetObject;           TargetObject.pMeshObj = targetObj;
+
+		vecInitValues.push_back(ObjectToMove);
+		vecInitValues.push_back(Destination);
+		vecInitValues.push_back(Time);
+		vecInitValues.push_back(SlowDownIn);
+		vecInitValues.push_back(SlowDownOut);
+		vecInitValues.push_back(TargetObject);
+
+
+
+		//glm::vec3 smoothStepParam = glm::vec3(x2, y2, 0);
+
+		newCommand->Initialize(vecInitValues);
+
+		commandGroup->vecCommands.push_back(newCommand);
+	}
+	else if (commandName == "OrientTo")
+	{
+		cOrientTo* newCommand = new cOrientTo();
+
+		std::vector<sNVPair> vecInitValues;
+
+		sNVPair ObjectToRotate;	ObjectToRotate.pMeshObj = theObject;
+		sNVPair Time;			Time.fValue = time;
+		sNVPair TargetObject;           TargetObject.pMeshObj = targetObj;
+
+		vecInitValues.push_back(ObjectToRotate);
+		vecInitValues.push_back(Time);
+		vecInitValues.push_back(TargetObject);
+
+		newCommand->Initialize(vecInitValues);
+
+		commandGroup->vecCommands.push_back(newCommand);
+	}
+	//else if (commandName == "Rotate")
+	//{
+	//	cComRotate* newCommand = new cComRotate();
+
+	//	newCommand->setMyID(cCommandHandler::m_nextCommandID);
+	//	cCommandHandler::m_nextCommandID++;
+
+	//	newCommand->setMyGO(theObject);
+
+	//	glm::vec3 degreesToRotate = glm::vec3(x1, y1, z1);
+
+	//	newCommand->init(degreesToRotate, secondParameter, glm::vec3(0.0f));
+	//	theGroup->newCommands.push_back(newCommand);
+	//}
+	//else if (commandName == "Trigger")
+	//{
+	//	cComTrigger* newCommand = new cComTrigger();
+
+	//	newCommand->setMyID(cCommandHandler::m_nextCommandID);
+	//	cCommandHandler::m_nextCommandID++;
+
+	//	newCommand->setMyGO(theObject);
+
+	//	glm::vec3 triggerPosition = glm::vec3(x1, y1, z1);
+
+	//	newCommand->init(triggerPosition, secondParameter, glm::vec3(0.0f));
+	//	newCommand->createSubGroup(subCommands);
+
+	//	theGroup->newCommands.push_back(newCommand);
+	//}
+	else	// Command isn't mapped yet
+	{		// Do nothing
+
+	}
+
+
+	return 1;
+}
+
+
+ cCommandGroup* cLuaBrain::m_findCGbyName(std::string groupName, cCommandGroup lua_CG) {
+
+	 for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
+	 {
+		 if (lua_CG.vecCommandGroups[i]->groupName == groupName)
+		 {
+			 return lua_CG.vecCommandGroups[i];
+		 }
+	 }
+	 // Didn't find it
+}

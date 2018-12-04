@@ -166,6 +166,7 @@
     <ClCompile Include="cMoveToCommand.cpp" />
     <ClCompile Include="cMoveToEase.cpp" />
     <ClCompile Include="cMoveToEaseIO.cpp" />
+    <ClCompile Include="cOrientTo.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="cMoveToCommand.h" />
     <ClInclude Include="cMoveToEase.h" />
     <ClInclude Include="cMoveToEaseIO.h" />
+    <ClInclude Include="cOrientTo.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
     <ClInclude Include="cShaderManager.h" />

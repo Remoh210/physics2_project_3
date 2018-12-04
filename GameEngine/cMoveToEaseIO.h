@@ -8,7 +8,7 @@ class cMoveToEaseIO : public iCommand
 {
 public:
 	cMoveToEaseIO();
-	~cMoveToEaseIO();
+	//~cMoveToEaseIO();
 
 	virtual void Initialize(std::vector<sNVPair> vecNVPairs);
 	virtual void Update(double deltaTime);

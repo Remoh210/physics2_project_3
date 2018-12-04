@@ -1,5 +1,13 @@
 #include "cCommandGroup.h"
 
+
+
+cCommandGroup::cCommandGroup(std::string theName)
+{
+	this->bIsFinished = false;
+	groupName = theName;
+}
+
 void cCommandGroup::Update(double deltaTime)
 {
 	// Assume everything is done...

@@ -34,7 +34,6 @@ struct sAOB
 {
 	glm::vec3 minXYZ;
 	glm::vec3 maxXYZ;
-	//glm::vec3 orientationEuler;
 	glm::mat3 matOrientation;
 };
 

@@ -32,7 +32,7 @@ GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cLuaBrain* p_LuaScripts = NULL;
-cCommandGroup sceneCommandGroup;
+//cCommandGroup sceneCommandGroup;
 int cou;
 std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
 void UpdateWindowTitle(void);
@@ -681,7 +681,7 @@ int main(void)
 
 		}//for ( unsigned int objIndex = 0; 
 
-		sceneCommandGroup.Update(deltaTime);
+		//sceneCommandGroup.Update(deltaTime);
 		
 
 

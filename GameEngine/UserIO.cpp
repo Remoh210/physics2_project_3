@@ -141,33 +141,33 @@ void key_callback( GLFWwindow* window,
 
 	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
 	{
-		cCommandGroup* pMoveToCGEase = new cCommandGroup();
+		//cCommandGroup* pMoveToCGEase = new cCommandGroup();
 
-		cMoveToEaseIO*  pMoveToEase = new cMoveToEaseIO();
+		//cMoveToEaseIO*  pMoveToEase = new cMoveToEaseIO();
 
-		std::vector<sNVPair> vecInitValues;
+		//std::vector<sNVPair> vecInitValues;
 
-		sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
+		//sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
 
-		sNVPair Destination;	Destination.v3Value = glm::vec3(0.0f, 0.0f, 0.0f);
+		//sNVPair Destination;	Destination.v3Value = glm::vec3(0.0f, 0.0f, 0.0f);
 
-		sNVPair Time;			Time.fValue = 10.0f;
+		//sNVPair Time;			Time.fValue = 10.0f;
 
-		sNVPair SlowDownIn;				SlowDownIn.fValue = 0.3f;
-		sNVPair SlowDownOut;			SlowDownOut.fValue = 0.01f;
+		//sNVPair SlowDownIn;				SlowDownIn.fValue = 0.3f;
+		//sNVPair SlowDownOut;			SlowDownOut.fValue = 0.01f;
 
 
-		vecInitValues.push_back(ObjectToMove);
-		vecInitValues.push_back(Destination);
-		vecInitValues.push_back(Time);
-		vecInitValues.push_back(SlowDownIn);
-		vecInitValues.push_back(SlowDownOut);
+		//vecInitValues.push_back(ObjectToMove);
+		//vecInitValues.push_back(Destination);
+		//vecInitValues.push_back(Time);
+		//vecInitValues.push_back(SlowDownIn);
+		//vecInitValues.push_back(SlowDownOut);
 
-		pMoveToEase->Initialize(vecInitValues);
+		//pMoveToEase->Initialize(vecInitValues);
 
-		pMoveToCGEase->vecCommands.push_back(pMoveToEase);
+		//pMoveToCGEase->vecCommands.push_back(pMoveToEase);
 
-		sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
+		//sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
 
 		// A test script
 		//std::stringstream ssMoveTo;
@@ -188,39 +188,39 @@ void key_callback( GLFWwindow* window,
 
 		//std::cout << ssMoveTo.str() << std::endl;
 
-		//::p_LuaScripts->Update(deltaTime);
+		::p_LuaScripts->Update(deltaTime);
 
-		//::p_LuaScripts->UpdateCG(deltaTime);
+		::p_LuaScripts->UpdateCG(deltaTime);
 
 	}
 
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
 	{
-		cCommandGroup* pMoveToCGEase = new cCommandGroup();
+		//cCommandGroup* pMoveToCGEase = new cCommandGroup();
 
-		cMoveToEase*  pMoveToEase = new cMoveToEase();
+		//cMoveToEase*  pMoveToEase = new cMoveToEase();
 
-		std::vector<sNVPair> vecInitValues;
+		//std::vector<sNVPair> vecInitValues;
 
-		sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
+		//sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
 
-		sNVPair Destination;	Destination.v3Value = glm::vec3 (0.0f, 0.0f, 0.0f);
+		//sNVPair Destination;	Destination.v3Value = glm::vec3 (0.0f, 0.0f, 0.0f);
 
-		sNVPair Time;			Time.fValue = 5.0f;
+		//sNVPair Time;			Time.fValue = 5.0f;
 
-		sNVPair SlowDownPerc;			SlowDownPerc.fValue = 50.0f;
+		//sNVPair SlowDownPerc;			SlowDownPerc.fValue = 50.0f;
 
 
-		vecInitValues.push_back(ObjectToMove);
-		vecInitValues.push_back(Destination);
-		vecInitValues.push_back(Time);
-		vecInitValues.push_back(SlowDownPerc);
+		//vecInitValues.push_back(ObjectToMove);
+		//vecInitValues.push_back(Destination);
+		//vecInitValues.push_back(Time);
+		//vecInitValues.push_back(SlowDownPerc);
 
-		pMoveToEase->Initialize(vecInitValues);
+		//pMoveToEase->Initialize(vecInitValues);
 
-		pMoveToCGEase->vecCommands.push_back(pMoveToEase);
+		//pMoveToCGEase->vecCommands.push_back(pMoveToEase);
 
-		sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
+		//sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
 
 		// A test script
 		//std::stringstream ssMoveTo;
@@ -605,13 +605,13 @@ void ManageScene(GLFWwindow* window)
 
 void commandsInterface()
 {
-	cCommandGroup* pMoveToCG = new cCommandGroup();
+	//cCommandGroup* pMoveToCG = new cCommandGroup();
 
-	cMoveToCommand*  pMoveTo = new cMoveToCommand();
+	//cMoveToCommand*  pMoveTo = new cMoveToCommand();
 
-	std::vector<sNVPair> vecInitValues;
+	//std::vector<sNVPair> vecInitValues;
 
-	sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];	
+	//sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];	
 
 	std::cout << "Move object" << std::endl;
 	std::cout << "1 - Move to object" << std::endl;
@@ -626,48 +626,48 @@ void commandsInterface()
 		std::cout << "Enter The name of the object: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
+		//sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
 		std::cout << "Enter Time in seconds: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
-		vecInitValues.push_back(ObjectToMove);	
-		vecInitValues.push_back(Destination);
-		vecInitValues.push_back(Time);
+		//sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
+		//vecInitValues.push_back(ObjectToMove);	
+		//vecInitValues.push_back(Destination);
+		//vecInitValues.push_back(Time);
 		
 
 	}
 
 	else if (Answer == "2")
 	{
-		glm::vec3 vec3MoveTo;
+	//	glm::vec3 vec3MoveTo;
 		std::cout << "Enter x: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		vec3MoveTo.x = (float)atoi(Answer.c_str());
+	//	vec3MoveTo.x = (float)atoi(Answer.c_str());
 		std::cout << "Enter y: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		vec3MoveTo.y = (float)atoi(Answer.c_str());
+		//vec3MoveTo.y = (float)atoi(Answer.c_str());
 		std::cout << "Enter z: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		vec3MoveTo.z = (float)atoi(Answer.c_str());
+		//vec3MoveTo.z = (float)atoi(Answer.c_str());
 		
 		std::cout << "Enter Time in seconds: " << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
-		sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
-		sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
-		vecInitValues.push_back(ObjectToMove);	// idealCameraLocation
-		vecInitValues.push_back(Destination);
-		vecInitValues.push_back(Time);
+		//sNVPair Destination;	Destination.v3Value = findObjectByFriendlyName(Answer)->position;
+		//sNVPair Time;			Time.fValue = (float)atoi(Answer.c_str());
+		//vecInitValues.push_back(ObjectToMove);	// idealCameraLocation
+	//	vecInitValues.push_back(Destination);
+	//	vecInitValues.push_back(Time);
 
 	}
 
-	pMoveTo->Initialize(vecInitValues);
+	//pMoveTo->Initialize(vecInitValues);
 
-	pMoveToCG->vecCommands.push_back(pMoveTo);
+	//pMoveToCG->vecCommands.push_back(pMoveTo);
 
-	sceneCommandGroup.vecCommandGroups.push_back(pMoveToCG);
+//	sceneCommandGroup.vecCommandGroups.push_back(pMoveToCG);
 }

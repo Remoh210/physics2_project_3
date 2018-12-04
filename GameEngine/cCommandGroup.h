@@ -7,7 +7,7 @@
 class cCommandGroup
 {
 public:
-	cCommandGroup() { this->bIsFinished = false; };
+	cCommandGroup(std::string theName);
 
 	virtual void Update(double deltaTime);
 	virtual bool isFinished(void);
@@ -16,6 +16,7 @@ public:
 	std::vector<iCommand*> vecCommands;
 	// These are run in serial (one at a time)
 	std::vector<cCommandGroup*> vecCommandGroups;
+	std::string groupName;
 
 private:
 	bool bIsFinished;
