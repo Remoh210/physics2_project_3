@@ -31,7 +31,7 @@ private:
 	glm::quat finalOrientation;
 
 
-	bool b_first;
+	bool b_Started;
 	bool b_IsDone;
 
 	cMeshObject* targetObj;

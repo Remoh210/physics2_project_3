@@ -3,13 +3,11 @@
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
-#define GLM_ENABLE_EXPERIMENTAL		// To get glm quaternion stuff to compile
-#include <glm/gtx/quaternion.hpp>	// Note strange folder
+#define GLM_ENABLE_EXPERIMENTAL		
+#include <glm/gtx/quaternion.hpp>	
 #include <string>
 #include <vector>
 
-// Add the ability to add debug shapes to the debug renderer
-// **NOTE** it's the INTERFACE that I have, NOT the class
 #include "DebugRenderer/iDebugRenderer.h"
 
 struct sSphere
@@ -41,7 +39,7 @@ struct sTextureInfo
 {
 	std::string name;
 	int cachedTextureID; 	// Set to -1 by default
-	float strength;		// Set to 0.0f by default
+	float strength;		
 };
 
 class cMeshObject
@@ -49,25 +47,21 @@ class cMeshObject
 public:
 	cMeshObject();
 
-
-	//	glm::vec3 preRotation;		// Happens BEFORE translation (move)
-	////	glm::vec3 position;
-	//	glm::vec3 postRotation;		// Happens AFTER translation (move)
 private:
 	
 public:
 	glm::quat m_meshQOrientation;
 	glm::quat getQOrientation(void) { return this->m_meshQOrientation; };
-	void setQOrientation(glm::quat newOrientation)
-	{
-		this->m_meshQOrientation = newOrientation;
-	}
+
 
 	void setMeshOrientationEulerAngles(glm::vec3 newAnglesEuler, bool bIsDegrees = false);
 	void setMeshOrientationEulerAngles(float x, float y, float z, bool bIsDegrees = false);
+
 	void adjMeshOrientationEulerAngles(glm::vec3 adjAngleEuler, bool bIsDegrees = false);
 	void adjMeshOrientationEulerAngles(float x, float y, float z, bool bIsDegrees = false);
+
 	void adjMeshOrientationQ(glm::quat adjOrientQ);
+	void setQOrientation(glm::quat newOrientation){ this->m_meshQOrientation = newOrientation; }
 
 
 	void setUniformScale(float scale);

@@ -10,7 +10,7 @@ cOrientTo::cOrientTo()
 	this->initialTime = 0;
 	this->time;
 	this->Up = glm::vec3(0.0f, 1.0f, 0.0f);
-	this->b_first = false;
+	this->b_Started = false;
 	this->b_IsDone = false;
 }
 
@@ -29,9 +29,9 @@ void cOrientTo::Initialize(std::vector<sNVPair> vecNVPairs)
 void cOrientTo::Update(double deltaTime)
 {
 
-	if (this->b_first == false)
+	if (this->b_Started == false)
 	{
-		this->b_first = true;
+		this->b_Started = true;
 
 		this->initPosition = this->theObj->position;
 
@@ -79,8 +79,7 @@ bool cOrientTo::isFinished()
 			this->b_IsDone = true;
 			return true;
 		}
-		else
-			return false;
+		else{ return false; }	
 	}
 
 

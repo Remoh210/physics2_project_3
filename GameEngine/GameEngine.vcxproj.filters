@@ -186,6 +186,9 @@
     <ClCompile Include="sNVPair.cpp">
       <Filter>Scripting\CommandGroups</Filter>
     </ClCompile>
+    <ClCompile Include="cFollowCurve.cpp">
+      <Filter>Scripting\cCommands\Follow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -283,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="iCommand.h">
       <Filter>Scripting\CommandGroups</Filter>
+    </ClInclude>
+    <ClInclude Include="cFollowCurve.h">
+      <Filter>Scripting\cCommands\Follow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

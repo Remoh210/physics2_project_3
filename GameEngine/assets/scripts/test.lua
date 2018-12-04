@@ -8,7 +8,11 @@
 -- (Group Name, CommandName, objName, x, y, z, time, EaseIn from 0 to 1, EaseOut, Target Obj, ScriptName)
 --newCom("Gr2", "MoveToEaseIO",  "knight2", 0, 0, 0, 10, 0, 0, 0, "cat", "")
 
-newCG("Gr2")
+newCG("g1")
+newCom("g1", "FollowCurve", "knight2", 0, 0, 0, 10, 0, 0, 0, "knight", "")
+
+--newCG("Gr2")
 -- (Group Name, CommandName, objName, x, y, z, time, EaseIn from 0 to 1, EaseOut, Target Obj, ScriptName)
 --(IdealRelPos, FollowTime(0 = forever), MinDist, MaxSpeedDis, MaxSpeed, target)
-newCom("Gr2", "Follow",  "knight2", 400, 400, 400, 10, 100, 500, 500, "cat", "")
+--newCom("Gr2", "Follow",  "knight2", 400, 400, 400, 10, 100, 500, 500, "cat", "")
+--newCom("Gr2", "OrientTo",  "knight2", 0, 0, 0, 10, 0, 0, 0, "cat", "")

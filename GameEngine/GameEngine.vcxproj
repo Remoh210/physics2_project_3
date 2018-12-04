@@ -157,6 +157,7 @@
     <ClCompile Include="cAABB.cpp" />
     <ClCompile Include="cAnimationCurveCommand.cpp" />
     <ClCompile Include="cCommandGroup.cpp" />
+    <ClCompile Include="cFollowCurve.cpp" />
     <ClCompile Include="cFollowObjectCommand.cpp" />
     <ClCompile Include="cLightHelper.cpp" />
     <ClCompile Include="cLightManager.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="DebugRenderer\iDebugRenderer.h" />
     <ClInclude Include="Error\CErrorLog.h" />
     <ClInclude Include="Error\COpenGLError.h" />
+    <ClInclude Include="cFollowCurve.h" />
     <ClInclude Include="globalOpenGLStuff.h" />
     <ClInclude Include="globalStuff.h" />
     <ClInclude Include="iCommand.h" />
