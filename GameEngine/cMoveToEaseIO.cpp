@@ -1,5 +1,5 @@
 #include "cMoveToEaseIO.h"
-
+#include "Camera.h"
 #include <iostream>
 #include <GLFW/glfw3.h>
 
@@ -31,7 +31,6 @@ void cMoveToEaseIO::Initialize(std::vector<sNVPair> vecNVPairs)
 
 	if (vecNVPairs[3].fValue != 0) this->AccRate = vecNVPairs[3].fValue;
 	if (vecNVPairs[4].fValue != 0) this->DecRate = vecNVPairs[4].fValue;
-
 	if (vecNVPairs[5].pMeshObj != nullptr) { this->finalPosition = vecNVPairs[5].pMeshObj->position; }
 
 	return;
@@ -50,7 +49,6 @@ void cMoveToEaseIO::Update(double deltaTime)
 		this->direction = glm::normalize(finalPosition - initPosition);
 		this->distanceToTarget = glm::distance(finalPosition, initPosition);
 		this->Speed = (float)this->distanceToTarget / this->Time;
-
 
 
 	}
@@ -83,6 +81,7 @@ void cMoveToEaseIO::Update(double deltaTime)
 	else
 	{
 		this->objToMove->position += deltaPosition;
+		if (objToMove->friendlyName == "cameraObj") { camera.Position = objToMove->position; }
 	}
 
 	return;
@@ -97,10 +96,7 @@ bool cMoveToEaseIO::isFinished(void)
 	if (this->objToMove->position == this->finalPosition)
 	{
 		this->m_bIsDone = true;
-		
-
-
-		this->objToMove->velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+		//this->objToMove->velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 		return true;
 	}
 	else

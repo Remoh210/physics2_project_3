@@ -30,12 +30,7 @@
 #include "cMoveToEaseIO.h"
 // ... and more
 extern GLuint program;
-extern glm::vec3 cameraPos;
-extern glm::vec3 cameraFront;
-extern glm::vec3 cameraUp;
 
-//camera control 
-extern Camera camera;
 extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
 

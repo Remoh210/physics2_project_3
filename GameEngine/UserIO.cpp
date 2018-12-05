@@ -1,6 +1,7 @@
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
 #include <string>
+#include "Camera.h"
 //#include <vector>
 #include <iostream>
 //include "TextureCTextureFromBMP.h"

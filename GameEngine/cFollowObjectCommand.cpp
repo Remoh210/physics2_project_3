@@ -1,15 +1,13 @@
 #include "cFollowObjectCommand.h"
 
 #include <iostream>
+#include "Camera.h"
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 
-//cFollowObjectCommand::cFollowObjectCommand()
-//{
-//	this->m_bIsDone = false; 
-//	this->time = 0.0f;
-//}
+
 
 void cFollowObjectCommand::Initialize(std::vector<sNVPair> vecNVPairs)
 {
@@ -65,6 +63,16 @@ void cFollowObjectCommand::Update(double deltaTime)
 
 	this->theObj->position += deltaPosition;
 
+	if (theObj->friendlyName == "cameraObj")
+	{
+		camera.Position = theObj->position;
+		camera.SetViewMatrix(glm::lookAt(camera.Position, this->targetObj->position, glm::vec3(0.0f, 1.0f, 0.0f)));
+		camera.b_controlledByScript = true;
+
+	}
+
+
+
 	if (this->elapsedTime > time && this->time != 0.0f) { this->m_bIsDone = true; };
 	return;
 }
@@ -74,10 +82,7 @@ void cFollowObjectCommand::Update(double deltaTime)
 
 bool cFollowObjectCommand::isFinished(void)
 {
-	if (this->m_bIsDone) { return true; }
+	if (this->m_bIsDone) { return true; camera.b_controlledByScript = false; }
 	else { return false; }
-
-
-
 
 }

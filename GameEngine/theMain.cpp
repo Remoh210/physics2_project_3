@@ -13,7 +13,7 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
-
+#include "Camera.h"
 #include <stdlib.h>
 #include <stdio.h>		// printf();
 #include <iostream>		// cout (console out)

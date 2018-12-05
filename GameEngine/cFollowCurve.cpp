@@ -1,6 +1,7 @@
 #include "cFollowCurve.h"
 
 #include <iostream>
+#include "Camera.h"
 #include <GLFW/glfw3.h>
 
 
@@ -136,9 +137,12 @@ void cFollowCurve::Update(double deltaTime)
 	float y = getPoint(ya, yb, i);
 	float z = getPoint(za, zb, i);
 
-	this->theObj->position.x = x;
-	this->theObj->position.y = y;
-	this->theObj->position.z = z;
+	this->theObj->position = glm::vec3(x, y, z);
+	if (theObj->friendlyName == "cameraObj") 
+	{
+		camera.Position = theObj->position; 
+	}
+	
 
 
 

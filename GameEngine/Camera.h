@@ -7,6 +7,9 @@
 
 #include <vector>
 
+
+
+
 enum Camera_Movement {
 	FORWARD,
 	BACKWARD,
@@ -37,6 +40,8 @@ public:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
+	bool b_controlledByScript;
+	glm::mat4 newViewMat;
 
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 	{
@@ -45,6 +50,8 @@ public:
 		Yaw = yaw;
 		Pitch = pitch;
 		updateCameraVectors();
+		b_controlledByScript = false;
+		glm::mat4 newViewMat = glm::mat4(0.0f);
 	}
 	// Constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -54,12 +61,18 @@ public:
 		Yaw = yaw;
 		Pitch = pitch;
 		updateCameraVectors();
+		b_controlledByScript = false;
+		glm::mat4 newViewMat = glm::mat4(0.0f);
 	}
+
+	//For Command
+	void SetViewMatrix(glm::mat4 newView) { this->newViewMat = newView; }
 
 	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix()
 	{
-		return glm::lookAt(Position, Position + Front, Up);
+		if (!this->b_controlledByScript) { return glm::lookAt(Position, Position + Front, Up);}
+		else { return newViewMat; }
 	}
 
 	// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -126,4 +139,13 @@ private:
 		Up = glm::normalize(glm::cross(Right, Front));
 	}
 };
+
+
+extern glm::vec3 cameraPos;
+extern glm::vec3 cameraFront;
+extern glm::vec3 cameraUp;
+
+//camera control 
+extern Camera camera;
+
 #endif

@@ -5,6 +5,7 @@
 #include "cFollowCurve.h"
 #include "cOrientTo.h"
 #include "cTriggerCommand.h"
+#include "Camera.h"
 #include <iostream>
 #include <fstream>
 
@@ -343,8 +344,22 @@ int cLuaBrain::l_newCom(lua_State *L)
 
 
 	cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+	cMeshObject* theObject;
+	
+	//CAMERA HACK
+	if (ObjFriendlyName == "camera" || ObjFriendlyName == "Camera") 
+	{
+		cMeshObject* p_camObj = new cMeshObject();
+		p_camObj->friendlyName = "cameraObj";
+		p_camObj->position = camera.Position;
+		theObject = p_camObj;
+	}
+	else
+	{
+		theObject = cLuaBrain::m_findObjectByFriendlyName(ObjFriendlyName);
+	}
 
-	cMeshObject* theObject = cLuaBrain::m_findObjectByFriendlyName(ObjFriendlyName);
+	
 
 	cMeshObject* targetObj;
 	if (targetFriendlyName != "")
