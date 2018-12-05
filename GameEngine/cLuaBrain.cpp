@@ -23,8 +23,14 @@ cLuaBrain::cLuaBrain()
 	luaL_openlibs(this->m_pLuaState);					
 
 	//All in One command
+	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newSubCG);
+	lua_setglobal(this->m_pLuaState, "newSubCG");
+
+	//All in One command
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newCG);
 	lua_setglobal(this->m_pLuaState, "newCG");
+
+
 
 
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newCom);
@@ -284,12 +290,32 @@ std::string cLuaBrain::m_decodeLuaErrorToString(int error)
 }
 
 
+
 int cLuaBrain::l_newCG(lua_State *L)
 {
 	std::string groupName = lua_tostring(L, 1);	// The name of the group
 
 	cCommandGroup* NewGroup = new cCommandGroup(groupName);
+
 	luaCommandGroup.vecCommandGroups.push_back(NewGroup);
+
+	lua_pushboolean(L, true);
+	return 1;
+}
+
+
+
+
+int cLuaBrain::l_newSubCG(lua_State *L)
+{
+	std::string groupName = lua_tostring(L, 1);	// The name of the group
+	std::string subGroupName = lua_tostring(L, 2);	// The name of the subgroup
+
+
+	
+	cCommandGroup* NewSubGroup = new cCommandGroup(subGroupName);
+	cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+	commandGroup->vecCommandGroups.push_back(NewSubGroup);
 
 	lua_pushboolean(L, true);
 	return 1;
@@ -343,7 +369,12 @@ int cLuaBrain::l_newCom(lua_State *L)
 	std::string script = lua_tostring(L, 12);
 
 
-	cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+	//cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+	cCommandGroup* commandGroup = cLuaBrain::m_findSubCGbyName(groupName, luaCommandGroup);
+	if (commandGroup == nullptr) 
+	{
+		commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
+	}
 	cMeshObject* theObject;
 	
 	//CAMERA HACK
@@ -505,3 +536,19 @@ int cLuaBrain::l_newCom(lua_State *L)
 		 }
 	 }
 }
+
+
+ cCommandGroup* cLuaBrain::m_findSubCGbyName(std::string subGroupName, cCommandGroup lua_CG) {
+
+	 for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
+	 {
+		 for (int j = 0; j != lua_CG.vecCommandGroups[i]->vecCommandGroups.size(); j++)
+		 {
+			 if (lua_CG.vecCommandGroups[i]->vecCommandGroups[j]->groupName == subGroupName)
+			 {
+				 return lua_CG.vecCommandGroups[i]->vecCommandGroups[j];
+			 }
+		 }
+	 }
+	 return nullptr;
+ }

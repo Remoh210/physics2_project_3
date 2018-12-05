@@ -33,6 +33,7 @@ public:
 
 	//Command Groups
 	static int l_newCG(lua_State *L);
+	static int l_newSubCG(lua_State *L);
 	static int l_newCom(lua_State *L);
 
 	//Commands
@@ -40,6 +41,7 @@ public:
 	//static int l_KillAllHumans( lua_State *L );	
 	static int l_GetObjectState(lua_State *L);
 	static int l_UpdateObject( lua_State *L );		// c function
+	
 
 	
 
@@ -53,6 +55,7 @@ private:
 	// returns nullptr if not found
 	static cMeshObject* m_findObjectByFriendlyName(std::string friendlyname);
 	static cCommandGroup* m_findCGbyName(std::string groupName, cCommandGroup lua_CG);
+	static cCommandGroup* m_findSubCGbyName(std::string subGroupName, cCommandGroup lua_CG);
 	
 
 	lua_State* m_pLuaState;
