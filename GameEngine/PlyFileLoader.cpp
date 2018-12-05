@@ -246,6 +246,7 @@ void saveCameraInfo(std::string filename)
 			file << "Camera_position " << camera.Position.x << " " << camera.Position.y << " " << camera.Position.z << "\n";
 			file << "Camera_Speed " << camera.MovementSpeed << "\n";
 
+
 	//	std::cout << "Models information saved to " << filename.c_str() << std::endl;
 		file.close();
 	}
@@ -254,24 +255,14 @@ void saveCameraInfo(std::string filename)
 
 void loadCameraInfo(std::string filename)
 {
-	std::ifstream file(("output/" + filename).c_str());
+	std::ifstream file(("SceneInfo/" + filename).c_str());
 
 	if (!file.is_open()) { return; }
 
-	//while (true)
-	//{
-
 		std::string unused;
-
-	//	if (unused == "") break;
-
-
-
-
 		file >> unused >> camera.Position.x >> camera.Position.y >> camera.Position.z;
 		file >> unused >> camera.MovementSpeed;
 
-	//}
 	file.close();
 }
 

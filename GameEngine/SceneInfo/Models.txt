@@ -183,7 +183,7 @@ Mesh_Name ivysaur.ply
 Position 285 245 825
 DiffureRGB_Alpha  0 0 0 1
 SpecularRGB_Power 1 1 1 100
-QuatXYZW_rotation 0 0 0 1
+QuatXYZW_rotation 0 -0.999575 0 -0.0291996
 Scale  132.799 132.799 132.799
 IsVisible  1
 IsUpdByPhys  0

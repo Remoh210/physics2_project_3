@@ -328,49 +328,19 @@ int main(void)
 //	saveLightInfo("lights.txt", LightManager->vecLights);
 	//loadModels("Models.txt", vec_pObjectsToDraw);
 	loadLights("lights.txt", LightManager->vecLights);
+	loadCameraInfo("camera.txt");
+	//HACK; TODO save and load camera look at
+	//camera.b_controlledByScript = true;
+	//camera.SetViewMatrix(glm::lookAt(camera.Position, glm::vec3(285.0f, 245.0f, 825.0f), camera.WorldUp));
+	
 
 
 
 
 	::p_LuaScripts = new cLuaBrain();
-	// Point to all the game objects
-	// (We are passing a pointer to the vector of game object pointers... yeah)
 	::p_LuaScripts->SetObjectVector(&(::vec_pObjectsToDraw));
 
-
-	// A test script
-	std::stringstream ssMoveTo;
-	//	ssMoveTo << "x = 1\n";
-	//	ssMoveTo << "print(x)\n" << std::endl;
-
-	ssMoveTo << "r, x, y, z, vx, vy, vz = getObjectState(";
-	ssMoveTo << "\"Ufo2UVb\"";
-	ssMoveTo << ") \n";
-	// New function
-//	ssMoveTo << "JustinTrudeauIsOurPM(\"Justin\", 47, 3.14159) \n";
-	//
-//	ssMoveTo << "if ( r == true ) then \n";
-//	ssMoveTo << "    print( \"xyz=\", x, \",\", y, \", \", z )  \n";
-//	ssMoveTo << "end \n";
-
-	ssMoveTo << " x = x - 1.01  \n";
-	ssMoveTo << " y = y + 1.01  \n";
-	ssMoveTo << "setObjectState(";
-	ssMoveTo << "\"Ufo2UVb\"";
-	ssMoveTo << ", x, y, z, Vx, Vy, Vz ) \n";
-
-	//std::cout << ssMoveTo.str() << std::endl;
-
-//	::p_LuaScripts->LoadScript("MoveToOBJ17", ssMoveTo.str());
-
-	//::p_LuaScripts->LoadScript("MoveToOBJ18", ssMoveTo.str());
-
-
-
-
-
-
-	::p_LuaScripts->LoadScriptFile("test.lua");
+	::p_LuaScripts->LoadScriptFile("example.lua");
 
 
 

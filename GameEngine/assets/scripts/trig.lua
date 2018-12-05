@@ -1,5 +1,4 @@
 
---camera will follow Ivysaur for 20 sec 
 newCG("Triggered")
 
 newSubCG("Triggered", "RunAway")
@@ -18,5 +17,5 @@ newSubCG("Triggered", "NextRunPoint2")
 newCom("NextRunPoint2", "MoveToEaseIO",  "ivysaur", 0, 0, 0, 3, 0.3, 0.3, 0, "", "")
 newCom("NextRunPoint2", "OrientTo",  "ivysaur", 0, 0, 0, 1, 0, 0, 0, "AxePainted", "")
 
-
-newCom("Triggered", "Follow",  "camera", 400, 400, 400, 0, 200, 500, 500, "ivysaur", "")
+--camera will follow Ivysaur for 15 sec IN PARALLEL
+newCom("Triggered", "Follow",  "camera", 450, 400, 400, 25, 400, 500, 800, "ivysaur", "")

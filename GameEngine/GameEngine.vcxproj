@@ -233,7 +233,7 @@
     <ClInclude Include="TextureManager\CTextureFromBMP.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\scripts\test.lua" />
+    <None Include="assets\scripts\example.lua" />
     <None Include="assets\scripts\trig.lua" />
     <None Include="assets\shaders\fragment01.glsl" />
     <None Include="assets\shaders\vertex01.glsl" />

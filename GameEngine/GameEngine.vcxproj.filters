@@ -313,10 +313,10 @@
     <None Include="assets\shaders\vertex01.glsl">
       <Filter>Shader Stuff\Shaders</Filter>
     </None>
-    <None Include="assets\scripts\test.lua">
+    <None Include="assets\scripts\trig.lua">
       <Filter>Scripting\LuaScripts</Filter>
     </None>
-    <None Include="assets\scripts\trig.lua">
+    <None Include="assets\scripts\example.lua">
       <Filter>Scripting\LuaScripts</Filter>
     </None>
   </ItemGroup>

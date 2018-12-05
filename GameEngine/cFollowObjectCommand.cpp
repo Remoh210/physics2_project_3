@@ -82,7 +82,11 @@ void cFollowObjectCommand::Update(double deltaTime)
 
 bool cFollowObjectCommand::isFinished(void)
 {
-	if (this->m_bIsDone) { return true; camera.b_controlledByScript = false; }
+	if (this->m_bIsDone) { 
+
+		 camera.b_controlledByScript = false; 
+		 return true;
+	}
 	else { return false; }
 
 }
