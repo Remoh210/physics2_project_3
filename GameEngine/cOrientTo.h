@@ -24,6 +24,7 @@ private:
 	double elapsedTime;
 	float time;
 
+	glm::vec3 targetPoint;
 	glm::vec3 initPosition;
 	glm::vec3 Up;
 	glm::vec3 lookDirection;

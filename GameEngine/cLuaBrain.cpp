@@ -448,13 +448,15 @@ int cLuaBrain::l_newCom(lua_State *L)
 
 		std::vector<sNVPair> vecInitValues;
 
-		sNVPair ObjectToRotate;	ObjectToRotate.pMeshObj = theObject;
-		sNVPair Time;			Time.fValue = time;
+		sNVPair ObjectToRotate;			ObjectToRotate.pMeshObj = theObject;
+		sNVPair Time;					Time.fValue = time;
 		sNVPair TargetObject;           TargetObject.pMeshObj = targetObj;
+		sNVPair TargetPoint;			TargetPoint.v3Value = glm::vec3(x, y, z);
 
 		vecInitValues.push_back(ObjectToRotate);
 		vecInitValues.push_back(Time);
 		vecInitValues.push_back(TargetObject);
+		vecInitValues.push_back(TargetPoint);
 
 		newCommand->Initialize(vecInitValues);
 
