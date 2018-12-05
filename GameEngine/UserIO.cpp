@@ -141,52 +141,7 @@ void key_callback( GLFWwindow* window,
 
 	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
 	{
-		//cCommandGroup* pMoveToCGEase = new cCommandGroup();
 
-		//cMoveToEaseIO*  pMoveToEase = new cMoveToEaseIO();
-
-		//std::vector<sNVPair> vecInitValues;
-
-		//sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
-
-		//sNVPair Destination;	Destination.v3Value = glm::vec3(0.0f, 0.0f, 0.0f);
-
-		//sNVPair Time;			Time.fValue = 10.0f;
-
-		//sNVPair SlowDownIn;				SlowDownIn.fValue = 0.3f;
-		//sNVPair SlowDownOut;			SlowDownOut.fValue = 0.01f;
-
-
-		//vecInitValues.push_back(ObjectToMove);
-		//vecInitValues.push_back(Destination);
-		//vecInitValues.push_back(Time);
-		//vecInitValues.push_back(SlowDownIn);
-		//vecInitValues.push_back(SlowDownOut);
-
-		//pMoveToEase->Initialize(vecInitValues);
-
-		//pMoveToCGEase->vecCommands.push_back(pMoveToEase);
-
-		//sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
-
-		// A test script
-		//std::stringstream ssMoveTo;
-		//	ssMoveTo << "x = 1\n";
-		//	ssMoveTo << "print(x)\n" << std::endl;
-
-
-		// New function
-	//	ssMoveTo << "JustinTrudeauIsOurPM(\"Justin\", 47, 3.14159) \n";
-		//
-	//	ssMoveTo << "if ( r == true ) then \n";
-	//	ssMoveTo << "    print( \"xyz=\", x, \",\", y, \", \", z )  \n";
-	//	ssMoveTo << "end \n";
-
-		//ssMoveTo << "moveTo(";
-		//ssMoveTo << "\"Ufo2UVb\"";
-		//ssMoveTo << ", 0, 0, 0, 10) \n";
-
-		//std::cout << ssMoveTo.str() << std::endl;
 
 		::p_LuaScripts->Update(deltaTime);
 
@@ -196,50 +151,7 @@ void key_callback( GLFWwindow* window,
 
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
 	{
-		//cCommandGroup* pMoveToCGEase = new cCommandGroup();
 
-		//cMoveToEase*  pMoveToEase = new cMoveToEase();
-
-		//std::vector<sNVPair> vecInitValues;
-
-		//sNVPair ObjectToMove;	ObjectToMove.pMeshObj = vec_pObjectsToDraw[index];
-
-		//sNVPair Destination;	Destination.v3Value = glm::vec3 (0.0f, 0.0f, 0.0f);
-
-		//sNVPair Time;			Time.fValue = 5.0f;
-
-		//sNVPair SlowDownPerc;			SlowDownPerc.fValue = 50.0f;
-
-
-		//vecInitValues.push_back(ObjectToMove);
-		//vecInitValues.push_back(Destination);
-		//vecInitValues.push_back(Time);
-		//vecInitValues.push_back(SlowDownPerc);
-
-		//pMoveToEase->Initialize(vecInitValues);
-
-		//pMoveToCGEase->vecCommands.push_back(pMoveToEase);
-
-		//sceneCommandGroup.vecCommandGroups.push_back(pMoveToCGEase);
-
-		// A test script
-		//std::stringstream ssMoveTo;
-		//	ssMoveTo << "x = 1\n";
-		//	ssMoveTo << "print(x)\n" << std::endl;
-
-
-		// New function
-	//	ssMoveTo << "JustinTrudeauIsOurPM(\"Justin\", 47, 3.14159) \n";
-		//
-	//	ssMoveTo << "if ( r == true ) then \n";
-	//	ssMoveTo << "    print( \"xyz=\", x, \",\", y, \", \", z )  \n";
-	//	ssMoveTo << "end \n";
-
-		//ssMoveTo << "moveTo(";
-		//ssMoveTo << "\"Ufo2UVb\"";
-		//ssMoveTo << ", 0, 0, 0, 10) \n";
-
-		//std::cout << ssMoveTo.str() << std::endl;
 
 		::p_LuaScripts->Update(deltaTime);
 

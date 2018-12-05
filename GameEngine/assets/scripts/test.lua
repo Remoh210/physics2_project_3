@@ -9,7 +9,11 @@
 --newCom("Gr2", "MoveToEaseIO",  "knight2", 0, 0, 0, 10, 0, 0, 0, "cat", "")
 
 newCG("g1")
-newCom("g1", "FollowCurve", "knight2", 0, 0, 0, 10, 0, 0, 0, "knight", "")
+newCom("g1", "FollowCurve", "knight2", 0, 0, 0, 10, 0, 0, 0, "cat", "")
+
+--newCG("g1")
+--newCom("g1", "MoveToEaseIO", "knight2", 0, 0, 0, 10, 0.3, 0.3, 0, "cat", "")
+newCom("g1", "Trigger", "knight2", 0, 0, 0, 100, 0, 0, 0, "cat", "trig.lua")
 
 --newCG("Gr2")
 -- (Group Name, CommandName, objName, x, y, z, time, EaseIn from 0 to 1, EaseOut, Target Obj, ScriptName)

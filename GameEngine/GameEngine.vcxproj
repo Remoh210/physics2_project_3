@@ -170,6 +170,7 @@
     <ClCompile Include="cOrientTo.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
+    <ClCompile Include="cTriggerCommand.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
     <ClCompile Include="cWait.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="cMoveToEase.h" />
     <ClInclude Include="cMoveToEaseIO.h" />
     <ClInclude Include="cOrientTo.h" />
+    <ClInclude Include="cTriggerCommand.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
     <ClInclude Include="cShaderManager.h" />
@@ -231,6 +233,8 @@
     <ClInclude Include="TextureManager\CTextureFromBMP.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\scripts\test.lua" />
+    <None Include="assets\scripts\trig.lua" />
     <None Include="assets\shaders\fragment01.glsl" />
     <None Include="assets\shaders\vertex01.glsl" />
   </ItemGroup>

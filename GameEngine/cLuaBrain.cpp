@@ -4,6 +4,7 @@
 #include "cMoveToEaseIO.h"
 #include "cFollowCurve.h"
 #include "cOrientTo.h"
+#include "cTriggerCommand.h"
 #include <iostream>
 #include <fstream>
 
@@ -11,17 +12,6 @@
 
 cCommandGroup luaCommandGroup("LuaMainGroup");
 
-int KillAllHumans(lua_State *L)
-{
-	
-	const char* name = lua_tostring(L, 1);		
-	int age = lua_tonumber(L, 2);			
-	float pi = lua_tonumber(L, 3);			
-
-	std::cout << "KillAllHumans(): "
-		<< name << ", " << age << ", " << pi << std::endl;
-	return 0;
-}
 
 cLuaBrain::cLuaBrain()
 {
@@ -450,6 +440,28 @@ int cLuaBrain::l_newCom(lua_State *L)
 		vecInitValues.push_back(ObjectToRotate);
 		vecInitValues.push_back(Time);
 		vecInitValues.push_back(TargetObject);
+
+		newCommand->Initialize(vecInitValues);
+
+		commandGroup->vecCommands.push_back(newCommand);
+	}
+	else if (commandName == "Trigger")
+	{
+		cTriggerCommand* newCommand = new cTriggerCommand();
+
+		std::vector<sNVPair> vecInitValues;
+
+		sNVPair Object;					 Object.pMeshObj = theObject;
+		sNVPair TriggerPoint;			 TriggerPoint.v3Value = glm::vec3(x, y, z);
+		sNVPair Radius;					 Radius.fValue = time;
+		sNVPair TargetObj;				 TargetObj.pMeshObj = targetObj;
+		sNVPair TrigScript;				 TrigScript.sValue = script;
+
+		vecInitValues.push_back(Object);
+		vecInitValues.push_back(TriggerPoint);
+		vecInitValues.push_back(Radius);
+		vecInitValues.push_back(TargetObj);
+		vecInitValues.push_back(TrigScript);
 
 		newCommand->Initialize(vecInitValues);
 

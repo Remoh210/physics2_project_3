@@ -73,6 +73,15 @@
     <Filter Include="Scripting\cCommands\OrientCommands">
       <UniqueIdentifier>{97ea618a-1849-44af-a601-92b6d8dfa498}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting\cCommands\Trigger">
+      <UniqueIdentifier>{06de55bf-da4b-4753-b27b-f2573337cf1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\cCommands\Follow\FollowObject">
+      <UniqueIdentifier>{38ddf50f-e9a5-4360-86f8-76cfd87da82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\cCommands\Follow\FollowCurve">
+      <UniqueIdentifier>{f3ca4672-a0a3-4355-bbbe-3aca8929a011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -162,9 +171,6 @@
     <ClCompile Include="cMoveToCommand.cpp">
       <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClCompile>
-    <ClCompile Include="cFollowObjectCommand.cpp">
-      <Filter>Scripting\cCommands\Follow</Filter>
-    </ClCompile>
     <ClCompile Include="cAnimationCurveCommand.cpp">
       <Filter>Scripting\cCommands\Other</Filter>
     </ClCompile>
@@ -186,8 +192,14 @@
     <ClCompile Include="sNVPair.cpp">
       <Filter>Scripting\CommandGroups</Filter>
     </ClCompile>
+    <ClCompile Include="cTriggerCommand.cpp">
+      <Filter>Scripting\cCommands\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="cFollowObjectCommand.cpp">
+      <Filter>Scripting\cCommands\Follow\FollowObject</Filter>
+    </ClCompile>
     <ClCompile Include="cFollowCurve.cpp">
-      <Filter>Scripting\cCommands\Follow</Filter>
+      <Filter>Scripting\cCommands\Follow\FollowCurve</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +275,6 @@
     <ClInclude Include="cMoveToCommand.h">
       <Filter>Scripting\cCommands\MoveCommands</Filter>
     </ClInclude>
-    <ClInclude Include="cFollowObjectCommand.h">
-      <Filter>Scripting\cCommands\Follow</Filter>
-    </ClInclude>
     <ClInclude Include="cWait.h">
       <Filter>Scripting\cCommands\Other</Filter>
     </ClInclude>
@@ -287,8 +296,14 @@
     <ClInclude Include="iCommand.h">
       <Filter>Scripting\CommandGroups</Filter>
     </ClInclude>
+    <ClInclude Include="cTriggerCommand.h">
+      <Filter>Scripting\cCommands\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="cFollowObjectCommand.h">
+      <Filter>Scripting\cCommands\Follow\FollowObject</Filter>
+    </ClInclude>
     <ClInclude Include="cFollowCurve.h">
-      <Filter>Scripting\cCommands\Follow</Filter>
+      <Filter>Scripting\cCommands\Follow\FollowCurve</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +312,12 @@
     </None>
     <None Include="assets\shaders\vertex01.glsl">
       <Filter>Shader Stuff\Shaders</Filter>
+    </None>
+    <None Include="assets\scripts\test.lua">
+      <Filter>Scripting\LuaScripts</Filter>
+    </None>
+    <None Include="assets\scripts\trig.lua">
+      <Filter>Scripting\LuaScripts</Filter>
     </None>
   </ItemGroup>
 </Project>
