@@ -144,9 +144,9 @@ void key_callback( GLFWwindow* window,
 	{
 
 
-		::p_LuaScripts->Update(deltaTime);
+		//::p_LuaScripts->Update(deltaTime);
 
-		::p_LuaScripts->UpdateCG(deltaTime);
+		//::p_LuaScripts->UpdateCG(deltaTime);
 
 	}
 
@@ -154,9 +154,9 @@ void key_callback( GLFWwindow* window,
 	{
 
 
-		::p_LuaScripts->Update(deltaTime);
+		//::p_LuaScripts->Update(deltaTime);
 
-		::p_LuaScripts->UpdateCG(deltaTime);
+		//::p_LuaScripts->UpdateCG(deltaTime);
 		
 	}
 	
@@ -466,7 +466,7 @@ void ManageScene(GLFWwindow* window)
 	std::cout << "->";
 	std::cin >> Answer;
 	if (Answer == "-s" || Answer == "-S") {
-		std::cout << "Which Scene to save? 1 or 2?" << std::endl;
+		std::cout << "Which Scene to save? 1, 2?" << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
 		if (Answer == "1") {
@@ -479,10 +479,15 @@ void ManageScene(GLFWwindow* window)
 			saveLightInfo("lights2.txt", LightManager->vecLights);
 			saveCameraInfo("camera2.txt");
 		}
+		else if (Answer == "3") {
+			saveModelInfo("Models3.txt", vec_pObjectsToDraw);
+			saveLightInfo("lights3.txt", LightManager->vecLights);
+			saveCameraInfo("camera3.txt");
+		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}
 	else if (Answer == "-l") {
-		std::cout << "Which Scene to load? 1 or 2?" << std::endl;
+		std::cout << "Which Scene to load? 1, 2 or 3?" << std::endl;
 		std::cout << "->";
 		std::cin >> Answer;
 		if (Answer == "1") {
@@ -494,6 +499,11 @@ void ManageScene(GLFWwindow* window)
 			loadModels("Models2.txt", vec_pObjectsToDraw);
 			loadLights("lights2.txt", LightManager->vecLights);
 			loadCameraInfo("camera2.txt");
+		}
+		else if (Answer == "3") {
+			loadModels("Models3.txt", vec_pObjectsToDraw);
+			loadLights("lights3.txt", LightManager->vecLights);
+			loadCameraInfo("camera3.txt");
 		}
 		else{ std::cout << "cancelling.." << std::endl; }
 	}

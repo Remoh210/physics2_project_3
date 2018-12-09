@@ -337,10 +337,10 @@ int main(void)
 
 
 
-	::p_LuaScripts = new cLuaBrain();
-	::p_LuaScripts->SetObjectVector(&(::vec_pObjectsToDraw));
+	//::p_LuaScripts = new cLuaBrain();
+	//::p_LuaScripts->SetObjectVector(&(::vec_pObjectsToDraw));
 
-	::p_LuaScripts->LoadScriptFile("example.lua");
+	//::p_LuaScripts->LoadScriptFile("example.lua");
 
 
 
@@ -357,12 +357,6 @@ int main(void)
         float ratio;
         int width, height;
 
-		//Front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-		//Front.y = sin(glm::radians(pitch));
-		//Front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-		//cameraFront = glm::normalize(Front);
-		//Horizontal = glm::normalize(glm::cross(Front, cameraUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-		//Up = glm::normalize(glm::cross(Right, Front));
 
 
 		glm::mat4x4 matProjection = glm::mat4(1.0f);
@@ -666,7 +660,7 @@ int main(void)
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
 
-		::p_LuaScripts->UpdateCG(deltaTime);
+		//::p_LuaScripts->UpdateCG(deltaTime);
 		//::p_LuaScripts->Update(deltaTime);
 
 		for (std::vector<sLight*>::iterator it = LightManager->vecLights.begin(); it != LightManager->vecLights.end(); ++it)
@@ -677,7 +671,7 @@ int main(void)
 			{
 
 
-				cMeshObject* pDebugSphere = findObjectByFriendlyName("debugSphere");
+				cMeshObject* pDebugSphere = findObjectByFriendlyName("DebugSphere");
 				pDebugSphere->bIsVisible = true;
 				pDebugSphere->bDontLight = true;
 				glm::vec4 oldDiffuse = pDebugSphere->materialDiffuse;
@@ -831,12 +825,12 @@ void LoadTerrainAABB(void)
 	//	into the AABB thing.
 	// Where is the mesh (do the triangles need to be transformed)??
 
-	cMeshObject* pTerrain = findObjectByFriendlyName("terrain");
+//	cMeshObject* pTerrain = findObjectByFriendlyName("terrain");
 
-	sModelDrawInfo terrainMeshInfo;
-	terrainMeshInfo.meshFileName = pTerrain->meshName;
+//	sModelDrawInfo terrainMeshInfo;
+//	terrainMeshInfo.meshFileName = pTerrain->meshName;
 
-	::g_pTheVAOMeshManager->FindDrawInfoByModelName(terrainMeshInfo);
+//	::g_pTheVAOMeshManager->FindDrawInfoByModelName(terrainMeshInfo);
 
 
 	//// How big is our AABBs? Side length?

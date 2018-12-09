@@ -345,7 +345,7 @@ void loadModels(std::string filename, std::vector<cMeshObject*> models)
 
 void loadLights(std::string filename, std::vector<sLight*> lights)
 {
-	std::ifstream file(("output/" + filename).c_str());
+	std::ifstream file(("SceneInfo/" + filename).c_str());
 
 	if (!file.is_open()) { return; }
 
