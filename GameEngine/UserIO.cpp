@@ -2,6 +2,7 @@
 #include "globalStuff.h"
 #include <string>
 #include "Camera.h"
+#include "cSceneManager.h"
 //#include <vector>
 #include <iostream>
 //include "TextureCTextureFromBMP.h"
@@ -21,6 +22,7 @@ float lastY = SCR_HEIGHT / 2.0f;
 
 std::string Answer;
 void ManageScene(GLFWwindow* window);
+cSceneManager sceneManager;
 
 bool bIsPicked = false;
 cMeshObject* closedModel;
@@ -85,7 +87,7 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_ENTER))
 	{
 		
-
+		sceneManager.saveScene("test.json");
 
 	}
 

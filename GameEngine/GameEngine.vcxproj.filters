@@ -82,6 +82,12 @@
     <Filter Include="Scripting\cCommands\Follow\FollowCurve">
       <UniqueIdentifier>{f3ca4672-a0a3-4355-bbbe-3aca8929a011}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ParticalSystem">
+      <UniqueIdentifier>{21a2b823-0fa2-44f0-af51-4f06a3546064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneManager">
+      <UniqueIdentifier>{fe5c1f0b-bba9-43d1-8d8d-aad229dfa917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -201,6 +207,9 @@
     <ClCompile Include="cFollowCurve.cpp">
       <Filter>Scripting\cCommands\Follow\FollowCurve</Filter>
     </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -304,6 +313,12 @@
     </ClInclude>
     <ClInclude Include="cFollowCurve.h">
       <Filter>Scripting\cCommands\Follow\FollowCurve</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>ParticalSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

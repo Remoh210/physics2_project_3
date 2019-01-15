@@ -1,0 +1,68 @@
+{
+    "GameObjects": [
+        {
+            "friendly name": "teapot",
+            "mesh name": "Utah_Teapot_xyz_n_GARBAGE_uv.ply"
+        },
+        {
+            "friendly name": "roomUV",
+            "mesh name": "roomUV.ply"
+        },
+        {
+            "friendly name": "Ufo2UVb",
+            "mesh name": "Ufo2UVb.ply"
+        },
+        {
+            "friendly name": "table",
+            "mesh name": "table.ply"
+        },
+        {
+            "friendly name": "knight",
+            "mesh name": "knight.ply"
+        },
+        {
+            "friendly name": "knight2",
+            "mesh name": "knight2.ply"
+        },
+        {
+            "friendly name": "fireplace",
+            "mesh name": "fireplace.ply"
+        },
+        {
+            "friendly name": "lantern",
+            "mesh name": "lantern.ply"
+        },
+        {
+            "friendly name": "cat",
+            "mesh name": "cat.ply"
+        },
+        {
+            "friendly name": "bread",
+            "mesh name": "bread.ply"
+        },
+        {
+            "friendly name": "Sphere_320_faces_xyz_n",
+            "mesh name": "Sphere_320_faces_xyz_n.ply"
+        },
+        {
+            "friendly name": "AxePainted",
+            "mesh name": "AxePainted.ply"
+        },
+        {
+            "friendly name": "pokeball",
+            "mesh name": "pokeball.ply"
+        },
+        {
+            "friendly name": "ivysaur",
+            "mesh name": "ivysaur.ply"
+        },
+        {
+            "friendly name": "SkyBoxObject",
+            "mesh name": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply"
+        },
+        {
+            "friendly name": "DebugSphere",
+            "mesh name": "Sphere_320.ply"
+        }
+    ]
+}

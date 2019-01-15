@@ -168,6 +168,7 @@
     <ClCompile Include="cMoveToEase.cpp" />
     <ClCompile Include="cMoveToEaseIO.cpp" />
     <ClCompile Include="cOrientTo.cpp" />
+    <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cTriggerCommand.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="cMoveToEase.h" />
     <ClInclude Include="cMoveToEaseIO.h" />
     <ClInclude Include="cOrientTo.h" />
+    <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="cTriggerCommand.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />
@@ -223,6 +225,7 @@
     <ClInclude Include="globalStuff.h" />
     <ClInclude Include="iCommand.h" />
     <ClInclude Include="linmath.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="sModelDrawInfo.h" />
     <ClInclude Include="SmoothStep.h" />
     <ClInclude Include="sNVPair.h" />
