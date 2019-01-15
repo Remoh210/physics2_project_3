@@ -10,6 +10,7 @@ public:
 	cSceneManager();
 
 	bool saveScene(std::string filename);
+	bool loadScene(std::string filename);
 	//bool loadScene(std::string filename);
 
 

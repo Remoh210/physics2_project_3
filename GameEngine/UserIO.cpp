@@ -87,7 +87,8 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_ENTER))
 	{
 		
-		sceneManager.saveScene("test.json");
+		//sceneManager.saveScene("test.json");
+		sceneManager.loadScene("test.json");
 
 	}
 
