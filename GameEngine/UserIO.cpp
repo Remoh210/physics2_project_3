@@ -22,7 +22,6 @@ float lastY = SCR_HEIGHT / 2.0f;
 
 std::string Answer;
 void ManageScene(GLFWwindow* window);
-cSceneManager sceneManager;
 
 bool bIsPicked = false;
 cMeshObject* closedModel;
@@ -88,7 +87,8 @@ void key_callback( GLFWwindow* window,
 	{
 		
 		//sceneManager.saveScene("test.json");
-		sceneManager.loadScene("test.json");
+		::g_pSceneManager->loadScene("output.json");
+		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
 	}
 

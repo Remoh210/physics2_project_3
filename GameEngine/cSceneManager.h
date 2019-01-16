@@ -1,7 +1,6 @@
 #ifndef _cSceneManager_HG_
 #define _cSceneManager_HG_
-
-#include "globalStuff.h"
+#include <string>
 
 class cSceneManager
 {
@@ -12,10 +11,11 @@ public:
 	bool saveScene(std::string filename);
 	bool loadScene(std::string filename);
 	//bool loadScene(std::string filename);
+	void setBasePath(std::string basepath);
 
 
-
-
+private:
+	std::string m_basePath;
 
 };
 

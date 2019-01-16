@@ -1,4 +1,5 @@
 #include "cSceneManager.h"
+#include "globalStuff.h"
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -16,6 +17,12 @@
 
 cSceneManager::cSceneManager() {};
 
+
+void cSceneManager::setBasePath(std::string basepath)
+{
+	this->m_basePath = basepath;
+	return;
+}
 
 
 bool cSceneManager::saveScene(std::string filename) {
@@ -37,11 +44,9 @@ bool cSceneManager::saveScene(std::string filename) {
 	}
 	CameraObj.AddMember("Speed", CameraSpeed, allocator);
 	CameraObj.AddMember("Position", CameraPosArray, allocator);
-	//camera.Position
-	//camera
-	//doc.AddMember("Camera", )
 
 
+	//GameObjects
 	/*or rapidjson::Value myArray; ;
 	     myArray.SetArray() */
 	for (std::vector<cMeshObject*>::iterator it = vec_pObjectsToDraw.begin(); it != vec_pObjectsToDraw.end(); ++it) {
@@ -57,7 +62,7 @@ bool cSceneManager::saveScene(std::string filename) {
 		rapidjson::Value Visible(CurModel->bIsVisible);
 		rapidjson::Value UsePhysics(CurModel->bIsUpdatedByPhysics);
 		rapidjson::Value WireFrame(CurModel->bIsWireFrame);
-		rapidjson::Value TexArray(rapidjson::kArrayType);
+		
 		
 
 		for(int i = 0; i < 3; i ++) {
@@ -97,6 +102,7 @@ bool cSceneManager::saveScene(std::string filename) {
 
 		//Textures
 		if (CurModel->vecTextures.size() > 0) {
+			rapidjson::Value TexArray(rapidjson::kArrayType);
 			for (int i = 0; i < CurModel->vecTextures.size(); i++) {
 				rapidjson::Value TexObjValue(rapidjson::kObjectType);
 				rapidjson::Value TexName(CurModel->vecTextures[i].name.c_str(), allocator);
@@ -122,6 +128,9 @@ bool cSceneManager::saveScene(std::string filename) {
 	
 
 
+
+
+
 	FILE* fp = fopen("output.json", "wb"); // non-Windows use "w"
 	char writeBuffer[65536];
 	rapidjson::FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
@@ -136,8 +145,13 @@ bool cSceneManager::saveScene(std::string filename) {
 
 bool cSceneManager::loadScene(std::string filename) {
 
+
+	std::string fileToLoadFullPath = this->m_basePath + "/" + filename;
+
+	vec_pObjectsToDraw.clear();
+	::g_pTheTextureManager->SetBasePath("assets/textures");
 	rapidjson::Document doc;
-	FILE* fp = fopen("output.json", "rb"); // non-Windows use "r"
+	FILE* fp = fopen(fileToLoadFullPath.c_str(), "rb"); // non-Windows use "r"
 	char readBuffer[65536];
 	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 	doc.ParseStream(is);
@@ -155,27 +169,80 @@ bool cSceneManager::loadScene(std::string filename) {
 		std::cout << "CameraPos: [ " << CameraPos[i] << " ]" << std::endl;
 	}
 
-	std::cout << Speed << std::endl;
 	
 
 	//Game Objects
 	const rapidjson::Value& GameObject = doc["GameObjects"];
-	std::string MeshName;
-	glm::vec3 Position;
+
 
 	for (rapidjson::SizeType i = 0; i < GameObject.Size(); i++) {
 
-		MeshName = GameObject[i]["Name"].GetString();
+		cMeshObject *CurModel = new cMeshObject();
+		sModelDrawInfo curModelInfo;
+
+		CurModel->friendlyName = GameObject[i]["Name"].GetString();
+		CurModel->meshName = GameObject[i]["Mesh"].GetString();
+		CurModel->bIsVisible = GameObject[i]["Visible"].GetBool();
+		CurModel->bIsUpdatedByPhysics = GameObject[i]["Use_Physics"].GetBool();
+		CurModel->bIsWireFrame = GameObject[i]["Wireframe"].GetBool();
+		curModelInfo.meshFileName = GameObject[i]["Mesh"].GetString();
 		
-		std::cout << "Name: " << MeshName << std::endl;
+
 		const rapidjson::Value& PositionArray = GameObject[i]["Position"];
 		for (rapidjson::SizeType i = 0; i < PositionArray.Size(); i++) {
-			Position[i] = PositionArray[i].GetFloat();
-			std::cout << "Position: [ " << Position[i] << " ]" <<std::endl;
+
+			CurModel->position[i] = PositionArray[i].GetFloat();
+			
 		}
-		
-		
+
+		const rapidjson::Value& DiffuseArray = GameObject[i]["DiffuseRGB_Alpha"];
+		for (rapidjson::SizeType i = 0; i < DiffuseArray.Size(); i++) {
+
+			CurModel->materialDiffuse[i] = DiffuseArray[i].GetFloat();
+
+		}
+
+		const rapidjson::Value& SpecularArray = GameObject[i]["SpecularRGB_Alpha"];
+		for (rapidjson::SizeType i = 0; i < SpecularArray.Size(); i++) {
+
+			CurModel->materialSpecular[i] = SpecularArray[i].GetFloat();
+
+		}
+
+		const rapidjson::Value& RotationArray = GameObject[i]["Rotation"];
+		for (rapidjson::SizeType i = 0; i < RotationArray.Size(); i++) {
+
+			CurModel->m_meshQOrientation[i] = RotationArray[i].GetFloat();
+
+		}
+
+		const rapidjson::Value& ScaleArray = GameObject[i]["Scale"];
+		for (rapidjson::SizeType i = 0; i < ScaleArray.Size(); i++) {
+
+			CurModel->nonUniformScale[i] = ScaleArray[i].GetFloat();
+
+		}
+
+		if (GameObject[i].HasMember("Textures")) {
+			const rapidjson::Value& TexArray = GameObject[i]["Textures"];
+			for (rapidjson::SizeType i = 0; i < TexArray.Size(); i++)
+			{
+				sTextureInfo CurModelTex;
+				CurModelTex.name = TexArray[i]["Name"].GetString();
+				CurModelTex.strength = TexArray[i]["Strength"].GetFloat();
+				CurModel->vecTextures.push_back(CurModelTex);
+				//Creating Texture even if there is alreade same textue NEED FIX
+				::g_pTheTextureManager->Create2DTextureFromBMPFile(CurModelTex.name, true);
+			}
+		}
+
+		vec_pObjectsToDraw.push_back(CurModel);
+		g_pTheVAOMeshManager->LoadModelIntoVAO(curModelInfo, program);
+	
 	}
+
+
+
 
 	return true;
 }

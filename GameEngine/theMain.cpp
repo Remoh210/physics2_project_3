@@ -71,6 +71,7 @@ glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 
 cShaderManager* pTheShaderManager = NULL;		// "Heap" variable
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
+cSceneManager* g_pSceneManager = NULL;
 
 cLightManager* LightManager = NULL;
 
@@ -183,8 +184,9 @@ int main(void)
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
 	// Create the texture manager
 	::g_pTheTextureManager = new cBasicTextureManager();
-
-
+	//Create Scene Manager
+	::g_pSceneManager = new cSceneManager();
+	::g_pSceneManager->setBasePath("scenes");
 
 
 	// Loading the uniform variables here (rather than the inner draw loop)
@@ -222,7 +224,8 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
+	g_pSceneManager->loadScene("output.json");
+	//CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 	//vec_sorted_drawObj = vec_pObjectsToDraw;

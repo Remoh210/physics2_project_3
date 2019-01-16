@@ -17,6 +17,7 @@
 #include "cVAOMeshManager.h"
 #include "cLuaBrain.h"
 #include "cLightManager.h"
+#include "cSceneManager.h"
 
 #include "Error/CErrorLog.h"
 #include "TextureManager/cBasicTextureManager.h"
@@ -50,8 +51,10 @@ extern const unsigned int SCR_HEIGHT;
 extern glm::vec3 g_lightPos;	// = glm::vec3( 4.0f, 4.0f, 0.0f );
 extern float g_lightBrightness;	// = 1.0f;
 
+
 extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
+extern cSceneManager* g_pSceneManager;
 
 // 
 // This is a global pointer to a mesh object. 
