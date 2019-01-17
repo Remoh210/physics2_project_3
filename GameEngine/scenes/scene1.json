@@ -2,9 +2,9 @@
     "Camera": {
         "Speed": 1000.0,
         "Position": [
-            -899.0159912109375,
-            1170.1600341796876,
-            -456.7659912109375
+            -387.0536193847656,
+            1221.9061279296876,
+            25.0272274017334
         ]
     },
     "GameObjects": [
@@ -587,9 +587,499 @@
             "Use_Physics": false,
             "Wireframe": false,
             "Position": [
-                -899.0159912109375,
-                1170.1600341796876,
-                -456.7659912109375
+                -387.0536193847656,
+                1221.9061279296876,
+                25.0272274017334
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": false,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                10.0,
+                1650.0,
+                480.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                5000.0,
+                5000.0,
+                5000.0
+            ]
+        },
+        {
+            "Name": "DebugSphere",
+            "Mesh": "Sphere_320.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": true,
+            "Position": [
+                -100.0,
+                10.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                1.0,
+                0.4117647111415863,
+                0.7058823704719544,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "Name": "SkyBoxObject",
+            "Mesh": "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply",
+            "Visible": false,
+            "Use_Physics": false,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                0.0,
+                0.0
             ],
             "DiffuseRGB_Alpha": [
                 1.0,
@@ -726,9 +1216,15 @@
             "Name": "MainLight",
             "Type": "POINT_LIGHT",
             "Position": [
-                686.0,
-                2170.0,
+                706.0,
+                2140.0,
                 185.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.00015549414092674851,
+                3.6068104236619549e-7,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 1.0,
@@ -740,16 +1236,17 @@
         },
         {
             "Name": "Torch_Light0",
-            "Type": "SPOT_LIGHT",
-            "Angles": [
-                0.0,
-                0.0
-            ],
-            "ObjectLookAt": "table",
+            "Type": "POINT_LIGHT",
             "Position": [
                 0.0,
-                400.0,
+                330.0,
                 0.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.00009999999747378752,
+                0.000014999999621068128,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.9279999732971191,
@@ -763,14 +1260,20 @@
             "Name": "Torch_Light1",
             "Type": "SPOT_LIGHT",
             "Angles": [
-                0.0,
-                0.0
+                10.0,
+                20.0
             ],
             "ObjectLookAt": "table",
             "Position": [
                 10.0,
-                400.0,
-                0.0
+                1725.0,
+                480.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.000028619990189326928,
+                7.610128704982344e-8,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.9279999732971191,
@@ -778,20 +1281,21 @@
                 0.1080000028014183,
                 1.0
             ],
-            "Turned": "OFF"
+            "Turned": "ON"
         },
         {
             "Name": "Torch_Light2",
-            "Type": "SPOT_LIGHT",
-            "Angles": [
-                0.0,
-                0.0
-            ],
-            "ObjectLookAt": "table",
+            "Type": "POINT_LIGHT",
             "Position": [
-                20.0,
-                400.0,
-                0.0
+                1155.0,
+                -290.0,
+                -455.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.0006081397295929492,
+                0.00001757841164362617,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.9279999732971191,
@@ -799,20 +1303,21 @@
                 0.1080000028014183,
                 1.0
             ],
-            "Turned": "OFF"
+            "Turned": "ON"
         },
         {
             "Name": "Torch_Light3",
-            "Type": "SPOT_LIGHT",
-            "Angles": [
-                0.0,
-                0.0
-            ],
-            "ObjectLookAt": "table",
+            "Type": "POINT_LIGHT",
             "Position": [
                 30.0,
                 400.0,
                 0.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.00009999999747378752,
+                0.000014999999621068128,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.9279999732971191,
@@ -824,20 +1329,17 @@
         },
         {
             "Name": "ChestLight",
-            "Type": "SPOT_LIGHT",
-            "Angles": [
-                0.0,
-                0.0
-            ],
-            "Direction": [
-                0.0,
-                0.0,
-                0.0
-            ],
+            "Type": "POINT_LIGHT",
             "Position": [
-                -675.0,
+                -700.0,
                 40.0,
                 520.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.00009999999747378752,
+                0.00002099999983329326,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.984000027179718,
@@ -851,9 +1353,15 @@
             "Name": "QuestLight",
             "Type": "POINT_LIGHT",
             "Position": [
-                -675.0,
+                -685.0,
                 40.0,
                 520.0
+            ],
+            "Attenuation": [
+                0.0,
+                0.00009999999747378752,
+                0.00002099999983329326,
+                -431602080.0
             ],
             "DiffuseRGB_Alpha": [
                 0.6399999856948853,

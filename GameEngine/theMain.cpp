@@ -187,6 +187,9 @@ int main(void)
 	//Create Scene Manager
 	::g_pSceneManager = new cSceneManager();
 	::g_pSceneManager->setBasePath("scenes");
+	::LightManager = new cLightManager();
+	
+
 
 
 	// Loading the uniform variables here (rather than the inner draw loop)
@@ -224,7 +227,8 @@ int main(void)
 
 	// Loading models was moved into this function
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	g_pSceneManager->loadScene("output.json");
+	::g_pSceneManager->loadScene("scene1.json");
+	::LightManager->LoadUniformLocations(program);
 	//CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
@@ -252,86 +256,89 @@ int main(void)
 
 	//***************************************************************
 
-	LightManager = new cLightManager();
+	
 	//sLight* pTheOneLight = NULL;
 	//sLight* pTheSecondLight = NULL;
 	//sLight* pTheThirdLight = NULL;
 	//sLight* pTheForthLight = NULL;
 
-	{
-		sLight* pTheMainLight = new sLight();
-		pTheMainLight->position = glm::vec4(1.0f, 400.0f, 0.0f, 1.0f);
-		pTheMainLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		pTheMainLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		pTheMainLight->atten.z = 0.00001f;	//			float quadAtten = 0.001f;
-		pTheMainLight->diffuse = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);// White light
-		pTheMainLight->param2.x = 1.0f;
-		pTheMainLight->SetLightType(sLight::POINT_LIGHT);
-		pTheMainLight->SetSpotConeAngles(15.0f, 35.0f);
-		//	pTheOneLight->SetSpotConeAngles( 15.0f, 45.0f );
-			// Direction is RELATIVE to the LIGHT (for spots)
-			// Straight down... 
-		pTheMainLight->SetRelativeDirection(glm::vec3(0.0f, -1.0f, 1.0f));
-		//pTheForthLight->AtenSphere - false;
-		pTheMainLight->lightName = "MainLight";
-		LightManager->vecLights.push_back(pTheMainLight);
-		LightManager->LoadUniformLocations(program);
-	}
-
-	for(int light_count = 0; light_count < 4;  light_count++)
-	{
-		sLight* pTorch = new sLight();
-		pTorch->position = glm::vec4(light_count * 10.0f, 400.0f, 0.0f, 1.0f);
-		pTorch->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		pTorch->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		pTorch->atten.z = 0.000015f;	//			float quadAtten = 0.001f;
-		pTorch->diffuse = glm::vec4(232 /250.0f, 109 / 250.0f, 27/250.0f, 1.0f);// White light
-		pTorch->param2.x = 0.0f;
-		//pTheForthLight->AtenSphere - false;
-		pTorch->lightName = "Torch_Light" + std::to_string(light_count);
-		LightManager->vecLights.push_back(pTorch);
-		LightManager->LoadUniformLocations(program);
-	}
-
-	{
-		sLight* ChestLight = new sLight();
-		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
-		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
-		ChestLight->diffuse = glm::vec4(246 / 250.0f, 10/ 250.0f, 10 / 215.0f, 0.0f);
-		ChestLight->param2.x = 0.0f;
-		//pTheForthLight->AtenSphere - false;
-		ChestLight->lightName = "ChestLight";
-		LightManager->vecLights.push_back(ChestLight);
-		LightManager->LoadUniformLocations(program);
-	}
-
-
-	{
-		sLight* ChestLight = new sLight();
-		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
-		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
-		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
-		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
-		ChestLight->diffuse = glm::vec4(0.64f, 0.027f, 0.9f, 1.0f);
-		ChestLight->param2.x = 0.0f;
-		ChestLight->lightName = "QuestLight";
-		LightManager->vecLights.push_back(ChestLight);
-		LightManager->LoadUniformLocations(program);
-	}
-
-	//saveLightInfo("Default.txt")
+//	{
+//		sLight* pTheMainLight = new sLight();
+//		pTheMainLight->position = glm::vec4(1.0f, 400.0f, 0.0f, 1.0f);
+//		pTheMainLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
+//		pTheMainLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
+//		pTheMainLight->atten.z = 0.00001f;	//			float quadAtten = 0.001f;
+//		pTheMainLight->diffuse = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);// White light
+//		pTheMainLight->param2.x = 1.0f;
+//		pTheMainLight->SetLightType(sLight::POINT_LIGHT);
+//		pTheMainLight->SetSpotConeAngles(15.0f, 35.0f);
+//		//	pTheOneLight->SetSpotConeAngles( 15.0f, 45.0f );
+//			// Direction is RELATIVE to the LIGHT (for spots)
+//			// Straight down... 
+//		pTheMainLight->SetRelativeDirection(glm::vec3(0.0f, -1.0f, 1.0f));
+//		//pTheForthLight->AtenSphere - false;
+//		pTheMainLight->lightName = "MainLight";
+//		LightManager->vecLights.push_back(pTheMainLight);
+//		LightManager->LoadUniformLocations(program);
+//	}
+//
+//	for(int light_count = 0; light_count < 4;  light_count++)
+//	{
+//		sLight* pTorch = new sLight();
+//		pTorch->position = glm::vec4(light_count * 10.0f, 400.0f, 0.0f, 1.0f);
+//		pTorch->atten.x = 0.0f;	// 			float constAtten = 0.0f;
+//		pTorch->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
+//		pTorch->atten.z = 0.000015f;	//			float quadAtten = 0.001f;
+//		pTorch->diffuse = glm::vec4(232 /250.0f, 109 / 250.0f, 27/250.0f, 1.0f);// White light
+//		pTorch->param2.x = 0.0f;
+//		pTorch->SetLightType(sLight::SPOT_LIGHT);
+//		pTorch->SetRelativeDirectionByLookAt(findObjectByFriendlyName("table"));
+//		//pTheForthLight->AtenSphere - false;
+//		pTorch->lightName = "Torch_Light" + std::to_string(light_count);
+//		LightManager->vecLights.push_back(pTorch);
+//		LightManager->LoadUniformLocations(program);
+//	}
+//
+//	{
+//		sLight* ChestLight = new sLight();
+//		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
+//		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
+//		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
+//		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
+//		ChestLight->diffuse = glm::vec4(246 / 250.0f, 10/ 250.0f, 10 / 215.0f, 0.0f);
+//		ChestLight->SetLightType(sLight::SPOT_LIGHT);
+//		ChestLight->param2.x = 0.0f;
+//		//pTheForthLight->AtenSphere - false;
+//		ChestLight->lightName = "ChestLight";
+//		LightManager->vecLights.push_back(ChestLight);
+//		LightManager->LoadUniformLocations(program);
+//	}
+//
+//
+//	{
+//		sLight* ChestLight = new sLight();
+//		ChestLight->position = glm::vec4(-675.0f, 40.0f, 520.0f, 1.0f);
+//		ChestLight->atten.x = 0.0f;	// 			float constAtten = 0.0f;
+//		ChestLight->atten.y = 0.0001f;	//			float linearAtten = 0.01f;
+//		ChestLight->atten.z = 0.000021f;	//			float quadAtten = 0.001f;
+//		ChestLight->diffuse = glm::vec4(0.64f, 0.027f, 0.9f, 1.0f);
+//		ChestLight->param2.x = 0.0f;
+//		ChestLight->lightName = "QuestLight";
+//		LightManager->vecLights.push_back(ChestLight);
+//		LightManager->LoadUniformLocations(program);
+//	}
+//
+//	//saveLightInfo("Default.txt")
 	cLightHelper* pLightHelper = new cLightHelper();
-
-	
-
-	//Reload from the file
-//	saveModelInfo("Models.txt", vec_pObjectsToDraw);
-//	saveLightInfo("lights.txt", LightManager->vecLights);
-	//loadModels("Models.txt", vec_pObjectsToDraw);
-	loadLights("lights.txt", LightManager->vecLights);
-	loadCameraInfo("camera.txt");
+//
+//	
+//
+//	//Reload from the file
+////	saveModelInfo("Models.txt", vec_pObjectsToDraw);
+////	saveLightInfo("lights.txt", LightManager->vecLights);
+//	//loadModels("Models.txt", vec_pObjectsToDraw);
+//	loadLights("lights.txt", LightManager->vecLights);
+//	loadCameraInfo("camera.txt");
 	//HACK; TODO save and load camera look at
 	//camera.b_controlledByScript = true;
 	//camera.SetViewMatrix(glm::lookAt(camera.Position, glm::vec3(285.0f, 245.0f, 825.0f), camera.WorldUp));

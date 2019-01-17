@@ -55,6 +55,7 @@ extern float g_lightBrightness;	// = 1.0f;
 extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
 extern cSceneManager* g_pSceneManager;
+extern cLightManager* LightManager;
 
 // 
 // This is a global pointer to a mesh object. 

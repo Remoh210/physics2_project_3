@@ -86,8 +86,17 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_ENTER))
 	{
 		
-		//sceneManager.saveScene("test.json");
-		::g_pSceneManager->loadScene("output.json");
+		::g_pSceneManager->saveScene("scene1.json");
+		//::g_pSceneManager->loadScene("output.json");
+		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
+
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_BACKSPACE))
+	{
+
+		//::g_pSceneManager->saveScene("output.json");
+		::g_pSceneManager->loadScene("scene1.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
 	}

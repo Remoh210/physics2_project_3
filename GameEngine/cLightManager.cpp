@@ -1,6 +1,7 @@
 #include "cLightManager.h"
 
 
+
 cLightManager::cLightManager()
 {
 	//intilization stufff
@@ -12,14 +13,62 @@ void cLightManager::TurnOnLight(int index)
 
 }
 
+sLight::sLight() {
 
+	ObjectRelativeTo = NULL;
+	ObjectLookAt = NULL;
+
+}
 
 void sLight::SetLightType(std::string typeAsString)
 {
-	// TODO:
+	if (typeAsString == "POINT_LIGHT")
+	{
+		this->param1.x = 0.0f;		// Point
+		m_lightType = POINT_LIGHT;
+	}
+	else if (typeAsString == "SPOT_LIGHT")
+	{
+		this->param1.x = 1.0f;		// Point
+		m_lightType = SPOT_LIGHT;
+	}
+	else if (typeAsString == "DIRECTIONAL_LIGHT")
+	{
+		this->param1.x = 2.0f;		// Point
+		m_lightType = DIRECTIONAL_LIGHT;
+	}
+	else 
+	{
+		this->param1.x = 0.0f;		// Point
+		m_lightType = POINT_LIGHT;
+	}
+	
 
 	return;
 }
+
+sLight::eLightType sLight::GetLightType_enum(void)
+{
+	
+	return m_lightType;
+}
+
+std::string sLight::GetLightType_str(void)
+{
+
+	switch (this->m_lightType)
+	{
+	case sLight::POINT_LIGHT:
+		return "POINT_LIGHT";
+	case sLight::SPOT_LIGHT:
+		return "SPOT_LIGHT";
+	case sLight::DIRECTIONAL_LIGHT:
+		return "DIRECTIONAL_LIGHT";
+	default:
+		return "POINT_LIGHT";
+	};
+}
+
 
 void sLight::SetLightType(sLight::eLightType lightType)
 {
@@ -27,16 +76,20 @@ void sLight::SetLightType(sLight::eLightType lightType)
 	{
 	case sLight::POINT_LIGHT:
 		this->param1.x = 0.0f;		// Point
+		m_lightType = POINT_LIGHT;
 		break;
 	case sLight::SPOT_LIGHT:
 		this->param1.x = 1.0f;		// Spot
+		m_lightType = SPOT_LIGHT;
 		break;
 	case sLight::DIRECTIONAL_LIGHT:
 		this->param1.x = 2.0f;		// Directional
+		m_lightType = DIRECTIONAL_LIGHT;
 		break;
 	default:
 		// Make point if we don't know
 		// (shouldn't happen)
+		m_lightType = POINT_LIGHT;
 		this->param1.x = 0.0f;		// Point
 		break;
 	};
@@ -83,6 +136,19 @@ void sLight::SetRelativeDirectionByLookAt(glm::vec3 pointInWorldXYZ)
 	// The vector from what I'm looking at to where I am, then normalize
 
 	glm::vec3 lookVector = pointInWorldXYZ - glm::vec3(this->position);
+
+	lookVector = glm::normalize(lookVector);
+
+	this->SetRelativeDirection(lookVector);
+
+	return;
+}
+
+void sLight::SetRelativeDirectionByLookAt(cMeshObject* lookAtObj)
+{
+	// The vector from what I'm looking at to where I am, then normalize
+	this->ObjectLookAt = lookAtObj;
+	glm::vec3 lookVector = ObjectLookAt->position - glm::vec3(this->position);
 
 	lookVector = glm::normalize(lookVector);
 

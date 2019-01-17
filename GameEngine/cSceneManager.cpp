@@ -120,18 +120,101 @@ bool cSceneManager::saveScene(std::string filename) {
 		
 
 	}
-	doc.AddMember("Camera", CameraObj, allocator);
-	doc.AddMember("GameObjects", MeshArray, allocator);
 
-	//TODO: Lights
 
+
+	//Lights
+	rapidjson::Value LightsArray(rapidjson::kArrayType);
+	for (std::vector<sLight*>::iterator it = LightManager->vecLights.begin(); it != LightManager->vecLights.end(); ++it) {
+		sLight* CurLight = *it;
+		rapidjson::Value ObjValue(rapidjson::kObjectType);
+		rapidjson::Value FriendlyName(CurLight->lightName.c_str(), allocator);
+		rapidjson::Value LightType(CurLight->GetLightType_str().c_str(), allocator);
+		rapidjson::Value PositionArray(rapidjson::kArrayType);
+		rapidjson::Value AttenArray(rapidjson::kArrayType);
+		rapidjson::Value DiffuseArray(rapidjson::kArrayType);
+		rapidjson::Value DirectionArray(rapidjson::kArrayType);
+		rapidjson::Value Turned("OFF");
+		
 	
 
+		//cone Angles
+		
+
+		//light position
+
+		for (int i = 0; i < 3; i++) {
+			rapidjson::Value temp(CurLight->position[i]);
+			PositionArray.PushBack(temp, allocator);
+		}
+		for (int i = 0; i < 4; i++) {
+			rapidjson::Value temp(CurLight->diffuse[i]);
+			DiffuseArray.PushBack(temp, allocator);
+		}
+		for (int i = 0; i < 4; i++) {
+			rapidjson::Value temp(CurLight->atten[i]);
+			AttenArray.PushBack(temp, allocator);
+		}
+		
+
+		if (CurLight->param2.x == 1.0f) {
+			rapidjson::Value temp("ON");
+			Turned = temp;
+		}
+	
+
+		ObjValue.AddMember("Name", FriendlyName, allocator);
+		ObjValue.AddMember("Type", LightType, allocator);
+
+		if (CurLight->GetLightType_str() != "POINT_LIGHT") {
+			rapidjson::Value AnglesArray(rapidjson::kArrayType);
+			for (int i = 1; i < 3; i++) {
+				rapidjson::Value temp(CurLight->param1[i]);
+				AnglesArray.PushBack(temp, allocator);
+			}
+			ObjValue.AddMember("Angles", AnglesArray, allocator);
+
+			// Direction Or LookAt object
+			if (CurLight->ObjectLookAt == NULL ) {
+				for (int i = 0; i < 3; i++) {
+					rapidjson::Value temp(CurLight->direction[i]);
+					DirectionArray.PushBack(temp, allocator);
+				}
+				ObjValue.AddMember("Direction", DirectionArray, allocator);
+			}
+			else {
+				rapidjson::Value temp(CurLight->ObjectLookAt->friendlyName.c_str(), allocator);
+				ObjValue.AddMember("ObjectLookAt", temp, allocator);
+			}
+		}
+		ObjValue.AddMember("Position", PositionArray, allocator);
+		ObjValue.AddMember("Attenuation", AttenArray, allocator);
+		ObjValue.AddMember("DiffuseRGB_Alpha", DiffuseArray, allocator);
+		ObjValue.AddMember("Turned", Turned, allocator);
+
+		LightsArray.PushBack(ObjValue, allocator);
+
+	}
 
 
 
 
-	FILE* fp = fopen("output.json", "wb"); // non-Windows use "w"
+
+
+
+
+
+
+
+	doc.AddMember("Camera", CameraObj, allocator);
+	doc.AddMember("GameObjects", MeshArray, allocator);
+	doc.AddMember("Lights", LightsArray, allocator);
+
+	
+	
+	std::string fileToLoadFullPath = this->m_basePath + "/" + filename;
+
+	FILE* fp = fopen(fileToLoadFullPath.c_str(), "wb"); // non-Windows use "w"
 	char writeBuffer[65536];
 	rapidjson::FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
 	rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(os);
@@ -149,6 +232,7 @@ bool cSceneManager::loadScene(std::string filename) {
 	std::string fileToLoadFullPath = this->m_basePath + "/" + filename;
 
 	vec_pObjectsToDraw.clear();
+	//LightManager->vecLights.clear();
 	::g_pTheTextureManager->SetBasePath("assets/textures");
 	rapidjson::Document doc;
 	FILE* fp = fopen(fileToLoadFullPath.c_str(), "rb"); // non-Windows use "r"
@@ -173,6 +257,7 @@ bool cSceneManager::loadScene(std::string filename) {
 
 	//Game Objects
 	const rapidjson::Value& GameObject = doc["GameObjects"];
+	const rapidjson::Value& LightObject = doc["Lights"];
 
 
 	for (rapidjson::SizeType i = 0; i < GameObject.Size(); i++) {
@@ -242,6 +327,60 @@ bool cSceneManager::loadScene(std::string filename) {
 	}
 
 
+
+	for (rapidjson::SizeType i = 0; i < LightObject.Size(); i++) {
+
+		sLight* CurLight = new sLight();
+
+		CurLight->lightName = LightObject[i]["Name"].GetString();
+		CurLight->SetLightType(LightObject[i]["Type"].GetString());
+		if (LightObject[i].HasMember("Angles"))	{
+			const rapidjson::Value& AngleArray = LightObject[i]["Angles"];
+			CurLight->SetSpotConeAngles(AngleArray[0].GetFloat(), AngleArray[1].GetFloat());
+		}
+
+		if (LightObject[i].HasMember("Direction")) {
+			const rapidjson::Value& DirectionArray = LightObject[i]["Direction"];
+			for (rapidjson::SizeType i = 0; i < DirectionArray.Size(); i++) {
+				CurLight->direction[i] = DirectionArray[i].GetFloat();
+			}
+		}
+
+		
+		const rapidjson::Value& PositionArray = LightObject[i]["Position"];
+		for (rapidjson::SizeType i = 0; i < PositionArray.Size(); i++) {
+			CurLight->position[i] = PositionArray[i].GetFloat();
+		}
+		if (LightObject[i].HasMember("ObjectLookAt")) {
+			cMeshObject* LookAtObj = findObjectByFriendlyName(LightObject[i]["ObjectLookAt"].GetString());
+			if (LookAtObj != NULL) {
+				CurLight->SetRelativeDirectionByLookAt(LookAtObj);
+			}
+			else {
+				std::cout << "LookAt obj not found: " << LightObject[i]["ObjectLookAt"].GetString() << std::endl;
+			}
+		}
+		const rapidjson::Value& AttenArray = LightObject[i]["Attenuation"];
+		for (rapidjson::SizeType i = 0; i < AttenArray.Size(); i++) {
+			CurLight->atten[i] = AttenArray[i].GetFloat();
+		}
+		const rapidjson::Value& DiffuseArray = LightObject[i]["DiffuseRGB_Alpha"];
+		for (rapidjson::SizeType i = 0; i < DiffuseArray.Size(); i++) {
+			CurLight->diffuse[i] = DiffuseArray[i].GetFloat();
+		}
+		std::string turn = LightObject[i]["Turned"].GetString();
+		if (turn == "ON") {
+			CurLight->param2.x = 1.0f;
+		}
+		else{
+			CurLight->param2.x = 0.0f;
+		}
+
+		LightManager->vecLights.push_back(CurLight);
+		
+	}
+
+	
 
 
 	return true;

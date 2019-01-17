@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globalOpenGLStuff.h"
+#include "cMeshObject.h"
 #include <glm/glm.hpp>
 #include <glm/vec4.hpp>
 #include <vector>
@@ -8,6 +9,8 @@
 
 struct sLight
 {
+
+	sLight();
 
 	enum eLightType
 	{					// These numbers are from the shader...
@@ -42,17 +45,22 @@ struct sLight
 
 	void SetLightType(std::string typeAsString);
 	void SetLightType(eLightType lightType);
+	sLight::eLightType GetLightType_enum(void);
+	std::string GetLightType_str(void);
 	void SetSpotConeAngles(float innerAngleDegrees, float outerAngleDegrees);
 	void SetRelativeDirection(glm::vec3 relDirection);
 	void SetRelativeDirectionByEulerAngles(glm::vec3 directionAngle);
 	void SetRelativeDirectionByLookAt(glm::vec3 pointInWorldXYZ);
-
+	void SetRelativeDirectionByLookAt(cMeshObject* lookAtObj);
+	cMeshObject* ObjectRelativeTo;
+	cMeshObject* ObjectLookAt;
 
 
 	bool AtenSphere;
 
 private:
 	eLightType m_lightType;
+
 };
 
 class cLightManager
