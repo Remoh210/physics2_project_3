@@ -88,6 +88,9 @@
     <Filter Include="SceneManager">
       <UniqueIdentifier>{fe5c1f0b-bba9-43d1-8d8d-aad229dfa917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TextManager">
+      <UniqueIdentifier>{254fc64d-77ba-46e4-bd12-541ecf97598b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -210,6 +213,9 @@
     <ClCompile Include="cSceneManager.cpp">
       <Filter>SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="cTextRend.cpp">
+      <Filter>TextManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -319,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="cSceneManager.h">
       <Filter>SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextRend.h">
+      <Filter>TextManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

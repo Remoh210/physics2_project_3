@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include "cAABB.h"
+#include "cTextRend.h"
 
 #include <string>
 
@@ -56,6 +57,7 @@ extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
 extern cSceneManager* g_pSceneManager;
 extern cLightManager* LightManager;
+//extern cTextRend* g_textRend;
 
 // 
 // This is a global pointer to a mesh object. 

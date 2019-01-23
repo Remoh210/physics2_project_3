@@ -72,7 +72,7 @@ glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 cShaderManager* pTheShaderManager = NULL;		// "Heap" variable
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
 cSceneManager* g_pSceneManager = NULL;
-
+//cTextRend g_textRend;
 cLightManager* LightManager = NULL;
 
 std::vector<cMeshObject*> vec_transObj;
@@ -88,7 +88,7 @@ static void error_callback(int error, const char* description)
 cAABBHierarchy* g_pTheTerrain = new cAABBHierarchy();
 
 
-void DoPhysicsCheckpointNumberFour(double deltaTime);
+//void DoPhysicsCheckpointNumberFour(double deltaTime);
 
 // For now, I'm doing this here, but you might want to do this
 //  in the object, in the "phsyics" thing, or wherever. 
@@ -117,9 +117,8 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-
 	//CAMERA SPEED
-	camera.MovementSpeed = 1000.0f;
+	//camera.MovementSpeed = 1000.0f;
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -182,6 +181,8 @@ int main(void)
 
 
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
+	//::g_textRend = new cTextRend();
+	//::g_textRend.init();
 	// Create the texture manager
 	::g_pTheTextureManager = new cBasicTextureManager();
 	//Create Scene Manager
@@ -412,6 +413,7 @@ int main(void)
 
 
 
+
 //		{// START OF: AABB debug stuff
 ////HACK: Draw Debug AABBs...
 //
@@ -592,7 +594,13 @@ int main(void)
 
 		}//for ( unsigned int objIndex = 0; 
 
+		//float sx = 2.0f / width;
+		//float sy = 2.0f / height;
+		//GLfloat yoffset = 50.0f;
+		//GLfloat xoffset = 8 * sx;
 
+		//g_textRend.renderText("ololosadasdasdassdasdasdasd", -1 + xoffset, 1 - yoffset * sy, sx, sy);
+		//yoffset += 50.0f;
 
 
 
