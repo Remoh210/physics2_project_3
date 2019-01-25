@@ -3,6 +3,7 @@
 
 #include "cVAOMeshManager.h"
 
+
 #include <fstream>
 #include <string>
 #include <iostream> 
@@ -10,6 +11,7 @@
 
 cVAOMeshManager::cVAOMeshManager()		// constructor
 {
+	this->m_fileLoader = cVAOMeshManager::ORIGINAL;
 	return;
 }
 
@@ -18,6 +20,33 @@ cVAOMeshManager::~cVAOMeshManager()		// destructor
 	// Will call ShutDown();
 	return;
 }
+
+void cVAOMeshManager::SetBasePath(std::string basepath)
+{
+	this->m_basePath = basepath;
+	return;
+}
+
+
+void cVAOMeshManager::changeLoaderToOriginal(void)
+{
+	this->m_fileLoader = cVAOMeshManager::ORIGINAL;
+	return;
+}
+//
+//void cVAOMeshManager::changeLoaderToPly5n(void)
+//{
+//	this->m_fileLoader = cVAOMeshManager::PLY5N;
+//	return;
+//}
+
+void cVAOMeshManager::changeLoaderToAssimp(void)
+{
+	this->m_fileLoader = cVAOMeshManager::ASSIMP;
+	return;
+}
+
+
 
 // Note: the shader program ID is needed to tie 
 // the buffer to the vertex layout of the shader
@@ -76,11 +105,41 @@ bool cVAOMeshManager::FindDrawInfoByModelName(sModelDrawInfo &drawInfo)
 	return true;
 }
 
+bool cVAOMeshManager::m_LoadModelFromFile_AssimpLoader(sModelDrawInfo &drawInfo)
+{
+	assert(true);
+	return false;
+}
+
 
 bool cVAOMeshManager::m_LoadModelFromFile(sModelDrawInfo &drawInfo)
 {
+	switch (this->m_fileLoader)
+	{
+	case cVAOMeshManager::ORIGINAL:
+		return this->m_LoadModelFromFile_OriginalLoader(drawInfo);
+		break;
+	/*case cVAOMeshManager::PLY5N:
+		return this->m_LoadModelFromFile_Ply5nLoader(drawInfo);
+		break;*/
+	case cVAOMeshManager::ASSIMP:
+		return this->m_LoadModelFromFile_AssimpLoader(drawInfo);
+		break;
+	}
+
+	return false;
+}
+
+bool cVAOMeshManager::m_LoadModelFromFile_OriginalLoader(sModelDrawInfo &drawInfo)
+{
+	std::string fileToLoadFullPath = drawInfo.meshFileName;
+	if (this->m_basePath != "")
+	{
+		fileToLoadFullPath = this->m_basePath + "/" + drawInfo.meshFileName;
+	}
+
 	// Open the file that you asked.
-	std::ifstream theFile(drawInfo.meshFileName.c_str());
+	std::ifstream theFile(fileToLoadFullPath.c_str());
 
 	// if ( theFile.is_open() == false )
 	if (!theFile.is_open())			// More "c" or "C++" ish
@@ -224,7 +283,99 @@ bool cVAOMeshManager::m_LoadModelFromFile(sModelDrawInfo &drawInfo)
 	return true;
 }
 
-
+//bool cVAOMeshManager::m_LoadModelFromFile_Ply5nLoader(sModelDrawInfo &drawInfo)
+//{
+//	std::string fileToLoadFullPath = drawInfo.meshFileName;
+//	if (this->m_basePath != "")
+//	{
+//		fileToLoadFullPath = this->m_basePath + "/" + drawInfo.meshFileName;
+//	}
+//
+//
+//
+//	CPlyFile5nt plyLoader;
+//	std::wstring error;
+//	if (!plyLoader.OpenPLYFile2(CStringHelper::ASCIIToUnicodeQnD(fileToLoadFullPath), error))
+//	{
+//		this->m_AppendTextToLastError("Didn't load the ", false);
+//		this->m_AppendTextToLastError(fileToLoadFullPath, false);
+//		this->m_AppendTextToLastError(" file.");
+//		this->m_AppendTextToLastError(CStringHelper::UnicodeToASCII_QnD(error));
+//		return false;
+//	}
+//
+//
+//	drawInfo.numberOfVertices = plyLoader.GetNumberOfVerticies();
+//	std::cout << "vertices: " << drawInfo.numberOfVertices << std::endl;
+//
+//	drawInfo.numberOfTriangles = plyLoader.GetNumberOfElements();
+//	std::cout << "triangles: " << drawInfo.numberOfTriangles << std::endl;
+//
+//	drawInfo.pVerticesFromFile = new sPlyVertex[drawInfo.numberOfVertices];
+//
+//	memset(drawInfo.pVerticesFromFile, 0, sizeof(sPlyVertex) * drawInfo.numberOfVertices);
+//
+//	// Read the vertex data into the array
+//	PlyVertex curVert;
+//	for (unsigned int index = 0; index != drawInfo.numberOfVertices; index++)
+//	{
+//		curVert = plyLoader.getVertex_at(index);
+//
+//		drawInfo.pVerticesFromFile[index].x = curVert.xyz.x;
+//		drawInfo.pVerticesFromFile[index].y = curVert.xyz.y;
+//		drawInfo.pVerticesFromFile[index].z = curVert.xyz.z;
+//
+//		drawInfo.pVerticesFromFile[index].nx = curVert.nx;
+//		drawInfo.pVerticesFromFile[index].ny = curVert.ny;
+//		drawInfo.pVerticesFromFile[index].nz = curVert.nz;
+//
+//		//  Also load the UV values
+//		drawInfo.pVerticesFromFile[index].u = curVert.tex0u;
+//		drawInfo.pVerticesFromFile[index].v = curVert.tex1u;
+//
+//		drawInfo.pVerticesFromFile[index].r = curVert.red;
+//		drawInfo.pVerticesFromFile[index].g = curVert.green;
+//		drawInfo.pVerticesFromFile[index].b = curVert.blue;
+//		drawInfo.pVerticesFromFile[index].a = curVert.alpha;
+//
+//		//		theFile >> g_pArrayVert[index].;
+//	}//for ( unsigned int index...
+//
+//	// Same with triangles
+//	drawInfo.pTriangles = new sPlyTriangle[drawInfo.numberOfTriangles];
+//
+//	memset(drawInfo.pTriangles, 0, sizeof(sPlyTriangle) * drawInfo.numberOfTriangles);
+//
+//	PlyElement curElement;
+//	for (unsigned int index = 0; index != drawInfo.numberOfTriangles; index++)
+//	{
+//		curElement = plyLoader.getElement_at(index);
+//		drawInfo.pTriangles[index].vertex_index_1 = curElement.vertex_index_1;
+//		drawInfo.pTriangles[index].vertex_index_2 = curElement.vertex_index_2;
+//		drawInfo.pTriangles[index].vertex_index_3 = curElement.vertex_index_3;
+//	}//for ( unsigned int index...
+//
+//	plyLoader.calcualteExtents();
+//
+//	// Calculating extents...
+//
+//	// Assume the 1st one is the largest and smallest:
+//	drawInfo.minX = plyLoader.getMinX();
+//	drawInfo.minY = plyLoader.getMinY();
+//	drawInfo.minZ = plyLoader.getMinZ();
+//
+//	drawInfo.maxX = plyLoader.getMaxX();
+//	drawInfo.maxY = plyLoader.getMaxY();
+//	drawInfo.maxZ = plyLoader.getMaxZ();
+//
+//	drawInfo.extentX = drawInfo.maxX - drawInfo.minX;
+//	drawInfo.extentY = drawInfo.maxY - drawInfo.minY;
+//	drawInfo.extentZ = drawInfo.maxZ - drawInfo.minZ;
+//
+//	drawInfo.maxExtent = plyLoader.getMaxExtent();
+//
+//	return true;
+//}
 
 bool cVAOMeshManager::m_LoadDrawInfo_Into_VAO(
 	sModelDrawInfo &drawInfo,

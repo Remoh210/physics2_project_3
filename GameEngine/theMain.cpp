@@ -95,7 +95,11 @@ cAABBHierarchy* g_pTheTerrain = new cAABBHierarchy();
 //  Or leave it here!!
 void LoadTerrainAABB(void);
 
-
+// Set up the off screen textures to draw to
+GLuint g_FBO = 0;
+GLuint g_FBO_colourTexture = 0;
+GLuint g_FBO_depthTexture = 0;
+GLint g_FBO_SizeInPixes = 512;		// = 512 the WIDTH of the framebuffer, in pixels;
 
 int main(void)
 {
@@ -181,6 +185,7 @@ int main(void)
 
 
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
+	::g_pTheVAOMeshManager->SetBasePath("assets/models");
 	//::g_textRend = new cTextRend();
 	//::g_textRend.init();
 	// Create the texture manager
@@ -190,6 +195,26 @@ int main(void)
 	::g_pSceneManager->setBasePath("scenes");
 	::LightManager = new cLightManager();
 	
+
+
+	//Set Up FBO
+	static const GLenum draw_bufers[] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, draw_bufers);
+
+	// Check for "completenesss"
+	GLenum FBOStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (FBOStatus == GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "Framebuffer is good to go!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Framebuffer is NOT complete" << std::endl;
+	}
+
+	// Point back to default frame buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
 
@@ -226,7 +251,7 @@ int main(void)
 		std::cout << "Debug renderer is OK" << std::endl;
 	}
 
-	// Loading models was moved into this function
+	// loading some "debug meshes"
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
 	::g_pSceneManager->loadScene("scene1.json");
 	::LightManager->LoadUniformLocations(program);
@@ -354,8 +379,12 @@ int main(void)
 	//::p_LuaScripts->LoadScriptFile("example.lua");
 
 
-
-
+	//FBO
+	int renderPassNumber = 1;
+	// 1 = 1st pass (the actual scene)
+	// 2 = 2nd pass (rendering what we drew to the output)
+	GLint renderPassNumber_UniLoc = glGetUniformLocation(program, "renderPassNumber");
+	//std::cout << renderPassNumber_UniLoc << std::endl;
 	//*****************************************************************
 	
 	// Draw the "scene" (run the program)
@@ -364,6 +393,22 @@ int main(void)
 
 		// Switch to the shader we want
 		::pTheShaderManager->useShaderProgram( "BasicUberShader" );
+
+
+		// Set for the 1st pass
+		glBindFramebuffer(GL_FRAMEBUFFER, g_FBO);		// Point output to FBO
+
+		//**********************************************************
+		// Clear the offscreen frame buffer
+		glViewport(0, 0, g_FBO_SizeInPixes, g_FBO_SizeInPixes);
+		GLfloat	zero = 0.0f;
+		GLfloat one = 1.0f;
+		glClearBufferfv(GL_COLOR, 0, &zero);
+		glClearBufferfv(GL_DEPTH, 0, &one);
+		//**********************************************************
+
+
+		glUniform1f(renderPassNumber_UniLoc, 1.0f);	// Tell shader it's the 1st pass
 
         float ratio;
         int width, height;

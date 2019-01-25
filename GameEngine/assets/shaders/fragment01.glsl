@@ -24,6 +24,13 @@ uniform float diffuseToAmbientRatio;		// 0.2
 
 uniform bool bDontUseLighting;		
 
+// If this is true, then we are using the smoke imposter
+// (the shader will be changed a little)
+uniform bool bIsParticleImposter;
+// Used to fade the particle during "death" (set to 1.0f if not being used)
+uniform float ParticleImposterBlackThreshold;
+uniform float ParticleImposterAlphaOverride;	
+
 
 //vec4 gl_FragColor
 out vec4 finalOutputColour;		// Any name, but must be vec4
@@ -76,8 +83,24 @@ uniform vec4 texBlendWeights[2];	// x is 0, y is 1, z is 2
 uniform float wholeObjectAlphaTransparency;
 
 
+// For the 2 pass rendering
+uniform float renderPassNumber;	// 1 = 1st pass, 2nd for offscreen to quad
+uniform sampler2D pass1OutputTexture;
+
 void main()
 {
+	// Are we in the 2nd pass? 
+	if ( int(renderPassNumber) == 2 )
+	{ 
+		// 2nd pass (very simple)
+		finalOutputColour.rgba = texture( pass1OutputTexture, vertUV_x2.st );
+		return;
+	}
+	
+	
+	// We are in the 1st (main) pass
+
+
 
 	vec4 materialDiffuse = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	
@@ -97,6 +120,9 @@ void main()
 		finalOutputColour.a = 1.0f;
 		return;
 	}
+	
+
+	
 
 	// Reflection and refraction if you want to use these later...
 	vec3 rgbReflect = vec3(0.0f,0.0f,0.0f);
@@ -331,9 +357,8 @@ void main()
 	finalOutputColour.a = wholeObjectAlphaTransparency;
 	
 	// Brigher for the dim projector
-	finalOutputColour.rgb *= 1.25f;
-	
-	
+//	finalOutputColour.rgb *= 1.25f;
+
 	
 	// Add any reflection or refraction 
 	if ( bAddRefract )
@@ -354,49 +379,41 @@ void main()
 	}
 	
 	
-	
-	// Make the colour "black"
-//	finalOutputColour.rgb *= 0.001f;
-	
-	// How far away from the centre of the circle am I?
-	// ( 0.5, 0.5) 
-	
-//	vec2 cirCentre = vec2( 0.5f, 0.5f );
-//	float cirRadius = 0.3f;	
-//	
-//	if ( distance(cirCentre, vertUV_x2.st ) >= cirRadius )
-//	{
-//		// Outside the circle
-//		finalOutputColour.rgb += vec3(0,1,0);		// Green
-//	}
-//	else 
-//	{
-//		// Inside the circle
-//		finalOutputColour.rgb += vec3(1,0,0);		// Red
-//	}
-	
-	
-	
-	// Step
-//	if ( vertUV_x2.s <= 0.25 )			// s == u
-//	{
-//		finalOutputColour.rgb += vec3(1,0,0);		// Red
-//	}
-//	else 
-//	{
-//		finalOutputColour.rgb += vec3(0,1,0);		// green
-//	}
-
-//	finalOutputColour.r += mix( 0.0f, 1.0f, vertUV_x2.s );	// u
-//	finalOutputColour.g += mix( 1.0f, 0.0f, vertUV_x2.s );	// u
-//	CameraSpeed = mix( MaxSpeed, 0.0f, HowFarIntoTheGreyAreaWeAre );	// u
-	
-//	finalOutputColour.r += smoothstep( 0.0f, 1.0f, vertUV_x2.s );	// u
-//	finalOutputColour.g += smoothstep( 1.0f, 0.0f, vertUV_x2.s );	// u
+	// Particle imposter (smoke, fire, water, etc.)
+	if ( bIsParticleImposter ) 
+	{
+		// Discard anything that's "black enough"
+		vec4 tex0Col = texture( texture00, vertUV_x2.st ).rgba;	// Imposter texture (smoke, fire)
+		
+		// Out shader was only testing for black and white, 
+		// but now we have coloured textures, so use all the colours to 
+		// test for "black".
+		// Alternatively, you can use a 2nd texture as a "mask" (black and white) texture
+		
+		// Note "greyscale", that humans see, isn't even over the colours. 
+		// (google "RGB to greyscale" to get this equation:)
+		float pixelBlackAndWhite = (0.3f * tex0Col.r) + (0.59f * tex0Col.g) + (0.11f * tex0Col.b);
+		
+		// We had a threshold of 0.25, but how it's passed in
+		if ( pixelBlackAndWhite < ParticleImposterBlackThreshold )
+		{
+			// Don't draw it
+			// Literally Doesn't Draw the pixel
+			discard;
+		}	
+		// OK, I'm drawing the particle imposter...
+		// The darker it is, the more transparent it should be
+		// Colour is from 0 to 1  (white = 1)
+		// Alpha goes from 0 to 1, too (oh my goodness)
+		finalOutputColour.a = pixelBlackAndWhite;
+		finalOutputColour.rgb += tex0Col.rgb;
+		
+		// Override the "fade at death" transparency, too
+		finalOutputColour.a *= ParticleImposterAlphaOverride;
+//		finalOutputColour.r = 1.0f - ParticleImposterAlphaOverride;
+		
+	}//if(bIsParticleImposter)
 	
 	
-	// EVERYTHING is 50% transparent
-	finalOutputColour.a = wholeObjectAlphaTransparency;
-	
-
+	// All done.
 }

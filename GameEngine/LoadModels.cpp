@@ -12,7 +12,7 @@
 // Loading models was moved into this function
 void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID )
 {
-
+	
 
 	sModelDrawInfo sphereInfo;
 	sphereInfo.meshFileName = "Sphere_320.ply";			// "Sphere_320_faces_xyz.ply";

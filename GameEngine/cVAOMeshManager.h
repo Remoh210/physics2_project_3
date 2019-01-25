@@ -20,6 +20,14 @@ public:
 	cVAOMeshManager();		// constructor
 	~cVAOMeshManager();		// destructor
 
+	enum eLoadWith
+	{
+		ORIGINAL, ASSIMP
+	};
+	void changeLoaderToOriginal(void);
+	//void changeLoaderToPly5n(void);
+	void changeLoaderToAssimp(void);
+
 	// Note: the shader program ID is needed to tie 
 	// the buffer to the vertex layout of the shader
 	bool LoadModelIntoVAO(sModelDrawInfo &drawInfo,
@@ -37,10 +45,15 @@ public:
 	//   (will copy ENTIRE vertex buffer, OVERWRITING what's there)
 	void UpdateModelVertexInformation(sModelDrawInfo &drawInfo);
 
+	void SetBasePath(std::string basepath);
+
 private:
 
 	// LoadPlyFileData()
 	bool m_LoadModelFromFile(sModelDrawInfo &drawInfo);
+	bool m_LoadModelFromFile_OriginalLoader(sModelDrawInfo &drawInfo);
+	//bool m_LoadModelFromFile_Ply5nLoader(sModelDrawInfo &drawInfo);
+	bool m_LoadModelFromFile_AssimpLoader(sModelDrawInfo &drawInfo);
 
 	//LoadMeshIntoGPUBuffer
 	bool m_LoadDrawInfo_Into_VAO(sModelDrawInfo &drawInfo,
@@ -52,6 +65,10 @@ private:
 
 	std::string m_lastErrorString;
 	void m_AppendTextToLastError(std::string text, bool addNewLineBefore = true);
+
+	std::string m_basePath;
+
+	eLoadWith m_fileLoader;
 };
 
 #endif		// _cVAOMeshManager_HG_
