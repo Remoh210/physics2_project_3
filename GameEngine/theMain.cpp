@@ -32,12 +32,16 @@ GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cLuaBrain* p_LuaScripts = NULL;
+cTextRend* g_textRenderer = NULL;
 //cCommandGroup sceneCommandGroup;
 int cou;
+int nbFrames = 0;
+int FPS = 0;
 std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
 void UpdateWindowTitle(void);
 double currentTime = 0;
 double deltaTime = 0;
+double FPS_last_Time = 0;
 
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
@@ -186,13 +190,14 @@ int main(void)
 
 	::g_pTheVAOMeshManager = new cVAOMeshManager();
 	::g_pTheVAOMeshManager->SetBasePath("assets/models");
-	//::g_textRend = new cTextRend();
-	//::g_textRend.init();
-	// Create the texture manager
+
 	::g_pTheTextureManager = new cBasicTextureManager();
+
+	::g_textRenderer = new cTextRend();
 	//Create Scene Manager
 	::g_pSceneManager = new cSceneManager();
 	::g_pSceneManager->setBasePath("scenes");
+
 	::LightManager = new cLightManager();
 	
 
@@ -356,6 +361,7 @@ int main(void)
 //
 //	//saveLightInfo("Default.txt")
 	cLightHelper* pLightHelper = new cLightHelper();
+	
 //
 //	
 //
@@ -455,7 +461,7 @@ int main(void)
 		LightManager->CopyLightValuesToShader();
 			
 
-
+		
 
 
 
@@ -639,6 +645,17 @@ int main(void)
 
 		}//for ( unsigned int objIndex = 0; 
 
+
+		double FPS_currentTime = glfwGetTime();
+		nbFrames++;
+		if (FPS_currentTime - FPS_last_Time >= 1.0) { // If last prinf() was more than 1 sec ago
+			// printf and reset timer
+			//printf("%f ms/frame\n", 1000.0 / double(nbFrames));
+			FPS = nbFrames * 1;
+			nbFrames = 0;
+			FPS_last_Time += 1.0;
+		}
+		g_textRenderer->drawText(width, height, ("FPS: " + std::to_string(FPS)).c_str());
 		//float sx = 2.0f / width;
 		//float sy = 2.0f / height;
 		//GLfloat yoffset = 50.0f;
