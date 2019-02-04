@@ -19,6 +19,7 @@
 #include "cLuaBrain.h"
 #include "cLightManager.h"
 #include "cSceneManager.h"
+#include <Interfaces/iPhysicsFactory.h>
 
 #include "Error/CErrorLog.h"
 #include "TextureManager/cBasicTextureManager.h"
@@ -33,6 +34,11 @@
 // ... and more
 extern GLuint program;
 
+
+
+extern nPhysics::iPhysicsFactory* gPhysicsFactory;
+extern nPhysics::iPhysicsWorld* gPhysicsWorld;
+
 extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
 
@@ -45,8 +51,8 @@ extern glm::vec3 g_CameraEye;	// = glm::vec3( 0.0, 0.0, +10.0f );
 //extern glm::vec3 g_CameraAt;	// = glm::vec3( 0.0, 0.0, 0.0f );
 extern double deltaTime;
 //Global screen size
-extern const unsigned int SCR_WIDTH;
-extern const unsigned int SCR_HEIGHT;
+extern unsigned int SCR_WIDTH;
+extern unsigned int SCR_HEIGHT;
 
 // NOTE: These are JUST FOR NOW!!!
 extern glm::vec3 g_lightPos;	// = glm::vec3( 4.0f, 4.0f, 0.0f );

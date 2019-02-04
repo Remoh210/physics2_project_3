@@ -115,13 +115,13 @@ void cTextRend::drawText(unsigned int width, unsigned int height, const char *te
 {
 
 
-	GLfloat black[4] = { 1, 1, 1, 1 };
-	GLfloat red[4] = { 1, 0, 0, 1 };
+	GLfloat white[4] = { 1, 1, 1, 1 };
+	//GLfloat red[4] = { 1, 0, 0, 1 };
 
 	glUseProgram(mprogramm);
 
 
-	glUniform4fv(uniform_color, 1, black);
+	glUniform4fv(uniform_color, 1, white);
 
 
 	glBindVertexArray(mvao);

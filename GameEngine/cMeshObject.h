@@ -7,6 +7,7 @@
 #include <glm/gtx/quaternion.hpp>	
 #include <string>
 #include <vector>
+#include <Interfaces/iRigidBody.h>
 
 #include "DebugRenderer/iDebugRenderer.h"
 
@@ -53,6 +54,7 @@ public:
 	glm::quat m_meshQOrientation;
 	glm::quat getQOrientation(void) { return this->m_meshQOrientation; };
 
+	glm::vec3 getMeshOrientationEulerAngles(bool bIsDegrees = false);
 
 	void setMeshOrientationEulerAngles(glm::vec3 newAnglesEuler, bool bIsDegrees = false);
 	void setMeshOrientationEulerAngles(float x, float y, float z, bool bIsDegrees = false);
@@ -102,8 +104,11 @@ public:
 
 	bool bIsUpdatedByPhysics;	// Phsyics "owns" the position	
 
+	nPhysics::iRigidBody* rigidBody;
 	float mass;
 	float inverseMass;
+	
+	
 
 	// Assume that everything is a sphere...
 	enum eShape

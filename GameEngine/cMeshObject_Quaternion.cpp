@@ -18,6 +18,24 @@ void cMeshObject::setMeshOrientationEulerAngles(float x, float y, float z, bool 
 	return this->setMeshOrientationEulerAngles(glm::vec3(x, y, z), bIsDegrees);
 }
 
+
+
+glm::vec3 cMeshObject::getMeshOrientationEulerAngles(bool bIsDegrees /*=false*/)
+{
+	glm::vec3 rot = glm::eulerAngles(this->m_meshQOrientation);
+	if (bIsDegrees)
+	{
+		
+		rot = glm::vec3(glm::degrees(rot.x),
+			glm::degrees(rot.y),
+			glm::degrees(rot.z));
+		
+	}
+	return rot;
+
+}
+
+
 void cMeshObject::adjMeshOrientationEulerAngles(glm::vec3 adjAngleEuler, bool bIsDegrees /*=false*/)
 {
 	if (bIsDegrees)

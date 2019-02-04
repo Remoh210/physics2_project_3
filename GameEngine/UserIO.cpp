@@ -96,7 +96,7 @@ void key_callback( GLFWwindow* window,
 	{
 
 		//::g_pSceneManager->saveScene("output.json");
-		::g_pSceneManager->loadScene("scene1.json");
+		//::g_pSceneManager->loadScene("scene1.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
 	}

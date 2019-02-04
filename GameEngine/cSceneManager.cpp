@@ -81,8 +81,9 @@ bool cSceneManager::saveScene(std::string filename) {
 				SpecularRGBArray.PushBack(temp, allocator);
 			}
 
-			for (int i = 0; i < 4; i++) {
-				rapidjson::Value temp(CurModel->m_meshQOrientation[i]);
+			for (int i = 0; i < 3; i++) {
+				glm::vec3 rot = CurModel->getMeshOrientationEulerAngles(true);
+				rapidjson::Value temp(rot[i]);
 				Rotation.PushBack(temp, allocator);
 			}
 			for (int i = 0; i < 3; i++) {
@@ -113,6 +114,55 @@ bool cSceneManager::saveScene(std::string filename) {
 					TexArray.PushBack(TexObjValue, allocator);
 				}
 				ObjValue.AddMember("Textures", TexArray, allocator);
+
+
+
+
+				if (CurModel->rigidBody != NULL) {
+
+					rapidjson::Value PhysObjValue(rapidjson::kObjectType);
+					switch (CurModel->rigidBody->GetShape()->GetShapeType())
+					{
+					case nPhysics::SHAPE_TYPE_SHPHERE:
+					{
+						PhysObjValue.AddMember("Type", "SPHERE", allocator);
+						float r = 0.0f;
+						CurModel->rigidBody->GetShape()->GetSphereRadius(r);
+						PhysObjValue.AddMember("Radius", r, allocator);
+					}
+						break;
+					case nPhysics::SHAPE_TYPE_PLANE:
+					{
+
+						PhysObjValue.AddMember("Type", "PLANE", allocator);
+						float planeConst = 0.0f;
+						CurModel->rigidBody->GetShape()->GetPlaneConstant(planeConst);
+						PhysObjValue.AddMember("Constant", "PLANE", allocator);
+
+						rapidjson::Value NormalArray(rapidjson::kArrayType);
+						glm::vec3 planeNormal = glm::vec3(0.0f);
+						CurModel->rigidBody->GetShape()->GetPlaneNormal(planeNormal);
+
+						for (int i = 0; i < 3; i++) {
+							rapidjson::Value temp(planeNormal[i]);
+							NormalArray.PushBack(temp, allocator);
+						}
+						PhysObjValue.AddMember("Normals", NormalArray, allocator);
+					}
+					default:
+						break;
+					}
+
+
+					PhysObjValue.AddMember("Mass", CurModel->rigidBody->GetMass(), allocator);
+					ObjValue.AddMember("RigidBody", PhysObjValue, allocator);
+				
+				}
+
+
+				
+
+
 			}
 
 
@@ -297,11 +347,14 @@ bool cSceneManager::loadScene(std::string filename) {
 		}
 
 		const rapidjson::Value& RotationArray = GameObject[i]["Rotation"];
-		for (rapidjson::SizeType i = 0; i < RotationArray.Size(); i++) {
+		//for (rapidjson::SizeType i = 0; i < RotationArray.Size(); i++) {
+			//In Degrees
+	    glm::vec3 rot(RotationArray[0].GetFloat(), RotationArray[1].GetFloat(), RotationArray[2].GetFloat());
+		CurModel->setMeshOrientationEulerAngles(rot, true);
 
-			CurModel->m_meshQOrientation[i] = RotationArray[i].GetFloat();
+			//CurModel->m_meshQOrientation[i] = RotationArray[i].GetFloat();
 
-		}
+		//}
 
 		const rapidjson::Value& ScaleArray = GameObject[i]["Scale"];
 		for (rapidjson::SizeType i = 0; i < ScaleArray.Size(); i++) {
@@ -321,6 +374,32 @@ bool cSceneManager::loadScene(std::string filename) {
 				//Creating Texture even if there is alreade same textue NEED FIX
 				::g_pTheTextureManager->Create2DTextureFromBMPFile(CurModelTex.name, true);
 			}
+		}
+
+		if(GameObject[i].HasMember("RigidBody"))
+		{
+			nPhysics::iShape* CurShape = NULL;
+			nPhysics::sRigidBodyDef def;
+			std::string type = GameObject[i]["RigidBody"]["Type"].GetString();
+
+			//in Radians
+			def.Orientation = CurModel->getMeshOrientationEulerAngles();
+			def.Position = CurModel->position;
+			def.Mass = GameObject[i]["RigidBody"]["Mass"].GetFloat();
+			
+			if (type == "SPHERE")
+			{
+				float radius = GameObject[i]["RigidBody"]["Radius"].GetFloat();
+				CurShape = gPhysicsFactory->CreateSphereShape(radius);
+				
+			}
+			else if (type == "PLANE")
+			{
+				float planeConst = GameObject[i]["RigidBody"]["Constant"].GetFloat();
+				//TODO NORMALS
+			}
+			nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, CurShape);
+			CurModel->rigidBody = rigidBody;
 		}
 
 		vec_pObjectsToDraw.push_back(CurModel);

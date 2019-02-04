@@ -13,6 +13,8 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+#include <rapidjson/filereadstream.h>
+#include <rapidjson/document.h>
 #include "Camera.h"
 #include <stdlib.h>
 #include <stdio.h>		// printf();
@@ -24,9 +26,21 @@
 #include "cMeshObject.h"
 #include "cVAOMeshManager.h"
 #include <algorithm>
+#include <windows.h>
+
 
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
+
+
+//Dll 
+HINSTANCE hGetProckDll = 0;
+typedef nPhysics::iPhysicsFactory*(*f_createPhysicsFactory)();
+
+nPhysics::iPhysicsFactory* gPhysicsFactory = NULL;
+nPhysics::iPhysicsWorld* gPhysicsWorld = NULL;
+
+
 
 GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
@@ -54,8 +68,10 @@ float g_lightBrightness = 400000.0f;
 
 unsigned int numberOfObjectsToDraw = 0;
 
-const unsigned int SCR_WIDTH = 1000;
-const unsigned int SCR_HEIGHT = 800;
+unsigned int SCR_WIDTH = 1000;
+unsigned int SCR_HEIGHT = 800;
+std::string title = "Default";
+std::string scene = "Scene1.json";
 
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -91,13 +107,12 @@ static void error_callback(int error, const char* description)
 
 cAABBHierarchy* g_pTheTerrain = new cAABBHierarchy();
 
-
+bool loadConfig();
 //void DoPhysicsCheckpointNumberFour(double deltaTime);
 
 // For now, I'm doing this here, but you might want to do this
 //  in the object, in the "phsyics" thing, or wherever. 
 //  Or leave it here!!
-void LoadTerrainAABB(void);
 
 // Set up the off screen textures to draw to
 GLuint g_FBO = 0;
@@ -107,6 +122,8 @@ GLint g_FBO_SizeInPixes = 512;		// = 512 the WIDTH of the framebuffer, in pixels
 
 int main(void)
 {
+	loadConfig();
+	
 	GLFWwindow* window;
 
 	glfwSetErrorCallback(error_callback);
@@ -118,7 +135,7 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Light", NULL, NULL);
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, title.c_str(), NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -256,16 +273,32 @@ int main(void)
 		std::cout << "Debug renderer is OK" << std::endl;
 	}
 
-	// loading some "debug meshes"
+
+	//PhysicsInit
+	hGetProckDll = LoadLibraryA("SimplePhysics.dll");
+	f_createPhysicsFactory CreatePhysicsFactory = (f_createPhysicsFactory)GetProcAddress(hGetProckDll, "CreateFactory");
+	gPhysicsFactory = CreatePhysicsFactory();
+	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
+
+	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -1.0f, 0.0f));
+
+	nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
+	nPhysics::sRigidBodyDef def;
+	def.Position = glm::vec3(0.0f, 0.0f, 10.0f);
+	nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, plane);
+	gPhysicsWorld->AddBody(rigidBody);
+
+
+	// loading
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
-	::g_pSceneManager->loadScene("scene1.json");
+	::g_pSceneManager->loadScene(scene);
 	::LightManager->LoadUniformLocations(program);
-	//CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
+
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
 
-			// Draw all the objects in the "scene"
+	
 	for (unsigned int objIndex = 0;
 		objIndex != (unsigned int)vec_pObjectsToDraw.size();
 		objIndex++)
@@ -276,8 +309,6 @@ int main(void)
 
 	}//for ( unsigned int objIndex = 0; 
 
-
-	LoadTerrainAABB();
 
 
 
@@ -392,6 +423,8 @@ int main(void)
 	GLint renderPassNumber_UniLoc = glGetUniformLocation(program, "renderPassNumber");
 	//std::cout << renderPassNumber_UniLoc << std::endl;
 	//*****************************************************************
+
+
 	
 	// Draw the "scene" (run the program)
 	while (!glfwWindowShouldClose(window))
@@ -740,6 +773,9 @@ int main(void)
 		// The physics update loop
 		DoPhysicsUpdate( deltaTime, vec_pObjectsToDraw );
 
+		//New Dll physics
+		gPhysicsWorld->Update(deltaTime);
+
 		//::p_LuaScripts->UpdateCG(deltaTime);
 		//::p_LuaScripts->Update(deltaTime);
 
@@ -893,150 +929,36 @@ cMeshObject* findObjectByUniqueID(unsigned int ID_to_find)
 	return NULL;	// 0 or nullptr
 }
 
-
-void LoadTerrainAABB(void)
+bool loadConfig()
 {
-	// *******
-	// This REALLY should be inside the cAABBHierarchy, likely... 
-	// *******
+	rapidjson::Document doc;
+	FILE* fp = fopen("config/config.json", "rb"); // non-Windows use "r"
+	char readBuffer[65536];
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+	doc.ParseStream(is);
+	fclose(fp);
+	rapidjson::Value Window(rapidjson::kObjectType);
+	Window = doc["Window"];
 
+	SCR_WIDTH = Window["Width"].GetInt();
+	SCR_HEIGHT = Window["Height"].GetInt();
 
-	// Read the graphics mesh object, and load the triangle info
-	//	into the AABB thing.
-	// Where is the mesh (do the triangles need to be transformed)??
+	title = Window["Title"].GetString();
+	if (doc.HasMember("Scene")) {
+		scene = doc["Scene"].GetString();
+	}
 
-//	cMeshObject* pTerrain = findObjectByFriendlyName("terrain");
+	return true;
 
-//	sModelDrawInfo terrainMeshInfo;
-//	terrainMeshInfo.meshFileName = pTerrain->meshName;
+	//std::string language = doc["Language"].GetString();
+	//ASSERT_NE(language, "");
+	//if (language == "English") { TextRend.setLang(ENGLISH); }
+	//else if (language == "Spanish") { TextRend.setLang(SPANISH); }
+	//else if (language == "Japanese") { TextRend.setLang(JAPANESE); }
+	//else if (language == "Ukrainian") { TextRend.setLang(UKRAINAN); }
+	//else if (language == "Polish") { TextRend.setLang(POLSKA); }
 
-//	::g_pTheVAOMeshManager->FindDrawInfoByModelName(terrainMeshInfo);
-
-
-	//// How big is our AABBs? Side length?
-	//float sideLength = 50.0f;		// Play with this lenght
-	//								// Smaller --> more AABBs, fewer triangles per AABB
-	//								// Larger --> More triangles per AABB	
-
-	//for (unsigned int triIndex = 0; triIndex != terrainMeshInfo.numberOfTriangles; triIndex++)
-	//{
-	//	// for each triangle, for each vertex, determine which AABB the triangle should be in
-	//	// (if your mesh has been transformed, then you need to transform the tirangles 
-	//	//  BEFORE you do this... or just keep the terrain UNTRANSFORMED)
-
-	//	sPlyTriangle currentTri = terrainMeshInfo.pTriangles[triIndex];
-	//	
-
-	//	sPlyVertex currentVerts[3];
-	//	currentVerts[0] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_1];
-	//	currentVerts[1] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_2];
-	//	currentVerts[2] = terrainMeshInfo.pVerticesFromFile[currentTri.vertex_index_3];
-
-	//	// This is the structure we are eventually going to store in the AABB map...
-	//	cAABB::sAABB_Triangle curAABBTri;
-	//	curAABBTri.verts[0].x = currentVerts[0].x;
-	//	curAABBTri.verts[0].y = currentVerts[0].y;
-	//	curAABBTri.verts[0].z = currentVerts[0].z;
-	//	curAABBTri.verts[1].x = currentVerts[1].x;
-	//	curAABBTri.verts[1].y = currentVerts[1].y;
-	//	curAABBTri.verts[1].z = currentVerts[1].z;
-	//	curAABBTri.verts[2].x = currentVerts[2].x;
-	//	curAABBTri.verts[2].y = currentVerts[2].y;
-	//	curAABBTri.verts[2].z = currentVerts[2].z;
-
-	//	// Is the triangle "too big", and if so, split it (take centre and make 3 more)
-	//	// (Pro Tip: "too big" is the SMALLEST side is greater than HALF the AABB length)
-	//	// Use THOSE triangles as the test (and recursively do this if needed),
-	//	// +++BUT+++ store the ORIGINAL triangle info NOT the subdivided one
-	//	// 
-	//	// For the student to complete... 
-	//	// 
-
-
-	//	for (unsigned int vertIndex = 0; vertIndex != 3; vertIndex++)
-	//	{
-	//		// What AABB is "this" vertex in? 
-	//		unsigned long long AABB_ID =
-	//			cAABB::generateID(curAABBTri.verts[0],
-	//				sideLength);
-
-	//		// Do we have this AABB alredy? 
-	//		std::map< unsigned long long/*ID AABB*/, cAABB* >::iterator itAABB
-	//			= ::g_pTheTerrain->m_mapAABBs.find(AABB_ID);
-
-	//		if (itAABB == ::g_pTheTerrain->m_mapAABBs.end())
-	//		{
-	//			// We DON'T have an AABB, yet
-
-
-
-	//			std::cout << cou++ << std::endl;
-
-
-
-	//			cAABB* pAABB = new cAABB();
-	//			// Determine the AABB location for this point
-	//			// (like the generateID() method...)
-	//			glm::vec3 minXYZ = curAABBTri.verts[0];
-	//			minXYZ.x = (floor(minXYZ.x / sideLength)) * sideLength;
-	//			minXYZ.y = (floor(minXYZ.y / sideLength)) * sideLength;
-	//			minXYZ.z = (floor(minXYZ.z / sideLength)) * sideLength;
-
-	//			//pAABB->setMinXYZ(minXYZ);
-	//			//pAABB->setSideLegth(sideLength);
-
-	//			pAABB->setCenter(minXYZ + sideLength / 2);
-	//			pAABB->setHalfLegth(sideLength/2);
-
-	//			// Note: this is the SAME as the AABB_ID...
-	//			unsigned long long the_AABB_ID = pAABB->getID();
-
-	//			::g_pTheTerrain->m_mapAABBs[the_AABB_ID] = pAABB;
-
-	//			// Then set the iterator to the AABB, by running find again
-	//			itAABB = ::g_pTheTerrain->m_mapAABBs.find(the_AABB_ID);
-
-
-
-	//			//cMeshObject* pCubeForBallsToBounceIn = new cMeshObject();
-	//			//
-	//			//pCubeForBallsToBounceIn->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
-	//			//pCubeForBallsToBounceIn->bDontLight = true;
-	//			//pCubeForBallsToBounceIn->position = pAABB->getCentre();
-	//			//pCubeForBallsToBounceIn->friendlyName = "CubeBallsBounceIn";
-	//			//pCubeForBallsToBounceIn->meshName = "cube_flat_shaded_xyz_n_uv.ply";		// "cube_flat_shaded_xyz.ply";
-	//			//pCubeForBallsToBounceIn->setUniformScale(sideLength);
-	//			//pCubeForBallsToBounceIn->bIsWireFrame = true;
-	//			// Cube is 2x2x2, so with a scale of 100x means it's
-	//			//	200x200x200, centred around the origin (0,0,0)
-	//			// The GROUND_PLANE_Y = -3.0f, so place it +97.0 lines up the 'bottom'
-	//			//pCubeForBallsToBounceIn->position = glm::vec3(0.0f, 97.0f, 0.0f);
-	//			//pCubeForBallsToBounceIn->bIsWireFrame = true;
-
-	//		//	pCubeForBallsToBounceIn->pDebugRenderer = ::g_pDebugRenderer;
-
-	//			//pTerrain->nonUniformScale = glm::vec3(0.1f,0.1f,0.1f);
-	//			//vec_pObjectsToDraw.push_back(pCubeForBallsToBounceIn);
-
-
-	//		}//if( itAABB == ::g_pTheTerrain->m_mapAABBs.end() )
-
-	//		// At this point, the itAABB ++IS++ pointing to an AABB
-	//		// (either there WAS one already, or I just created on)
-
-	//		itAABB->second->vecTriangles.push_back(curAABBTri);
-
-	//	}//for ( unsigned int vertIndex = 0;
-
-	//}//for ( unsigned int triIndex
-
-
-
-	// At runtime, need a "get the triangles" method...
-
-	return;
 }
-
 
 
 

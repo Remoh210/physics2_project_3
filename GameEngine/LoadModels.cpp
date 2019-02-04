@@ -78,18 +78,18 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 	}
 
 	{	
-		cMeshObject* pPlayerSphere = new cMeshObject();
-		pPlayerSphere->setDiffuseColour(glm::vec3(1.0f, 105.0f / 255.0f, 180.0f / 255.0f));
-		pPlayerSphere->friendlyName = "DebugSphere";
+		cMeshObject* pDebugSphere = new cMeshObject();
+		pDebugSphere->setDiffuseColour(glm::vec3(1.0f, 105.0f / 255.0f, 180.0f / 255.0f));
+		pDebugSphere->friendlyName = "DebugSphere";
 		float scale = 1.0f;
-		pPlayerSphere->nonUniformScale = glm::vec3(scale, scale, scale);
-		pPlayerSphere->meshName = "Sphere_320.ply";
-		pPlayerSphere->bIsWireFrame = true;
-		pPlayerSphere->position = glm::vec3(-100.0f, 10.0f, 0.0f);
-		pPlayerSphere->bIsUpdatedByPhysics = true;
-		pPlayerSphere->bIsDebug = true;
-		pPlayerSphere->pDebugRenderer = ::g_pDebugRenderer;
-		vec_pObjectsToDraw.push_back(pPlayerSphere);
+		pDebugSphere->nonUniformScale = glm::vec3(scale, scale, scale);
+		pDebugSphere->meshName = "Sphere_320.ply";
+		pDebugSphere->bIsWireFrame = true;
+		pDebugSphere->position = glm::vec3(-100.0f, 10.0f, 0.0f);
+		pDebugSphere->bIsUpdatedByPhysics = true;
+		pDebugSphere->bIsDebug = true;
+		pDebugSphere->pDebugRenderer = ::g_pDebugRenderer;
+		vec_pObjectsToDraw.push_back(pDebugSphere);
 	}
 
 

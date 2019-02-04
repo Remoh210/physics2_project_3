@@ -41,6 +41,7 @@ cMeshObject::cMeshObject()
 	// Set shape to NULL
 	this->pTheShape = NULL;
 	this->shapeType = cMeshObject::UNKOWN_SHAPE;
+	this->rigidBody = NULL;
 
 	return;
 }
