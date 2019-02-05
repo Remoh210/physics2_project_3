@@ -2,22 +2,22 @@
     "Camera": {
         "Speed": 100.0,
         "Position": [
-            0.0,
-            50.0,
-            0.0
+            -29.205305099487306,
+            82.32003784179688,
+            343.1052551269531
         ]
     },
     "GameObjects": [
         {
-            "Name": "teapot",
-            "Mesh": "Utah_Teapot_xyz_n_GARBAGE_uv.ply",
+            "Name": "earth",
+            "Mesh": "earth.ply",
             "Visible": true,
             "Use_Physics": true,
             "Wireframe": false,
             "Position": [
-                300.0,
-                335.0,
-                -560.0
+                -8.327669143676758,
+                40.277694702148439,
+                0.0
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -37,9 +37,54 @@
                 0.0
             ],
             "Scale": [
-                1,
-                1,
-                1
+                10.0,
+                10.0,
+                10.0
+            ],
+            "Textures": [
+                {
+                    "Name": "earthTex.bmp",
+                    "Strength": 1.0
+                }
+            ],
+            "RigidBody": {
+                "Type": "SPHERE",
+                "Radius": 10.0,
+                "Mass": 10.0
+            }
+        },
+        {
+            "Name": "plane_floor",
+            "Mesh": "plane_floor.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                -2.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                -0.0,
+                0.0
+            ],
+            "Scale": [
+                100.0,
+                100.0,
+                100.0
             ],
             "Textures": [
                 {
@@ -48,11 +93,116 @@
                 }
             ],
             "RigidBody": {
-                "Type": "SPHERE",
-                "Radius": 20.0,
-                "Mass": 10.0
+                "Type": "PLANE",
+                "Constant": -2.0,
+                "Normal": [
+                    0.0,
+                    1.0,
+                    0.0
+                ],
+                "Mass": 0.0
             }
-          },
+        },
+        {
+            "Name": "plane_floor_back",
+            "Mesh": "plane_floor.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                0.0,
+                98.0,
+                -100.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                90.0,
+                -0.0,
+                0.0
+            ],
+            "Scale": [
+                100.0,
+                100.0,
+                100.0
+            ],
+            "Textures": [
+                {
+                    "Name": "metal.bmp",
+                    "Strength": 1.0
+                }
+            ],
+            "RigidBody": {
+                "Type": "PLANE",
+                "Constant": -100.0,
+                "Normal": [
+                    0.0,
+                    0.0,
+                    -1.0
+                ],
+                "Mass": 0.0
+            }
+        },
+        {
+            "Name": "plane_right",
+            "Mesh": "plane_floor.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Wireframe": false,
+            "Position": [
+                100.0,
+                98.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                -0.0,
+                90.0
+            ],
+            "Scale": [
+                100.0,
+                100.0,
+                100.0
+            ],
+            "Textures": [
+                {
+                    "Name": "Metal.bmp",
+                    "Strength": 1.0
+                }
+            ],
+            "RigidBody": {
+                "Type": "PLANE",
+                "Constant": 100.0,
+                "Normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                ],
+                "Mass": 0.0
+            }
+        },
         {
             "Name": "Sphere_320_faces_xyz_n",
             "Mesh": "Sphere_320_faces_xyz_n.ply",
@@ -87,21 +237,20 @@
                 30.0
             ]
         }
-
     ],
     "Lights": [
         {
             "Name": "MainLight",
             "Type": "POINT_LIGHT",
             "Position": [
-                706.0,
-                2140.0,
-                185.0
+                -734.0,
+                595.0,
+                430.0
             ],
             "Attenuation": [
                 0.0,
-                0.00015549414092674851,
-                3.6068104236619549e-7,
+                0.000580427295062691,
+                9.038285120333001e-10,
                 -431602080.0
             ],
             "DiffuseRGB_Alpha": [
@@ -141,7 +290,11 @@
                 10.0,
                 20.0
             ],
-            "ObjectLookAt": "table",
+            "Direction": [
+                -431602080.0,
+                -431602080.0,
+                -431602080.0
+            ],
             "Position": [
                 10.0,
                 1725.0,
@@ -159,7 +312,7 @@
                 0.1080000028014183,
                 1.0
             ],
-            "Turned": "ON"
+            "Turned": "OFF"
         },
         {
             "Name": "Torch_Light2",

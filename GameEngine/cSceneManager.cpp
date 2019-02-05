@@ -123,7 +123,7 @@ bool cSceneManager::saveScene(std::string filename) {
 					rapidjson::Value PhysObjValue(rapidjson::kObjectType);
 					switch (CurModel->rigidBody->GetShape()->GetShapeType())
 					{
-					case nPhysics::SHAPE_TYPE_SHPHERE:
+					case nPhysics::SHAPE_TYPE_SPHERE:
 					{
 						PhysObjValue.AddMember("Type", "SPHERE", allocator);
 						float r = 0.0f;
@@ -137,7 +137,7 @@ bool cSceneManager::saveScene(std::string filename) {
 						PhysObjValue.AddMember("Type", "PLANE", allocator);
 						float planeConst = 0.0f;
 						CurModel->rigidBody->GetShape()->GetPlaneConstant(planeConst);
-						PhysObjValue.AddMember("Constant", "PLANE", allocator);
+						PhysObjValue.AddMember("Constant", planeConst, allocator);
 
 						rapidjson::Value NormalArray(rapidjson::kArrayType);
 						glm::vec3 planeNormal = glm::vec3(0.0f);
@@ -147,7 +147,7 @@ bool cSceneManager::saveScene(std::string filename) {
 							rapidjson::Value temp(planeNormal[i]);
 							NormalArray.PushBack(temp, allocator);
 						}
-						PhysObjValue.AddMember("Normals", NormalArray, allocator);
+						PhysObjValue.AddMember("Normal", NormalArray, allocator);
 					}
 					default:
 						break;
@@ -385,21 +385,34 @@ bool cSceneManager::loadScene(std::string filename) {
 			//in Radians
 			def.Orientation = CurModel->getMeshOrientationEulerAngles();
 			def.Position = CurModel->position;
-			def.Mass = GameObject[i]["RigidBody"]["Mass"].GetFloat();
+
 			
 			if (type == "SPHERE")
 			{
 				float radius = GameObject[i]["RigidBody"]["Radius"].GetFloat();
 				CurShape = gPhysicsFactory->CreateSphereShape(radius);
+				def.Mass = GameObject[i]["RigidBody"]["Mass"].GetFloat();
 				
 			}
 			else if (type == "PLANE")
 			{
+				
+
+
 				float planeConst = GameObject[i]["RigidBody"]["Constant"].GetFloat();
-				//TODO NORMALS
+
+				const rapidjson::Value& NormArray = GameObject[i]["RigidBody"]["Normal"];
+				glm::vec3 norm;
+				for (int i = 0; i < 3; i++)
+				{
+					norm[i] = NormArray[i].GetFloat();
+				}
+				CurShape = gPhysicsFactory->CreatePlaneShape(norm, planeConst);
+
 			}
 			nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, CurShape);
 			CurModel->rigidBody = rigidBody;
+			gPhysicsWorld->AddBody(rigidBody);
 		}
 
 		vec_pObjectsToDraw.push_back(CurModel);

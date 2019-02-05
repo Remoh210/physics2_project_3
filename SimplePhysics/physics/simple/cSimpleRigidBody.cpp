@@ -26,10 +26,11 @@ namespace nPhysics
 	cSimpleRigidBody::cSimpleRigidBody(const sRigidBodyDef& def, iShape* shape) 
 		: mMass(def.Mass)
 		, mPosition(def.Position)
+		, mLastPos(def.Position)
 		, mVelocity(def.Velocity)
 		, mShape(shape)
 	{
-
+		this->mRotation = glm::mat4(1.0f);
 	}
 	cSimpleRigidBody::~cSimpleRigidBody()
 	{
@@ -51,15 +52,21 @@ namespace nPhysics
 		//TODO: Orientation
 	}
 
+	glm::mat4 cSimpleRigidBody::GetMatRotation()
+	{
+		return glm::mat4(this->mRotation);
+		//TODO: Orientation
+	}
+
 	glm::vec3 cSimpleRigidBody::GetPosition()
 	{
 		return this->mPosition;
 	}
 
-	glm::vec3 cSimpleRigidBody::GeRotation()
+	glm::vec3 cSimpleRigidBody::GetEulerRotation()
 	{
 		
-		return  glm::eulerAngles(mRotation);
+		return  glm::eulerAngles(glm::quat(mRotation));
 	}
 
 	glm::vec3 cSimpleRigidBody::GetVelocity()
@@ -83,9 +90,14 @@ namespace nPhysics
 		this->mPosition = position;
 	}
 
-	void cSimpleRigidBody::SetRotation(glm::vec3 rotation)
+	void cSimpleRigidBody::SetEulerRotation(glm::vec3 rotation)
 	{
-		this->mRotation = glm::quat(rotation);
+		this->mRotation = glm::mat4(glm::quat(rotation));
+	}
+
+	void cSimpleRigidBody::SetMatRotation(glm::mat4 rotation)
+	{
+		this->mRotation = rotation;
 	}
 
 	void cSimpleRigidBody::SettAccel(glm::vec3 accel)

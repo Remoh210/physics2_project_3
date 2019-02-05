@@ -141,6 +141,33 @@ void DrawObject(cMeshObject* pCurrentMesh,
 
 
 
+	//glm::mat4 trans = glm::mat4x4(1.0f);
+
+
+	//if (pCurrentMesh->rigidBody != NULL)
+	//{
+	//	glm::vec3 rbPos = pCurrentMesh->rigidBody->GetPosition();
+
+	//	trans = glm::translate(trans, rbPos);
+	//}
+	//else
+	//{
+	//	trans = glm::translate(trans, pCurrentMesh->position);
+	//}
+
+	//matModel = matModel * trans;
+
+
+	//if (pCurrentMesh->rigidBody != NULL)
+	//{
+	//	glm::mat4 orientation;
+	//	orientation = pCurrentMesh->rigidBody->GetMatRotation();
+	//	matModel = matModel * orientation;
+	//}
+	//else
+	//{
+	//	matModel = matModel * glm::mat4(pCurrentMesh->getQOrientation());
+	//}
 
 
 

@@ -45,215 +45,215 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID);
 void DoPhysicsUpdate( double fDeltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw )
 {
-	float deltaTime = static_cast<float>(fDeltaTime);
-	//PlayerColTest(fDeltaTime, program);
-
-	// Make sure it's not tooooooo big
-	const float LARGEST_DELTATIME = 0.10f;			// 10 ms = 10 Hz
-
-	if ( deltaTime > LARGEST_DELTATIME )
-	{
-		deltaTime = LARGEST_DELTATIME;
-	}//if ( deltaTime
-
-	// Loop through all objects
-	for ( std::vector< cMeshObject* >::iterator itMesh = vec_pObjectsToDraw.begin();
-		  itMesh != vec_pObjectsToDraw.end(); itMesh++ )
-	{
-		cMeshObject* pCurMesh = *itMesh;		 
-
-		if ( pCurMesh->bIsUpdatedByPhysics )
-		{
-
-				pCurMesh->velocity.x = pCurMesh->velocity.x + (pCurMesh->accel.x * deltaTime);
-				pCurMesh->velocity.y = pCurMesh->velocity.y + (pCurMesh->accel.y * deltaTime);
-				pCurMesh->velocity.z = pCurMesh->velocity.z + (pCurMesh->accel.z * deltaTime);
-
-		
-
-				pCurMesh->position.x = pCurMesh->position.x + (pCurMesh->velocity.x * deltaTime);
-				pCurMesh->position.y = pCurMesh->position.y + (pCurMesh->velocity.y * deltaTime);
-				pCurMesh->position.z = pCurMesh->position.z + (pCurMesh->velocity.z * deltaTime);
-
-				//if (glm::length(pCurMesh->velocity) > 2.0f) {
-				//	std::cout << glm::length(pCurMesh->velocity) << std::endl;
-				//	pCurMesh->velocity.x = pCurMesh->velocity.x *= 0.99f;
-				//	pCurMesh->velocity.y = pCurMesh->velocity.y *= 0.99f;
-				//	pCurMesh->velocity.z = pCurMesh->velocity.z *= 0.99f;
-				//	if (glm::length(pCurMesh->velocity) < 2.0f) { pCurMesh->velocity = glm::vec3(0.0f); }
-				//}
-
-
-			// The object can't go any lower than the "ground".
-			// The "ground" is a plane along the x-z axis.
-			// So we can decide a "height" along the y....
-			// ... if it's below that, then reverse the direction of travel... 
-			// ... IN THE Y
+//	float deltaTime = static_cast<float>(fDeltaTime);
+//	//PlayerColTest(fDeltaTime, program);
 //
-//			if ( pCurMesh->type == SPHERE && pOtherObject == TRIANGLE )
-//			{
-//				if ( DidTheCollide( pCurMesh, pOtherObject ) )
+//	// Make sure it's not tooooooo big
+//	const float LARGEST_DELTATIME = 0.10f;			// 10 ms = 10 Hz
+//
+//	if ( deltaTime > LARGEST_DELTATIME )
+//	{
+//		deltaTime = LARGEST_DELTATIME;
+//	}//if ( deltaTime
+//
+//	// Loop through all objects
+//	for ( std::vector< cMeshObject* >::iterator itMesh = vec_pObjectsToDraw.begin();
+//		  itMesh != vec_pObjectsToDraw.end(); itMesh++ )
+//	{
+//		cMeshObject* pCurMesh = *itMesh;		 
+//
+//		if ( pCurMesh->bIsUpdatedByPhysics )
+//		{
+//
+//				pCurMesh->velocity.x = pCurMesh->velocity.x + (pCurMesh->accel.x * deltaTime);
+//				pCurMesh->velocity.y = pCurMesh->velocity.y + (pCurMesh->accel.y * deltaTime);
+//				pCurMesh->velocity.z = pCurMesh->velocity.z + (pCurMesh->accel.z * deltaTime);
+//
+//		
+//
+//				pCurMesh->position.x = pCurMesh->position.x + (pCurMesh->velocity.x * deltaTime);
+//				pCurMesh->position.y = pCurMesh->position.y + (pCurMesh->velocity.y * deltaTime);
+//				pCurMesh->position.z = pCurMesh->position.z + (pCurMesh->velocity.z * deltaTime);
+//
+//				//if (glm::length(pCurMesh->velocity) > 2.0f) {
+//				//	std::cout << glm::length(pCurMesh->velocity) << std::endl;
+//				//	pCurMesh->velocity.x = pCurMesh->velocity.x *= 0.99f;
+//				//	pCurMesh->velocity.y = pCurMesh->velocity.y *= 0.99f;
+//				//	pCurMesh->velocity.z = pCurMesh->velocity.z *= 0.99f;
+//				//	if (glm::length(pCurMesh->velocity) < 2.0f) { pCurMesh->velocity = glm::vec3(0.0f); }
+//				//}
+//
+//
+//			// The object can't go any lower than the "ground".
+//			// The "ground" is a plane along the x-z axis.
+//			// So we can decide a "height" along the y....
+//			// ... if it's below that, then reverse the direction of travel... 
+//			// ... IN THE Y
+////
+////			if ( pCurMesh->type == SPHERE && pOtherObject == TRIANGLE )
+////			{
+////				if ( DidTheCollide( pCurMesh, pOtherObject ) )
+////				{
+////					// Do Something..
+////
+////				}
+////
+////////			if ( pCurMesh->position.y <= GROUND_PLANE_Y )
+////			if ( pCurMesh->position.y  <= GROUND_PLANE_Y )
+////			{
+////				// Normal to the ground plane is 0, +1, 0 (+1 in the y)w
+////				glm::vec3 normalToGround = glm::vec3( 0.0f, 1.0f, 0.0f );
+////
+////				// Calcualte the REFLECTION vector (based on the normal and ???)
+////
+////				glm::vec3 newVel = glm::reflect( pCurMesh->velocity, normalToGround );
+////				// reverse the direction of travel IN THE Y. 
+////				// Why??? 
+//////				pCurMesh->velocity *= 0.99f;
+//////				pCurMesh->velocity.y = fabs(pCurMesh->velocity.y) ;
+////				pCurMesh->velocity = newVel;
+////			}
+////
+//////			if ( pCurMesh->position.x >= LIMIT_POS_X )
+////			// Sphere - Plane test... 
+////			// Is this sphere PENETRATED this plane
+////			// Is is INSIDE or OUTSIDE the plane?
+////			if ( pCurMesh->position.x >= LIMIT_POS_X )
+////			{
+////				pCurMesh->velocity.x = -fabs(pCurMesh->velocity.x) ;
+////			}
+//////			if ( pCurMesh->position.x <= LIMIT_NEG_X )
+////			if ( pCurMesh->position.x <= LIMIT_NEG_X )
+////			{
+////				pCurMesh->velocity.x = fabs(pCurMesh->velocity.x) ;
+////			}
+////			if ( pCurMesh->position.z >= LIMIT_POS_Z )
+////			{
+////				pCurMesh->velocity.z = -fabs(pCurMesh->velocity.z) ;
+////			}
+////			if ( pCurMesh->position.z <= LIMIT_NEG_Z )
+////			{
+////				pCurMesh->velocity.z = fabs(pCurMesh->velocity.z) ;
+////			}
+//
+//
+//		//	// Check if I'm contacting another sphere..
+//		//	for ( std::vector< cMeshObject* >::iterator itMesh = vec_pObjectsToDraw.begin();
+//		//		  itMesh != vec_pObjectsToDraw.end(); itMesh++ )
+//		//	{
+//		//		cMeshObject* pOtherMesh = *itMesh;
+////
+//		//		if ( ! pOtherMesh->bIsUpdatedByPhysics )
+//		//		{
+//		//			// Or do I????? (can non moving things still collide with this???)
+//		//			continue;
+//		//		}
+////
+//		//		// Same mesh
+//		//		if ( pCurMesh != pOtherMesh )
+//		//		{
+//		//			if ( AreSpheresPenetrating( pOtherMesh, pCurMesh ) )
+//		//			{
+//		//				pCurMesh->objColour = glm::vec3( 1.0f, 0.0f, 0.0f );
+//		//			}
+//		//			else
+//		//			{
+//		//				// Make it pink
+//		//			}
+//		//		}
+//		//		
+////
+////
+//		//	}// Inner sphere-sphere test
+////
+////
+////
+//		}//if ( pCurMesh
+//	}//for ( std::vector< cMeshObject*
+//
+//	if (vec_cur_AABB_tris.size() > 0) 
+//	{
+//		// Test for collisions
+//		for (std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
+//			itObjectA != vec_pObjectsToDraw.end(); itObjectA++)
+//		{
+//			cMeshObject* pCurObj = *itObjectA;
+//
+//			if (pCurObj->bIsUpdatedByPhysics) {
+//				for (std::vector<cAABB::sAABB_Triangle>::iterator itTri = vec_cur_AABB_tris.begin(); itTri != vec_cur_AABB_tris.end(); itTri++)
 //				{
-//					// Do Something..
+//					cAABB::sAABB_Triangle CurTri = *itTri;
+//					glm::vec3 closestPointToTri = ClosestPtPointTriangle(pCurObj->position,
+//						CurTri.verts[0], CurTri.verts[1], CurTri.verts[2]);
+//
+//					// is this point LESS THAN the radius of the sphere? 
+//					if (glm::distance(closestPointToTri, pCurObj->position) < 1.0f)
+//					{
+//						pCurObj->velocity = glm::vec3(0.0f);
+//						std::cout << " collision " << std::endl;
+//					}
 //
 //				}
-//
-//////			if ( pCurMesh->position.y <= GROUND_PLANE_Y )
-//			if ( pCurMesh->position.y  <= GROUND_PLANE_Y )
-//			{
-//				// Normal to the ground plane is 0, +1, 0 (+1 in the y)w
-//				glm::vec3 normalToGround = glm::vec3( 0.0f, 1.0f, 0.0f );
-//
-//				// Calcualte the REFLECTION vector (based on the normal and ???)
-//
-//				glm::vec3 newVel = glm::reflect( pCurMesh->velocity, normalToGround );
-//				// reverse the direction of travel IN THE Y. 
-//				// Why??? 
-////				pCurMesh->velocity *= 0.99f;
-////				pCurMesh->velocity.y = fabs(pCurMesh->velocity.y) ;
-//				pCurMesh->velocity = newVel;
 //			}
+//			
 //
-////			if ( pCurMesh->position.x >= LIMIT_POS_X )
-//			// Sphere - Plane test... 
-//			// Is this sphere PENETRATED this plane
-//			// Is is INSIDE or OUTSIDE the plane?
-//			if ( pCurMesh->position.x >= LIMIT_POS_X )
+//		}
+//	}
+//
+//	PlayerColTest(fDeltaTime, program);
+//
+//	// Test for collisions
+//	for ( std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
+//		itObjectA != vec_pObjectsToDraw.end(); itObjectA++ )
+//	{
+//		// Go through all the other objects and test with this one...
+//
+//		for ( std::vector< cMeshObject* >::iterator itObjectB = vec_pObjectsToDraw.begin();
+//				itObjectB != vec_pObjectsToDraw.end(); itObjectB++ )
+//		{
+//
+//			cMeshObject* pObjectA = *itObjectA;
+//			cMeshObject* pObjectB = *itObjectB;
+//			// Same? 
+//
+//			if ( pObjectA != pObjectB )
 //			{
-//				pCurMesh->velocity.x = -fabs(pCurMesh->velocity.x) ;
-//			}
-////			if ( pCurMesh->position.x <= LIMIT_NEG_X )
-//			if ( pCurMesh->position.x <= LIMIT_NEG_X )
-//			{
-//				pCurMesh->velocity.x = fabs(pCurMesh->velocity.x) ;
-//			}
-//			if ( pCurMesh->position.z >= LIMIT_POS_Z )
-//			{
-//				pCurMesh->velocity.z = -fabs(pCurMesh->velocity.z) ;
-//			}
-//			if ( pCurMesh->position.z <= LIMIT_NEG_Z )
-//			{
-//				pCurMesh->velocity.z = fabs(pCurMesh->velocity.z) ;
-//			}
-
-
-		//	// Check if I'm contacting another sphere..
-		//	for ( std::vector< cMeshObject* >::iterator itMesh = vec_pObjectsToDraw.begin();
-		//		  itMesh != vec_pObjectsToDraw.end(); itMesh++ )
-		//	{
-		//		cMeshObject* pOtherMesh = *itMesh;
+//				// Do BOTH of these have a "shape" defined
+//				// Could also test for the enum (which is WAY better)
+//				if ( ( pObjectA->pTheShape != NULL  ) && 
+//				     ( pObjectB->pTheShape != NULL ) )
+//				{
+//					if ( TestForCollision( pObjectA, pObjectB ) )
+//					{
+//						// Do something about that collision.
+//						// Usually it's the reflection vector+normal changing velocity
 //
-		//		if ( ! pOtherMesh->bIsUpdatedByPhysics )
-		//		{
-		//			// Or do I????? (can non moving things still collide with this???)
-		//			continue;
-		//		}
+//						//pObjectB->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
+//						//pObjectA->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
 //
-		//		// Same mesh
-		//		if ( pCurMesh != pOtherMesh )
-		//		{
-		//			if ( AreSpheresPenetrating( pOtherMesh, pCurMesh ) )
-		//			{
-		//				pCurMesh->objColour = glm::vec3( 1.0f, 0.0f, 0.0f );
-		//			}
-		//			else
-		//			{
-		//				// Make it pink
-		//			}
-		//		}
-		//		
+//						
+//						if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::SPHERE) )
+//						{
+//							// If it's a Sphere-Sphere, make the intersection lines yellow
+//							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
+//														 glm::vec3( 1.0f, 1.0f, 0.0f ), 
+//														 2.0f /*show for 2 seconds*/ );
+//						}
+//						else if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::TRIANGLE) )
+//						{
+//							// If it's a Sphere-Triange, make the intersection lines magenta
+//							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
+//														 glm::vec3( 1.0f, 0.0f, 1.0f ), 
+//														 2.0f /*show for 2 seconds*/ );
+//						}
+//					}//if(TestForCollision(...
+//				}
+//			}//if(pObjectA != pObjectB)
+//		}// inner loop
+//	}// outer loop
 //
-//
-		//	}// Inner sphere-sphere test
-//
-//
-//
-		}//if ( pCurMesh
-	}//for ( std::vector< cMeshObject*
-
-	if (vec_cur_AABB_tris.size() > 0) 
-	{
-		// Test for collisions
-		for (std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
-			itObjectA != vec_pObjectsToDraw.end(); itObjectA++)
-		{
-			cMeshObject* pCurObj = *itObjectA;
-
-			if (pCurObj->bIsUpdatedByPhysics) {
-				for (std::vector<cAABB::sAABB_Triangle>::iterator itTri = vec_cur_AABB_tris.begin(); itTri != vec_cur_AABB_tris.end(); itTri++)
-				{
-					cAABB::sAABB_Triangle CurTri = *itTri;
-					glm::vec3 closestPointToTri = ClosestPtPointTriangle(pCurObj->position,
-						CurTri.verts[0], CurTri.verts[1], CurTri.verts[2]);
-
-					// is this point LESS THAN the radius of the sphere? 
-					if (glm::distance(closestPointToTri, pCurObj->position) < 1.0f)
-					{
-						pCurObj->velocity = glm::vec3(0.0f);
-						std::cout << " collision " << std::endl;
-					}
-
-				}
-			}
-			
-
-		}
-	}
-
-	PlayerColTest(fDeltaTime, program);
-
-	// Test for collisions
-	for ( std::vector< cMeshObject* >::iterator itObjectA = vec_pObjectsToDraw.begin();
-		itObjectA != vec_pObjectsToDraw.end(); itObjectA++ )
-	{
-		// Go through all the other objects and test with this one...
-
-		for ( std::vector< cMeshObject* >::iterator itObjectB = vec_pObjectsToDraw.begin();
-				itObjectB != vec_pObjectsToDraw.end(); itObjectB++ )
-		{
-
-			cMeshObject* pObjectA = *itObjectA;
-			cMeshObject* pObjectB = *itObjectB;
-			// Same? 
-
-			if ( pObjectA != pObjectB )
-			{
-				// Do BOTH of these have a "shape" defined
-				// Could also test for the enum (which is WAY better)
-				if ( ( pObjectA->pTheShape != NULL  ) && 
-				     ( pObjectB->pTheShape != NULL ) )
-				{
-					if ( TestForCollision( pObjectA, pObjectB ) )
-					{
-						// Do something about that collision.
-						// Usually it's the reflection vector+normal changing velocity
-
-						//pObjectB->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
-						//pObjectA->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
-
-						
-						if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::SPHERE) )
-						{
-							// If it's a Sphere-Sphere, make the intersection lines yellow
-							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
-														 glm::vec3( 1.0f, 1.0f, 0.0f ), 
-														 2.0f /*show for 2 seconds*/ );
-						}
-						else if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::TRIANGLE) )
-						{
-							// If it's a Sphere-Triange, make the intersection lines magenta
-							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
-														 glm::vec3( 1.0f, 0.0f, 1.0f ), 
-														 2.0f /*show for 2 seconds*/ );
-						}
-					}//if(TestForCollision(...
-				}
-			}//if(pObjectA != pObjectB)
-		}// inner loop
-	}// outer loop
-
-	
-	return;
+//	
+//	return;
 }
 
 

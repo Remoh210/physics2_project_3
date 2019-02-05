@@ -280,13 +280,13 @@ int main(void)
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -1.0f, 0.0f));
+	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -50.0f, 0.0f));
 
-	nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
-	nPhysics::sRigidBodyDef def;
-	def.Position = glm::vec3(0.0f, 0.0f, 10.0f);
-	nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, plane);
-	gPhysicsWorld->AddBody(rigidBody);
+	//nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
+	//nPhysics::sRigidBodyDef def;
+	//def.Position = glm::vec3(0.0f, 0.0f, 10.0f);
+	//nPhysics::iRigidBody* rigidBody = gPhysicsFactory->CreateRigidBody(def, plane);
+	//gPhysicsWorld->AddBody(rigidBody);
 
 
 	// loading
@@ -424,6 +424,8 @@ int main(void)
 	//std::cout << renderPassNumber_UniLoc << std::endl;
 	//*****************************************************************
 
+	//AddSomeVel
+	findObjectByFriendlyName("earth")->rigidBody->SetVelocity(glm::vec3(2.0, 0.0f, 0.0f));
 
 	
 	// Draw the "scene" (run the program)
@@ -775,6 +777,15 @@ int main(void)
 
 		//New Dll physics
 		gPhysicsWorld->Update(deltaTime);
+
+		for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+		{
+			cMeshObject* curMesh = vec_pObjectsToDraw[i];
+			if (curMesh->rigidBody != NULL && curMesh->rigidBody->GetShape()->GetShapeType() != nPhysics::SHAPE_TYPE_PLANE) {
+				curMesh->position = curMesh->rigidBody->GetPosition();
+				curMesh->m_meshQOrientation = glm::mat4(curMesh->rigidBody->GetMatRotation());
+			}
+		}
 
 		//::p_LuaScripts->UpdateCG(deltaTime);
 		//::p_LuaScripts->Update(deltaTime);

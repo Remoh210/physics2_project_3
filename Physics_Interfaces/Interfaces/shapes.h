@@ -11,7 +11,7 @@ namespace nPhysics
 		virtual bool GetSphereRadius(float& radiusOut) = 0;
 
 	protected:
-		iSphereShape() : iShape(SHAPE_TYPE_SHPHERE) {}
+		iSphereShape() : iShape(SHAPE_TYPE_SPHERE) {}
 		iSphereShape(const iSphereShape& other) : iShape(other) {}
 		iSphereShape& operator=(const iSphereShape& other) { return *this; }
 	};
