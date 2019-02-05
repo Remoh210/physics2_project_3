@@ -61,6 +61,7 @@ extern float g_lightBrightness;	// = 1.0f;
 
 extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
+extern std::vector< cMeshObject* > vec_pSpheres;
 extern cSceneManager* g_pSceneManager;
 extern cLightManager* LightManager;
 extern cTextRend* g_textRenderer;

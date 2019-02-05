@@ -61,6 +61,7 @@ void DoPhysicsUpdate( double deltaTime,
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
 
 std::vector< cMeshObject* > vec_pObjectsToDraw;
+std::vector< cMeshObject* > vec_pSpheres;
 
 // To the right, up 4.0 units, along the x axis
 glm::vec3 g_lightPos = glm::vec3( 4.0f, 4.0f, 0.0f );
@@ -280,7 +281,7 @@ int main(void)
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -50.0f, 0.0f));
+	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -40.0f, 0.0f));
 
 	//nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
 	//nPhysics::sRigidBodyDef def;
@@ -424,8 +425,20 @@ int main(void)
 	//std::cout << renderPassNumber_UniLoc << std::endl;
 	//*****************************************************************
 
+	//Copy All Spheres to new Vec to manipulate them later
+	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+	{
+		if (vec_pObjectsToDraw[i]->rigidBody != NULL) {
+			if (vec_pObjectsToDraw[i]->rigidBody->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE) {
+				vec_pSpheres.push_back(vec_pObjectsToDraw[i]);
+			}
+		}
+	}
+
 	//AddSomeVel
-	findObjectByFriendlyName("earth")->rigidBody->SetVelocity(glm::vec3(2.0, 0.0f, 0.0f));
+	findObjectByFriendlyName("earth")->rigidBody->SetVelocity(glm::vec3(4.0, 0.0f, 0.0f));
+	findObjectByFriendlyName("mars")->rigidBody->SetVelocity(glm::vec3(3.0, 0.0f, 0.0f));
+	findObjectByFriendlyName("mars2")->rigidBody->SetVelocity(glm::vec3(1.0, 2.0f, 1.5f));
 
 	
 	// Draw the "scene" (run the program)

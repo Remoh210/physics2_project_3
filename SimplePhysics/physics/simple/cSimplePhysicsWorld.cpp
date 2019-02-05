@@ -63,8 +63,11 @@ namespace nPhysics
 		if ((bodyA->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE) &&
 			(bodyB->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE))
 		{
-			float radiusA = bodyA->mShape->GetSphereRadius(radiusA);
-			float radiusB = bodyB->mShape->GetSphereRadius(radiusB);
+			float radiusA;
+			float radiusB;
+			bodyA->mShape->GetSphereRadius(radiusA);
+			bodyB->mShape->GetSphereRadius(radiusB);
+
 			float distance = glm::distance(bodyA->mPosition, bodyB->mPosition);
 			if (distance <= radiusA + radiusB)
 			{
@@ -99,6 +102,8 @@ namespace nPhysics
 		return true;
 	}
 
+
+
 	void cSimplePhysicsWorld::Update(float dt)
 	{
 		//STEP 1 Integrate all rigid bodie
@@ -113,14 +118,6 @@ namespace nPhysics
 
 			cSimpleRigidBody* rbA = mBodies[idxA];
 
-			////rbA->GetShape()->GetShapeType()
-			//switch (rbA->GetShape()->GetShapeType())
-			//{
-			//case nPhysics::SHAPE_TYPE_PLANE:
-			//	continue;   // Do not update physics to planes
-			//	break;
-			//case nPhysics::SHAPE_TYPE_SPHERE:
-			//{
 				for (size_t idxB = 0; idxB < numBodies; idxB++)
 				{
 
@@ -131,19 +128,44 @@ namespace nPhysics
 						{
 							if (rbA->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE && rbB->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE)
 							{
-								float massA = rbA->mMass;
-								float massB = rbB->mMass;
-								float totalMass = massA + massB;
+								
 
 								rbA->mPosition = rbA->mLastPos;
 								rbB->mPosition = rbB->mLastPos;
 
-								glm::vec3 velA = rbA->mVelocity;
-								glm::vec3 velB = rbB->mVelocity;
-								float cR = 0.2f;
+								float massA = rbA->mMass;
+								float massB = rbB->mMass;
+								float totalMass = massA + massB;
 
-								rbA->mVelocity = (cR * massB*(velB - velA) + massA * velA + massB * velB) / totalMass;
-								rbB->mVelocity = (cR * massB*(velA - velB) + massB * velB + massA * velA) / totalMass;
+
+
+								float fac1 = massA / totalMass;
+								float fac2 = massB / totalMass;
+
+
+								glm::vec3 norm = glm::normalize(rbA->mPosition - rbB->mPosition);
+								glm::vec3 reflectedVel1 = glm::reflect(rbA->mVelocity, norm);
+								rbA->mVelocity = reflectedVel1 * fac1 * 0.95f;
+                             
+								glm::vec3 norm2 = glm::normalize(rbB->mPosition - rbA->mPosition);
+								glm::vec3 reflectedVel2 = glm::reflect(rbB->mVelocity, norm2);
+								rbB->mVelocity = reflectedVel2 * fac2 * 0.95f;
+
+
+
+								float rad;
+								rbA->GetShape()->GetSphereRadius(rad);
+								if (rbA->mPosition.y <= rad + 0.1f)
+								{
+									if (rbA->mVelocity.x <= 0.1f
+										&& rbA->mVelocity.y <= 0.1f
+										&& rbA->mVelocity.z <= 0.1f)
+									{
+										rbA->mPosition.y += 0.01;
+										rbA->mVelocity = -(rbB->mVelocity * fac2);
+									}
+								}
+
 
 							}
 
@@ -151,23 +173,23 @@ namespace nPhysics
 							if (rbB->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE && rbA->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_PLANE)
 							{
 
+
+								rbB->mPosition = rbB->mLastPos;
 								float radiusB;
 								rbB->GetShape()->GetSphereRadius(radiusB);
-								
+
+								float constA;
+								glm::vec3 normA;
+								rbA->GetShape()->GetPlaneConstant(constA);
+								rbA->GetShape()->GetPlaneNormal(normA);
+
+
+								if(abs(rbB->mVelocity.y) > 1.0f)
 								{
-									rbB->mPosition = rbB->mLastPos;
-									float constA;
-									glm::vec3 normA;
-									rbA->GetShape()->GetPlaneConstant(constA);
-									rbA->GetShape()->GetPlaneNormal(normA);
-
 									rbB->mVelocity = glm::reflect(rbB->mVelocity, normA) * 0.95f;
-
-
-									//rb1->mPosition.y = rb2->mPosition.y + sphere1->getRadius();// +0.01f;
-									//rb1->mVelocity.y = -(rb1->mVelocity.y);
-
 								}
+								
+
 
 							}
 
@@ -177,64 +199,27 @@ namespace nPhysics
 
 				}
 
-	//		}
-		//	default:
-		//		break;
-		//	}
-
 
 
 
 				if (rbA->GetShape()->GetShapeType() != nPhysics::SHAPE_TYPE_PLANE) {
-					// Rotation
-					// Let's consider only the velocity of the object in Z local axis
-					// Also getting rid of pitch information (Y axis)
-					glm::vec3 horizontalDir = rbA->mVelocity - rbA->mPosition;
-					horizontalDir.y = 0.0f;
 
-					// Now the axis of rotation should be:
-					glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
-
-					// Kind of an Angular velocity
-					float angVelocity = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
-
+					glm::vec3 Direction = rbA->mVelocity - rbA->mPosition;
+			
 					glm::mat4 finalRotation(1.0f);
-					finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis);
+					//Bigger Mass = Slower rotation
+					finalRotation = glm::rotate(finalRotation, glm::length(rbA->mVelocity)/rbA->mMass * dt, glm::normalize(Direction));
 					rbA->mRotation *= finalRotation;
 
-
-
-
-					// Get the per second velocity of the bal
-
-
-
-
-
 					//RK4
-					rbA->mLastPos = rbA->mPosition; // Save the last position
+					rbA->mLastPos = rbA->mPosition; 
 					integrate(rbA->mPosition, rbA->mVelocity, mGravity, dt);
+					//horizontalDir.y = 0.0f;
+					//glm::vec3 rotAxis = glm::normalize(glm::cross(Direction, glm::vec3(0.0f, -1.0f, 0.0f)));
+					//float angVelocity = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
 				}
 
-
-
-
-
-
-
-
-
-
-			/*for (size_t idxB = idxA + 1; idxB < numBodies; idxB++)
-			{
-				if (Collide(mBodies[idxA], mBodies[idxB]))
-				{
-					collisions.push_back(std::make_pair(mBodies[idxA], mBodies[idxB]));
-				}
-			}*/
 		}
-		//STEP 3: TEll about coll
-		//rip through
 	}
 	
 

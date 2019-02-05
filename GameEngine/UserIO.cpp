@@ -9,7 +9,7 @@
 float speed = 50.0f;
 int index = 0;
 // This has all the keyboard, mouse, and controller stuff
-
+int SphIndex = 0;
 extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
@@ -105,20 +105,30 @@ void key_callback( GLFWwindow* window,
 
 
 
-	if (glfwGetKey(window, GLFW_KEY_L))
-	{
-		loadModels("Models2.txt", vec_pObjectsToDraw);
-		loadLights("lights.txt", LightManager->vecLights);
-	}
-
 	if (glfwGetKey(window, GLFW_KEY_R))
 	{
-		g_pTheTextureManager->filtType = 1;
+		glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
+		CamDir = glm::normalize(CamDir);
+		glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
+		//lets add some speed
+		velVec += CamDir * 500.0f * (float)deltaTime;
+		
+		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+
 	}
-	if (glfwGetKey(window, GLFW_KEY_T))
+	if (key == GLFW_KEY_T && action == GLFW_PRESS)
 	{
-		g_pTheTextureManager->filtType = 2;
+		vec_pSpheres.at(SphIndex)->bIsWireFrame = false;
+		if (SphIndex < (vec_pSpheres.size() - 1)) {
+			SphIndex = SphIndex + 1;
+		}
+		else { SphIndex = 0; }
+		//vec_pSpheres.at(SphIndex)->vecTextures[0].strength = 0.0f;
+		vec_pSpheres.at(SphIndex)->bIsWireFrame = true;
+
 	}
+
+
 
 	//VISABILITY
 	if (glfwGetKey(window, GLFW_KEY_SEMICOLON ))
