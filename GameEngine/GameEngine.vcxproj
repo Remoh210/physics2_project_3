@@ -172,6 +172,7 @@
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
+    <ClCompile Include="cSimpleDebugRenderer.cpp" />
     <ClCompile Include="cTextRend.cpp" />
     <ClCompile Include="cTriggerCommand.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="cMoveToEaseIO.h" />
     <ClInclude Include="cOrientTo.h" />
     <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="cSimpleDebugRenderer.h" />
     <ClInclude Include="cTriggerCommand.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cMeshObject.h" />

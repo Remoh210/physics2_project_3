@@ -66,6 +66,7 @@ void key_callback( GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
+		bIsDebugMode = !bIsDebugMode;
 		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 		//saveLightInfo("lights.txt", LightManager->vecLights);
 	}
@@ -85,8 +86,9 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_ENTER))
 	{
-		
-		::g_pSceneManager->saveScene("physics.json");
+		bIsDebugMode = !bIsDebugMode;
+		//::g_pSceneManager->saveScene("physics.json");
+		//g_pDebugRenderer->addDebugSphere(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 20, 100.0f);
 		//::g_pSceneManager->loadScene("output.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
@@ -112,7 +114,7 @@ void key_callback( GLFWwindow* window,
 		glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
 		//lets add some speed
 		velVec += CamDir * 500.0f * (float)deltaTime;
-		
+		velVec.y = 1.1f;
 		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
 
 	}

@@ -1,4 +1,5 @@
 #include "globalStuff.h"
+#include "globalStuff.h"
 
 // These are for the transformation glm stuff
 #include <glm/vec4.hpp> // glm::vec4

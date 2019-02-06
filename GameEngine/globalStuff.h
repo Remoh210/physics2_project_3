@@ -31,6 +31,7 @@
 #include "cMoveToCommand.h"
 #include "cMoveToEase.h"
 #include "cMoveToEaseIO.h"
+#include "cSimpleDebugRenderer.h"
 // ... and more
 extern GLuint program;
 
@@ -40,6 +41,7 @@ extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 extern nPhysics::iPhysicsWorld* gPhysicsWorld;
 
 extern bool bMouseInWindow;
+extern bool bIsDebugMode;
 extern cBasicTextureManager* g_pTheTextureManager;
 
 //extern cCommandGroup* luaCommandGroup;
@@ -65,6 +67,7 @@ extern std::vector< cMeshObject* > vec_pSpheres;
 extern cSceneManager* g_pSceneManager;
 extern cLightManager* LightManager;
 extern cTextRend* g_textRenderer;
+extern cSimpleDebugRenderer* g_simpleDubugRenderer;
 
 // 
 // This is a global pointer to a mesh object. 

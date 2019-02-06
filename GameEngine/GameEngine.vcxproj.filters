@@ -91,6 +91,9 @@
     <Filter Include="TextManager">
       <UniqueIdentifier>{254fc64d-77ba-46e4-bd12-541ecf97598b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SimpleDebugRenderer">
+      <UniqueIdentifier>{7bbb843f-d748-49f4-8a33-ab48131f6ef5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -219,6 +222,9 @@
     <ClCompile Include="cCameraChangeAnim.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
+    <ClCompile Include="cSimpleDebugRenderer.cpp">
+      <Filter>SimpleDebugRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -334,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="CameraChangeanimr.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="cSimpleDebugRenderer.h">
+      <Filter>SimpleDebugRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

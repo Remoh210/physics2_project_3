@@ -45,6 +45,7 @@ nPhysics::iPhysicsWorld* gPhysicsWorld = NULL;
 GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
+cSimpleDebugRenderer* g_simpleDubugRenderer = NULL;
 cLuaBrain* p_LuaScripts = NULL;
 cTextRend* g_textRenderer = NULL;
 //cCommandGroup sceneCommandGroup;
@@ -56,6 +57,7 @@ void UpdateWindowTitle(void);
 double currentTime = 0;
 double deltaTime = 0;
 double FPS_last_Time = 0;
+bool bIsDebugMode = true;
 
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
@@ -294,8 +296,9 @@ int main(void)
 	LoadModelTypes(::g_pTheVAOMeshManager, program);
 	::g_pSceneManager->loadScene(scene);
 	::LightManager->LoadUniformLocations(program);
-
+	
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
+	g_simpleDubugRenderer = new cSimpleDebugRenderer(findObjectByFriendlyName("DebugSphere"), program);
 
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
 
@@ -774,15 +777,7 @@ int main(void)
 		}//for ( unsigned int objIndex = 0; 
 
 		//sceneCommandGroup.Update(deltaTime);
-		
 
-
-		// Call the debug renderer call
-//#ifdef _DEBUG
-		::g_pDebugRendererACTUAL->RenderDebugObjects( matView, matProjection, deltaTime );
-//#endif 
-
-		// update the "last time"
 		
 
 		// The physics update loop
@@ -799,6 +794,41 @@ int main(void)
 				curMesh->m_meshQOrientation = glm::mat4(curMesh->rigidBody->GetMatRotation());
 			}
 		}
+
+		if (bIsDebugMode) {
+			// Call the debug renderer call
+			for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
+				cMeshObject* curObj = vec_pObjectsToDraw[i];
+				curObj->bIsVisible = false;
+				curObj->bDontLight = true;
+				if (curObj->rigidBody != NULL) {
+					if (curObj->rigidBody->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_SPHERE) {
+
+						float rad;
+						curObj->rigidBody->GetShape()->GetSphereRadius(rad);
+						g_simpleDubugRenderer->drawSphere(curObj->rigidBody->GetPosition(), rad);
+					}
+					if (curObj->rigidBody->GetShape()->GetShapeType() == nPhysics::SHAPE_TYPE_PLANE) {
+						curObj->bIsWireFrame = true;
+						curObj->bIsVisible = true;
+						glm::mat4 matIden = glm::mat4(1.0f);
+						DrawObject(curObj, matIden, program);
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < vec_pObjectsToDraw.size(); i++) {
+				cMeshObject* curObj = vec_pObjectsToDraw[i];
+				if (!curObj->bIsDebug) {
+					curObj->bIsVisible = true;
+					curObj->bIsWireFrame = false;
+					curObj->bDontLight = false;
+				}
+			}
+		}
+		::g_pDebugRendererACTUAL->RenderDebugObjects(matView, matProjection, deltaTime);
 
 		//::p_LuaScripts->UpdateCG(deltaTime);
 		//::p_LuaScripts->Update(deltaTime);
