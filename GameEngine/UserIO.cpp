@@ -120,13 +120,16 @@ void key_callback( GLFWwindow* window,
 	}
 	if (key == GLFW_KEY_T && action == GLFW_PRESS)
 	{
-		vec_pSpheres.at(SphIndex)->bIsWireFrame = false;
+		vec_pSpheres[SphIndex]->vecTextures[0].strength = 1.0f;
+		vec_pSpheres[SphIndex]->vecTextures[1].strength = 0.0f;
+
 		if (SphIndex < (vec_pSpheres.size() - 1)) {
 			SphIndex = SphIndex + 1;
 		}
 		else { SphIndex = 0; }
 		//vec_pSpheres.at(SphIndex)->vecTextures[0].strength = 0.0f;
-		vec_pSpheres.at(SphIndex)->bIsWireFrame = true;
+		vec_pSpheres[SphIndex]->vecTextures[0].strength = 0.0f;
+		vec_pSpheres[SphIndex]->vecTextures[1].strength = 1.0f;
 
 	}
 
