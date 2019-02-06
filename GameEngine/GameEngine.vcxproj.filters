@@ -216,6 +216,9 @@
     <ClCompile Include="cTextRend.cpp">
       <Filter>TextManager</Filter>
     </ClCompile>
+    <ClCompile Include="cCameraChangeAnim.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="cTextRend.h">
       <Filter>TextManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraChangeanimr.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

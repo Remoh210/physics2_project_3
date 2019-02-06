@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="cAABB.cpp" />
     <ClCompile Include="cAnimationCurveCommand.cpp" />
+    <ClCompile Include="cCameraChangeAnim.cpp" />
     <ClCompile Include="cCommandGroup.cpp" />
     <ClCompile Include="cFollowCurve.cpp" />
     <ClCompile Include="cFollowObjectCommand.cpp" />
@@ -201,6 +202,7 @@
   <ItemGroup>
     <ClInclude Include="cAABB.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraChangeanimr.h" />
     <ClInclude Include="cAnimationCurveCommand.h" />
     <ClInclude Include="cCommandGroup.h" />
     <ClInclude Include="cFollowObjectCommand.h" />
