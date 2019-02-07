@@ -2,8 +2,9 @@
     "Window": {
         "Width": 1200,
         "Height": 900,
-        "Title" : "x-wing"
+        "Title" : "Balls!"
     },
     "Language" : "English",
-	"Scene" : "physics.json"
+	  "Scene" : "physics.json",
+    "Gravity" : [0.0, -60.0, 0.0]
 }

@@ -57,7 +57,7 @@ void UpdateWindowTitle(void);
 double currentTime = 0;
 double deltaTime = 0;
 double FPS_last_Time = 0;
-bool bIsDebugMode = true;
+bool bIsDebugMode = false;
 
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
@@ -66,8 +66,8 @@ std::vector< cMeshObject* > vec_pObjectsToDraw;
 std::vector< cMeshObject* > vec_pSpheres;
 
 // To the right, up 4.0 units, along the x axis
-glm::vec3 g_lightPos = glm::vec3( 4.0f, 4.0f, 0.0f );
-float g_lightBrightness = 400000.0f;
+glm::vec3 gravity = glm::vec3( 0.0f, -10.0f, 0.0f );
+
 
 unsigned int numberOfObjectsToDraw = 0;
 
@@ -283,7 +283,7 @@ int main(void)
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-	gPhysicsWorld->SetGravity(glm::vec3(0.0f, -40.0f, 0.0f));
+	gPhysicsWorld->SetGravity(gravity);
 
 	//nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
 	//nPhysics::sRigidBodyDef def;
@@ -439,9 +439,7 @@ int main(void)
 	}
 
 	//AddSomeVel
-	findObjectByFriendlyName("earth")->rigidBody->SetVelocity(glm::vec3(4.0, 0.0f, 0.0f));
-	findObjectByFriendlyName("mars")->rigidBody->SetVelocity(glm::vec3(3.0, 0.0f, 0.0f));
-	findObjectByFriendlyName("mars2")->rigidBody->SetVelocity(glm::vec3(1.0, 2.0f, 1.5f));
+
 
 	
 	// Draw the "scene" (run the program)
@@ -1000,6 +998,13 @@ bool loadConfig()
 	title = Window["Title"].GetString();
 	if (doc.HasMember("Scene")) {
 		scene = doc["Scene"].GetString();
+	}
+	if (doc.HasMember("Gravity")) {
+		const rapidjson::Value& grArray = doc["Gravity"];
+		for (int i = 0; i < 3; i++) {
+			gravity[i] = grArray[i].GetFloat();
+		}
+		
 	}
 
 	return true;

@@ -84,9 +84,19 @@ void key_callback( GLFWwindow* window,
 	}
 
 
-	if (glfwGetKey(window, GLFW_KEY_ENTER))
+	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
 		bIsDebugMode = !bIsDebugMode;
+		//::g_pSceneManager->saveScene("physics.json");
+		//g_pDebugRenderer->addDebugSphere(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 20, 100.0f);
+		//::g_pSceneManager->loadScene("output.json");
+		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
+
+	}
+
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+	{
+		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(vec_pSpheres[SphIndex]->rigidBody->GetVelocity() + glm::vec3(0.0f, 30.0f, 0.0f));
 		//::g_pSceneManager->saveScene("physics.json");
 		//g_pDebugRenderer->addDebugSphere(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 20, 100.0f);
 		//::g_pSceneManager->loadScene("output.json");
@@ -138,7 +148,7 @@ void key_callback( GLFWwindow* window,
 	//VISABILITY
 	if (glfwGetKey(window, GLFW_KEY_SEMICOLON ))
 	{
-		switchVis(vec_pObjectsToDraw.at(index));
+		//switchVis(vec_pObjectsToDraw.at(index));
 	}
 
 

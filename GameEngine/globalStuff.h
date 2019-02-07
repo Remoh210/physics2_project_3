@@ -56,9 +56,6 @@ extern double deltaTime;
 extern unsigned int SCR_WIDTH;
 extern unsigned int SCR_HEIGHT;
 
-// NOTE: These are JUST FOR NOW!!!
-extern glm::vec3 g_lightPos;	// = glm::vec3( 4.0f, 4.0f, 0.0f );
-extern float g_lightBrightness;	// = 1.0f;
 
 
 extern cVAOMeshManager* g_pTheVAOMeshManager;
