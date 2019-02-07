@@ -147,9 +147,9 @@ namespace nPhysics
 								glm::vec3 x = rbA->mPosition - rbB->mPosition;
 								x = glm::normalize(x);
 
-								//	Then we calculate the x - direction velocity vector and the perpendicular y - vector.
+
 								glm::vec3 v1 = rbA->mVelocity;
-								float x1 = glm::dot(x, v1);// x.dot(vec{ v1 })
+								float x1 = glm::dot(x, v1);
 								glm::vec3 v1x = x * x1;
 								glm::vec3 v1y = v1 - v1x;
 
@@ -163,16 +163,8 @@ namespace nPhysics
 								rbB->mVelocity = v1x * (2 * massA) / (massA + massB) + v2x * (massB - massA) / (massA + massB) + v2y;
 								rbA->mVelocity *= 0.95f;
 								rbB->mVelocity *= 0.95f;
-								//glm::vec3 norm2 = glm::normalize(rbB->mPosition - rbA->mPosition);
-								//glm::vec3 reflectedVel2 = glm::reflect(rbB->mVelocity, norm2);
-								//rbB->mVelocity = reflectedVel2 * fac2 * 0.95f;
 
-
-								//glm::vec3 norm = glm::normalize(rbA->mPosition - rbB->mPosition);
-								//glm::vec3 reflectedVel1 = glm::reflect(rbA->mVelocity, norm);
-								//rbA->mVelocity = reflectedVel1 * fac1 * 0.95f;
 							
-
 
 								float rad;
 								rbA->GetShape()->GetSphereRadius(rad);
@@ -196,8 +188,6 @@ namespace nPhysics
 							{
 
 
-								
-
 								rbB->mPosition = rbB->mLastPos;
 								float radiusB;
 								rbB->GetShape()->GetSphereRadius(radiusB);
@@ -207,24 +197,6 @@ namespace nPhysics
 								rbA->GetShape()->GetPlaneConstant(constA);
 								rbA->GetShape()->GetPlaneNormal(normA);
 
-
-								//if (abs(rbB->mVelocity.y) > 1.0f || normA.y != 1.0f)
-								//{
-								//	rbB->mVelocity = glm::reflect(rbB->mVelocity, normA);
-								//	
-								//}
-								//rbB->mVelocity *= 0.95;
-
-								//rbB->mVelocity *= 0.95;
-
-								//rbB->mPosition = rbB->mLastPos;
-								//float radiusB;
-								//rbB->GetShape()->GetSphereRadius(radiusB);
-
-								//float constA;
-								//glm::vec3 normA;
-								//rbA->GetShape()->GetPlaneConstant(constA);
-								//rbA->GetShape()->GetPlaneNormal(normA);
 
 								if(abs(rbB->mVelocity.y) > 1.0f && rbB->mPosition.y > 0.2f || normA.y != 1.0f)
 								{
@@ -237,11 +209,6 @@ namespace nPhysics
 									rbB->mVelocity *= 0.995f;
 								}
 								
-								
-								//	rbB->mVelocity *= 0.995f;
-								
-								
-
 
 							}
 
@@ -256,41 +223,17 @@ namespace nPhysics
 
 				if (rbA->GetShape()->GetShapeType() != nPhysics::SHAPE_TYPE_PLANE) {
 
-					glm::vec3 horizontalDir = rbA->mVelocity - rbA->mPosition;
-					horizontalDir.y = 0.0f;
-
-					// Now the axis of rotation should be:
-					glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
-
-					// Kind of an Angular velocity
-					float angVelocity = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
-
+					glm::vec3 direction = rbA->mVelocity - rbA->mPosition;
+					direction.y = 0.0f;
+					glm::vec3 rotAxis = glm::normalize(glm::cross(direction, glm::vec3(0.0f, -1.0f, 0.0f)));
+					float angularVel = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
 					glm::mat4 finalRotation(1.0f);
-					finalRotation = glm::rotate(finalRotation, angVelocity/rbA->mMass, rotAxis);
+					finalRotation = glm::rotate(finalRotation, angularVel /rbA->mMass, rotAxis);
 					rbA->mRotation *= finalRotation;
 
-					//float radius;
-					//rbA->GetShape()->GetSphereRadius(radius);
-					//
-					//glm::vec3 Direction = rbA->mVelocity - rbA->mPosition;
-					//glm::vec3 WorldPoint;
-					//WorldPoint = rbA->mPosition + glm::normalize(Direction) * radius;
-					//glm::vec3 SurfaceVelocity;
-					//SurfaceVelocity = rbA->mVelocity + glm::cross(rbA->mAnguralVel, WorldPoint - rbA->mPosition);
-					//glm::vec3 impulse = SurfaceVelocity * -0.2f * rbA->mMass;
-					//rbA->mVelocity += impulse * (1 / rbA->mMass);
-					//rbA->mAnguralVel += glm::cross(WorldPoint - rbA->mPosition, impulse *  (1 / rbA->mMass));
-					//glm::mat4 finalRotation(1.0f);
-					//glm::quat(glm::normalize(SurfaceVelocity));
-					//rbA->mRotation = finalRotation;
-
-
-					//RK4
+					// RK4 Integration
 					rbA->mLastPos = rbA->mPosition; 
 					integrate(rbA->mPosition, rbA->mVelocity, mGravity, dt);
-					//horizontalDir.y = 0.0f;
-					//glm::vec3 rotAxis = glm::normalize(glm::cross(Direction, glm::vec3(0.0f, -1.0f, 0.0f)));
-					//float angVelocity = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
 				}
 
 		}
@@ -301,7 +244,6 @@ namespace nPhysics
 	void cSimplePhysicsWorld::integrate(glm::vec3& pos, glm::vec3& vel, glm::vec3 accel, float dt)
 	{
 		{
-			// Put the acceleration into the velocity
 			glm::vec3 newVel = vel + accel * dt;
 
 			RK4_State state;

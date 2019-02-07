@@ -314,8 +314,6 @@ int main(void)
 	}//for ( unsigned int objIndex = 0; 
 
 
-
-
 	// Get the current time to start with
 	double lastTime = glfwGetTime();
 

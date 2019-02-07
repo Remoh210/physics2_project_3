@@ -66,9 +66,9 @@ void key_callback( GLFWwindow* window,
 	//SAVE MODELS
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
-		bIsDebugMode = !bIsDebugMode;
-		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
-		//saveLightInfo("lights.txt", LightManager->vecLights);
+		for (int i = 0; i < vec_pSpheres.size(); i++) {
+			vec_pSpheres[i]->rigidBody->SetVelocity(vec_pSpheres[i]->rigidBody->GetVelocity() + glm::vec3(0.0f + i , 40.0f, 0.0f + i));
+		}
 	}
 
 	//LOAD MODELS
@@ -87,16 +87,13 @@ void key_callback( GLFWwindow* window,
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
 		bIsDebugMode = !bIsDebugMode;
-		//::g_pSceneManager->saveScene("physics.json");
-		//g_pDebugRenderer->addDebugSphere(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 20, 100.0f);
-		//::g_pSceneManager->loadScene("output.json");
-		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
+
 
 	}
 
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 	{
-		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(vec_pSpheres[SphIndex]->rigidBody->GetVelocity() + glm::vec3(0.0f, 30.0f, 0.0f));
+		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(vec_pSpheres[SphIndex]->rigidBody->GetVelocity() + glm::vec3(0.0f, 40.0f, 0.0f));
 		//::g_pSceneManager->saveScene("physics.json");
 		//g_pDebugRenderer->addDebugSphere(glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 20, 100.0f);
 		//::g_pSceneManager->loadScene("output.json");
@@ -119,13 +116,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_R))
 	{
-		glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
-		CamDir = glm::normalize(CamDir);
-		glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
-		//lets add some speed
-		velVec += CamDir * 500.0f * (float)deltaTime;
-		velVec.y = 1.1f;
-		vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+
 
 	}
 	if (key == GLFW_KEY_T && action == GLFW_PRESS)
@@ -350,23 +341,70 @@ void ProcessAsynKeys(GLFWwindow* window)
 	//LIGHT CONTROL*********************************************************************************************************
 	if ( IsCtrlDown(window) )
 	{
+		if (glfwGetKey(window, GLFW_KEY_W)) {
+			//glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
+			//CamDir = glm::normalize(CamDir);
+			glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
+			////lets add some speed
+			glm::vec3 CamDir = camera.Front - camera.Position;
+			CamDir = glm::normalize(CamDir);
+			CamDir.y = 0.0f;
+			velVec += CamDir * 200.0f * (float)deltaTime;
+			velVec.y = 1.1f;
+			vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+		}
+		if (glfwGetKey(window, GLFW_KEY_S)) {
+			//glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
+			//CamDir = glm::normalize(CamDir);
+			glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
+			////lets add some speed
+			glm::vec3 CamDir = camera.Front - camera.Position;
+			CamDir = glm::normalize(CamDir);
+			CamDir.y = 0.0f;
+			velVec += -CamDir * 200.0f * (float)deltaTime;
+			velVec.y = 1.1f;
+			vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D)) {
+			//glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
+//CamDir = glm::normalize(CamDir);
+			glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
+			////lets add some speed
+			glm::vec3 CamDir = camera.Right;
+			CamDir = glm::normalize(CamDir);
+			CamDir.y = 0.0f;
+			velVec += CamDir * 200.0f * (float)deltaTime;
+			velVec.y = 1.1f;
+			vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+		}
+		if (glfwGetKey(window, GLFW_KEY_A)) {
+			//glm::vec3 CamDir = glm::vec3(camera.Front.x, 0.0f, camera.Front.z);
+//CamDir = glm::normalize(CamDir);
+			glm::vec3 velVec = vec_pSpheres[SphIndex]->rigidBody->GetVelocity();
+			////lets add some speed
+			glm::vec3 CamDir = camera.Right;
+			CamDir = glm::normalize(CamDir);
+			CamDir.y = 0.0f;
+			velVec += - CamDir * 200.0f * (float)deltaTime;
+			velVec.y = 1.1f;
+			vec_pSpheres[SphIndex]->rigidBody->SetVelocity(velVec);
+		}
 		
-		
-		
-		if ( glfwGetKey( window, GLFW_KEY_W ) )	{	LightManager->vecLights.at(lightIndex)->position.z += cameraSpeed;	}
-		if ( glfwGetKey( window, GLFW_KEY_S ) )	{	LightManager->vecLights.at(lightIndex)->position.z -= cameraSpeed;	}
-		if ( glfwGetKey( window, GLFW_KEY_A ) )	{	LightManager->vecLights.at(lightIndex)->position.x -= cameraSpeed;	}
-		if ( glfwGetKey( window, GLFW_KEY_D ) ) {	LightManager->vecLights.at(lightIndex)->position.x += cameraSpeed;	}
-		if ( glfwGetKey( window, GLFW_KEY_Q ) )	{	LightManager->vecLights.at(lightIndex)->position.y += cameraSpeed;	}
-		if ( glfwGetKey( window, GLFW_KEY_E ) )	{	LightManager->vecLights.at(lightIndex)->position.y -= cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_W ) )	{	LightManager->vecLights.at(lightIndex)->position.z += cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_S ) )	{	LightManager->vecLights.at(lightIndex)->position.z -= cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_A ) )	{	LightManager->vecLights.at(lightIndex)->position.x -= cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_D ) ) {	LightManager->vecLights.at(lightIndex)->position.x += cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_Q ) )	{	LightManager->vecLights.at(lightIndex)->position.y += cameraSpeed;	}
+		//if ( glfwGetKey( window, GLFW_KEY_E ) )	{	LightManager->vecLights.at(lightIndex)->position.y -= cameraSpeed;	}
 
 
-		//change colour of the light
-		if ( glfwGetKey( window, GLFW_KEY_Z ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); 	}//Red
-		if ( glfwGetKey( window, GLFW_KEY_X ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);	}//Green
-		if ( glfwGetKey( window, GLFW_KEY_C ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);    }//Blue
-		if ( glfwGetKey( window, GLFW_KEY_V ) )	{	LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);	}
-		if ( glfwGetKey( window, GLFW_KEY_B ) )	{	LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);	}
+		////change colour of the light
+		//if ( glfwGetKey( window, GLFW_KEY_Z ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f); 	}//Red
+		//if ( glfwGetKey( window, GLFW_KEY_X ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);	}//Green
+		//if ( glfwGetKey( window, GLFW_KEY_C ) )	{   LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);    }//Blue
+		//if ( glfwGetKey( window, GLFW_KEY_V ) )	{	LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);	}
+		//if ( glfwGetKey( window, GLFW_KEY_B ) )	{	LightManager->vecLights.at(lightIndex)->diffuse = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);	}
 
 
 		//change lightype
