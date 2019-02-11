@@ -20,6 +20,7 @@ namespace nPhysics
 
 
 		//virtual void SetTransform(glm::mat4 transform) = 0;
+		//virtual void ApplyForce(const glm::vec3& force) = 0;
 		virtual void SetPosition(glm::vec3 position) = 0;
 		virtual void SetEulerRotation(glm::vec3 rotation) = 0;
 		virtual void SetMatRotation(glm::mat4 rotation) = 0;

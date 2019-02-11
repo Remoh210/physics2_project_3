@@ -198,7 +198,7 @@ namespace nPhysics
 								rbA->GetShape()->GetPlaneNormal(normA);
 
 
-								if(abs(rbB->mVelocity.y) > 1.0f && rbB->mPosition.y > 0.2f || normA.y != 1.0f)
+								if(abs(rbB->mVelocity.y) > 1.0f || normA.y != 1.0f)
 								{
 								rbB->mVelocity = glm::reflect(rbB->mVelocity, normA);
 								glm::vec3 nComponent = glm::proj(rbB->mVelocity, normA);
