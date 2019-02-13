@@ -861,6 +861,12 @@
     <ClInclude Include="Physics\bullet\bullet_shapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\bullet\cBulletPhysicsFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CreateFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Physics\bullet\Bullet3Common\b3AlignedAllocator.cpp">
@@ -1371,6 +1377,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Physics\bullet\bullet_shapes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\bullet\cBulletPhysicsFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CreateFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

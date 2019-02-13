@@ -145,25 +145,20 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	//CAMERA SPEED
-	//camera.MovementSpeed = 1000.0f;
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 
-	//glfwSetKeyCallback()
 	
-
 	glfwMakeContextCurrent(window);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
 
 
 	// Create the shader manager...
-	//cShaderManager TheShaderManager;		// 
-	//cShaderManager* pTheShaderManager;		// 
+	//cShaderManager TheShaderManager;	
+	//cShaderManager* pTheShaderManager;		
 	pTheShaderManager = new cShaderManager();
 	pTheShaderManager->setBasePath("assets/shaders/");
 
@@ -278,7 +273,7 @@ int main(void)
 
 
 	//PhysicsInit
-	hGetProckDll = LoadLibraryA("SimplePhysics.dll");
+	hGetProckDll = LoadLibraryA("BulletPhysics.dll");
 	f_createPhysicsFactory CreatePhysicsFactory = (f_createPhysicsFactory)GetProcAddress(hGetProckDll, "CreateFactory");
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();

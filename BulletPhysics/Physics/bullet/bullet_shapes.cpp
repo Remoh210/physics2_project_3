@@ -2,24 +2,48 @@
 
 namespace nPhysics
 {
-	iBulletShapeInterface::iBulletShapeInterface()
-		: iShape(SHAPE_TYPE_SPHERE)
-	{
-	}
+
+
 	cBulletSphereShape::cBulletSphereShape(float radius)
-		: iBulletShapeInterface()
-		, iSphereShape()
+		: iSphereShape()
+		, mRadius(radius)
 		
 	{
-		mBulletShape = new btSphereShape(btScalar(radius));
+		mBulletShape = new btSphereShape(btScalar(mRadius));
 	}
 	cBulletSphereShape::~cBulletSphereShape()
 	{
 		delete mBulletShape;
 	}
-	float cBulletSphereShape::GetRadius()
+
+
+
+
+	cBulletPlaneShape::cBulletPlaneShape(const glm::vec3& normal, float planeConst)
+		: iPlaneShape()
+		, mNormal(normal)
+		, mCnonst(planeConst)
+
 	{
-		return 0.0f;
+		this->mBulletShape = new btStaticPlaneShape(btVector3(normal.x, normal.y, normal.z), planeConst);
 	}
+	cBulletPlaneShape::~cBulletPlaneShape()
+	{
+		delete mBulletShape;
+	}
+
+
+	bool cBulletPlaneShape::GetPlaneNormal(glm::vec3& planeNormalOut)
+	{
+		planeNormalOut = mNormal;
+		return true;
+	}
+	bool cBulletPlaneShape::GetPlaneConstant(float& planeConstantOut)
+	{
+		planeConstantOut = mCnonst;
+		return true;
+	}
+
+
 
 }

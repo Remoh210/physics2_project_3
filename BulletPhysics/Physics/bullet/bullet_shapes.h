@@ -5,33 +5,44 @@
 
 namespace nPhysics
 {
-	class iBulletShapeInterface : public virtual iShape
+	
+	class cBulletSphereShape : public iSphereShape
 	{
 	public:
-		
-		virtual ~iBulletShapeInterface() {}
-
+		cBulletSphereShape(float radius);
+		virtual ~cBulletSphereShape();
+		virtual bool GetSphereRadius(float& radiusOut) { radiusOut = this->mRadius; return true; }
 		inline btCollisionShape* GetBulletShape()
 		{
 			return mBulletShape;
 		}
 	protected:
-		iBulletShapeInterface();
-		iBulletShapeInterface(const iBulletShapeInterface& other) : iShape(other) {}
-		iBulletShapeInterface& operator=(const iBulletShapeInterface& other) { return *this; }
-		btCollisionShape* mBulletShape;
-	};
-
-	class cBulletSphereShape : public iBulletShapeInterface, public iSphereShape
-	{
-	public:
-		cBulletSphereShape(float radius);
-		virtual ~cBulletSphereShape();
-		virtual float GetRadius();
-	protected:
-		//iShape
+		float mRadius;
 		cBulletSphereShape(const cBulletSphereShape& other) : iSphereShape(other) {}
 		cBulletSphereShape& operator=(const cBulletSphereShape& other) { return *this; }
+		btCollisionShape* mBulletShape;
+
+	};
+
+	class cBulletPlaneShape :  public iPlaneShape
+	{
+	public:
+		cBulletPlaneShape(const glm::vec3& normal, float planeConst);
+		virtual ~cBulletPlaneShape();
+		virtual bool GetPlaneNormal(glm::vec3& planeNormalOut);
+		virtual bool GetPlaneConstant(float& planeConstantOut);
+		inline btCollisionShape* GetBulletShape()
+		{
+			return mBulletShape;
+		}
+
+	protected:
+		glm::vec3 mNormal;
+		float mCnonst;
+		//iShape
+		cBulletPlaneShape(const cBulletPlaneShape& other) : iPlaneShape(other) {}
+		cBulletPlaneShape& operator=(const cBulletPlaneShape& other) { return *this; }
+		btCollisionShape* mBulletShape;
 
 	};
 

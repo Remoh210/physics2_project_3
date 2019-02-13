@@ -986,12 +986,12 @@
                 "Normal": [
                     0.0,
                     0.0,
-                    -1.0
+                    1.0
                 ],
                 "Mass": 0.0
             }
         },
-        {
+		 {
             "Name": "plane_floor_front",
             "Mesh": "plane_floor.ply",
             "Visible": true,
@@ -1032,7 +1032,7 @@
             ],
             "RigidBody": {
                 "Type": "PLANE",
-                "Constant": 100.0,
+                "Constant": -100.0,
                 "Normal": [
                     0.0,
                     0.0,
@@ -1041,7 +1041,7 @@
                 "Mass": 0.0
             }
         },
-        {
+		{
             "Name": "plane_right",
             "Mesh": "plane_floor.ply",
             "Visible": true,
@@ -1082,17 +1082,17 @@
             ],
             "RigidBody": {
                 "Type": "PLANE",
-                "Constant": 100.0,
+                "Constant": -100.0,
                 "Normal": [
-                    1.0,
+                    -1.0,
                     0.0,
                     0.0
                 ],
                 "Mass": 0.0
             }
         },
-        {
-            "Name": "plane_right",
+		 {
+            "Name": "plane_left",
             "Mesh": "plane_floor.ply",
             "Visible": true,
             "Use_Physics": true,
@@ -1132,15 +1132,16 @@
             ],
             "RigidBody": {
                 "Type": "PLANE",
-                "Constant": 100.0,
+                "Constant": -100.0,
                 "Normal": [
-                    -1.0,
+                    1.0,
                     0.0,
                     0.0
                 ],
                 "Mass": 0.0
             }
         }
+       
     ],
     "Lights": [
       {
