@@ -183,6 +183,7 @@
     <ClCompile Include="Error\CErrorLog.cpp" />
     <ClCompile Include="Error\COpenGLError.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="HotSwap.cpp" />
     <ClCompile Include="LoadModels.cpp" />
     <ClCompile Include="ObjectTest.cpp" />
     <ClCompile Include="OpenGLMeshLoader.cpp">

@@ -19,7 +19,7 @@ void switchVis(cMeshObject* obj) {obj->bIsVisible = !obj->bIsVisible;}
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
-
+void SwapThePhysics();
 std::string Answer;
 void ManageScene(GLFWwindow* window);
 
@@ -103,7 +103,7 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_BACKSPACE))
 	{
-
+		SwapThePhysics();
 		//::g_pSceneManager->saveScene("output.json");
 		//::g_pSceneManager->loadScene("scene1.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);

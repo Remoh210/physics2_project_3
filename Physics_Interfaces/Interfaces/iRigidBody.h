@@ -16,6 +16,7 @@ namespace nPhysics
 		virtual glm::mat4 GetMatRotation() = 0;
 		virtual float GetMass() = 0;
 		virtual glm::vec3 GetVelocity() = 0;
+		virtual glm::vec3 GetAngulatVelocity() = 0;
 		virtual glm::vec3 GetAccel() = 0;
 
 

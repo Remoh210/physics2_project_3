@@ -2,7 +2,7 @@
 #include "nConvert.h"
 #include "bullet_shapes.h"
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm\gtx\quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/mat4x4.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -19,8 +19,8 @@ namespace nPhysics {
 			btCollisionShape* colShape = dynamic_cast<cBulletPlaneShape*>(shape)->GetBulletShape();
 			btTransform startTransform;
 			startTransform.setIdentity();
-
-			btScalar mass(def.Mass);
+			mMass = def.Mass;
+			btScalar mass(mMass);
 			bool isDynamic = (mass != 0.f);
 			btVector3 localInertia(0, 0, 0);
 
@@ -28,24 +28,11 @@ namespace nPhysics {
 			{
 				colShape->calculateLocalInertia(mass, localInertia);
 			}
-		    //startTransform.setOrigin(nConvert::ToBullet(def.Position));
-			//mMotionState = new btDefaultMotionState(startTransform);
+
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(0, 0, colShape, localInertia);
 			rbInfo.m_restitution = 0.9;
+			rbInfo.m_friction = 10.0;
 			mBody = new btRigidBody(rbInfo);
-			//mBody->setLinearVelocity(nConvert::ToBullet(def.Velocity));
-
-
-
-			//bt_cPlaneShape* planeShape = dynamic_cast<bt_cPlaneShape*>(shape);
-
-			//btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0,
-			//	groundMotionState,
-			//	planeShape->getBulletShape(),
-			//	btVector3(0, 0, 0));
-			//groundRigidBodyCI.m_restitution = 0.9;
-
-			//this->bullet_RigidBody = new btRigidBody(groundRigidBodyCI);
 
 
 
@@ -56,8 +43,9 @@ namespace nPhysics {
 			btCollisionShape* colShape = dynamic_cast<cBulletSphereShape*>(shape)->GetBulletShape();
 			btTransform startTransform;
 			startTransform.setIdentity();
-
-			btScalar mass(def.Mass);
+			
+			mMass = def.Mass;
+			btScalar mass(mMass);
 			bool isDynamic = (mass != 0.f);
 			btVector3 localInertia(0, 0, 0);
 
@@ -66,11 +54,14 @@ namespace nPhysics {
 				colShape->calculateLocalInertia(mass, localInertia);
 			}
 			startTransform.setOrigin(nConvert::ToBullet(def.Position));
+			startTransform.setRotation(nConvert::ToBullet(def.quatOrientation));
 			mMotionState = new btDefaultMotionState(startTransform);
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, mMotionState, colShape, localInertia);
 			rbInfo.m_restitution = 0.95;
+			rbInfo.m_friction = 10.0;
 			mBody = new btRigidBody(rbInfo);
 			mBody->setLinearVelocity(nConvert::ToBullet(def.Velocity));
+			mBody->setAngularVelocity(nConvert::ToBullet(def.AngularVelocity));
 
 
 
@@ -127,7 +118,7 @@ namespace nPhysics {
 
 	float cBulletRigidBody::GetMass()
 	{
-		return 0.0f;
+		return this->mMass;
 	}
 
 	glm::vec3 cBulletRigidBody::GetVelocity()
@@ -141,6 +132,11 @@ namespace nPhysics {
 		return glm::vec3();
 	}
 
+	glm::vec3 cBulletRigidBody::GetAngulatVelocity()
+	{
+		return nConvert::ToSimple(mBody->getAngularVelocity());
+	}
+
 	void cBulletRigidBody::SetPosition(glm::vec3 position)
 	{
 		//btVector3 vel = this->mBody->setMotionState()
@@ -152,6 +148,11 @@ namespace nPhysics {
 
 	void cBulletRigidBody::SetMatRotation(glm::mat4 rotation)
 	{
+		//btMotionState* state = this->mBody->getMotionState();
+		//btTransform startTransform;
+		//state->getWorldTransform(startTransform);
+		//startTransform.getRotation().m;
+		//this->mBody->setMotionState()
 	}
 
 	void cBulletRigidBody::SetMass(float mass)

@@ -23,7 +23,7 @@ namespace nPhysics
 		virtual float GetMass();
 		virtual glm::vec3 GetVelocity();
 		virtual glm::vec3 GetAccel();
-
+		virtual glm::vec3 GetAngulatVelocity();
 		virtual void SetPosition(glm::vec3 position);
 		virtual void SetEulerRotation(glm::vec3 rotation);
 		virtual void SetMatRotation(glm::mat4 rotation);
@@ -37,6 +37,7 @@ namespace nPhysics
 		btDefaultMotionState* mMotionState;
 		btRigidBody* mBody;
 		iShape* mShape;
+		float mMass;
 	};
 
 }

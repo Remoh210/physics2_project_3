@@ -30,7 +30,7 @@ namespace nPhysics
 		, mVelocity(def.Velocity)
 		, mShape(shape)
 	{
-		this->mRotation = glm::mat4(1.0f);
+		this->mRotation = glm::toMat4(def.quatOrientation);
 	}
 	cSimpleRigidBody::~cSimpleRigidBody()
 	{
@@ -77,6 +77,10 @@ namespace nPhysics
 	glm::vec3 cSimpleRigidBody::GetAccel()
 	{
 		return this->mAcceleration;
+	}
+	glm::vec3 cSimpleRigidBody::GetAngulatVelocity()
+	{
+		return mAnguralVel;
 	}
 	float cSimpleRigidBody::GetMass()
 	{

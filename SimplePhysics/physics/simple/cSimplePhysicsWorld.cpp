@@ -227,10 +227,11 @@ namespace nPhysics
 					direction.y = 0.0f;
 					glm::vec3 rotAxis = glm::normalize(glm::cross(direction, glm::vec3(0.0f, -1.0f, 0.0f)));
 					float angularVel = glm::length(glm::vec3(rbA->mVelocity.x, 0.0f, rbA->mVelocity.z)) * dt;
+					rbA->mAnguralVel = rotAxis * angularVel;
 					glm::mat4 finalRotation(1.0f);
 					finalRotation = glm::rotate(finalRotation, angularVel /rbA->mMass, rotAxis);
 					rbA->mRotation *= finalRotation;
-
+					
 					// RK4 Integration
 					rbA->mLastPos = rbA->mPosition; 
 					integrate(rbA->mPosition, rbA->mVelocity, mGravity, dt);

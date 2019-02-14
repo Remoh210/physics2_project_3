@@ -3,6 +3,8 @@
 #include <LinearMath/btVector3.h>
 #include <LinearMath/btTransform.h>
 #include <glm/mat4x4.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 //#include <glm/vec3.hpp>
 namespace nPhysics {
 	namespace nConvert
@@ -38,6 +40,23 @@ namespace nPhysics {
 			transform.getOpenGLMatrix(&matOut[0][0]);
 
 		}
+
+
+
+
+		inline glm::quat ToSimple(const btQuaternion& quatIn)
+		{
+			glm::quat glm_quat(quatIn.getX(), quatIn.getY(), quatIn.getZ(), quatIn.getW());
+			return glm_quat;
+		}
+
+		inline btQuaternion ToBullet(const glm::quat& quatIn)
+		{
+			btQuaternion quatBT;
+			quatBT = btQuaternion(quatIn.x, quatIn.y, quatIn.z, quatIn.w);
+			return quatBT;
+		}
+
 
 	}
 

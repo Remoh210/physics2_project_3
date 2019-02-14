@@ -14,6 +14,7 @@ public:
 
 	void renderText(const char *text, float x, float y, float sx, float sy);
 	void drawText(unsigned int width, unsigned int height, const char *text);
+	void drawText(unsigned int width, unsigned int height, const char *text, float yoffset);
 	void drawText(unsigned int width, unsigned int height, const char *text, float drawTime, float dt);
 
 private:

@@ -141,6 +141,36 @@ void cTextRend::drawText(unsigned int width, unsigned int height, const char *te
 
 
 
+void cTextRend::drawText(unsigned int width, unsigned int height, const char *text, float yoffset)
+{
+
+
+	//GLfloat white[4] = { 1, 1, 1, 1 };
+	GLfloat color[4] = { 1, 0, 0, 1 };
+
+	glUseProgram(mprogramm);
+
+
+	glUniform4fv(uniform_color, 1, color);
+
+
+	glBindVertexArray(mvao);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDisable(GL_CULL_FACE);
+	float sx = 2.0f / width;
+	float sy = 2.0f / height;
+	//GLfloat yoffset = 50.0f;
+	GLfloat xoffset = 8 * sx;
+
+	renderText(text, -1 + xoffset, 1 - yoffset * sy, sx, sy);
+
+	glBindVertexArray(0);
+
+}
+
+
+
 //void cTextRend::drawText(unsigned int width, unsigned int height, const char *text, float drawTime, float dt)
 //{
 //

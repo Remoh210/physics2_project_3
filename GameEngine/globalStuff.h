@@ -35,7 +35,20 @@
 // ... and more
 extern GLuint program;
 
+extern HINSTANCE hGetProckDll;
+typedef nPhysics::iPhysicsFactory*(*f_createPhysicsFactory)();
 
+extern nPhysics::iPhysicsFactory* gPhysicsFactory;
+extern nPhysics::iPhysicsWorld* gPhysicsWorld;
+
+
+enum ePhysics
+{
+	SIMPLE,
+	BULLET,
+	UNKNOWN
+};
+extern ePhysics physics_library;
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 extern nPhysics::iPhysicsWorld* gPhysicsWorld;

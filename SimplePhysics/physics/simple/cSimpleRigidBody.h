@@ -26,6 +26,7 @@ namespace nPhysics
 		virtual float GetMass();
 		virtual glm::vec3 GetVelocity();
 		virtual glm::vec3 GetAccel();
+		virtual glm::vec3 GetAngulatVelocity();
 
 		//virtual void SetTransform(glm::mat4 transform);
 		//virtual void ApplyForce(const glm::vec3 force);

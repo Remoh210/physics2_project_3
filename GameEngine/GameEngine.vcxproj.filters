@@ -225,6 +225,9 @@
     <ClCompile Include="cSimpleDebugRenderer.cpp">
       <Filter>SimpleDebugRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="HotSwap.cpp">
+      <Filter>UserIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">

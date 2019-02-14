@@ -35,7 +35,8 @@
 
 //Dll 
 HINSTANCE hGetProckDll = 0;
-typedef nPhysics::iPhysicsFactory*(*f_createPhysicsFactory)();
+//typedef nPhysics::iPhysicsFactory*(*f_createPhysicsFactory)();
+ePhysics physics_library = UNKNOWN;
 
 nPhysics::iPhysicsFactory* gPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* gPhysicsWorld = NULL;
@@ -274,6 +275,7 @@ int main(void)
 
 	//PhysicsInit
 	hGetProckDll = LoadLibraryA("BulletPhysics.dll");
+	physics_library = BULLET;
 	f_createPhysicsFactory CreatePhysicsFactory = (f_createPhysicsFactory)GetProcAddress(hGetProckDll, "CreateFactory");
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
@@ -698,6 +700,22 @@ int main(void)
 			FPS_last_Time += 1.0;
 		}
 		g_textRenderer->drawText(width, height, ("FPS: " + std::to_string(FPS)).c_str());
+		
+		switch (physics_library)
+		{
+		case SIMPLE:
+			g_textRenderer->drawText(width, height, ("Physics: My crappy physics"), 100.0f);
+			break;
+		case BULLET:
+			g_textRenderer->drawText(width, height, ("Physics: Bullet"), 100.0f);
+			break;
+		case UNKNOWN:
+			break;
+		default:
+			break;
+		}
+		
+		
 		//float sx = 2.0f / width;
 		//float sy = 2.0f / height;
 		//GLfloat yoffset = 50.0f;

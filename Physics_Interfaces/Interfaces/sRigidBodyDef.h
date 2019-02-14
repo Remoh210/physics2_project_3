@@ -1,6 +1,8 @@
 #pragma once
 
 #include<glm/glm.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 namespace nPhysics
 {
@@ -11,6 +13,8 @@ namespace nPhysics
 			, Position(0.0f, 0.0f, 0.0f)
 			, Velocity(0.0f, 0.0f, 0.0f)
 			, Orientation(0.0f, 0.0f, 0.0f)
+			, quatOrientation(0.0f, 0.0f, 0.0f, 1.0f)
+			, AngularVelocity(0.0f, 0.0f, 0.0f)
 		{
 
 		}
@@ -18,6 +22,8 @@ namespace nPhysics
 		glm::vec3 Position;
 		glm::vec3 Velocity;
 		glm::vec3 Orientation; //Euler Angles
+		glm::vec3 AngularVelocity;
+		glm::quat quatOrientation;
 		float Mass;
 	};
 }
