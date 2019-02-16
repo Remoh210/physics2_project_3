@@ -6,28 +6,24 @@ void SwapThePhysics()
 	{
 	case BULLET:
 	{
-		glm::vec3 grav;
-		grav = glm::vec3(0.0f, -100.0f, 0.0f);
 		hGetProckDll = LoadLibraryA("SimplePhysics.dll");
 		physics_library = SIMPLE;
 		f_createPhysicsFactory CreatePhysicsFactory = (f_createPhysicsFactory)GetProcAddress(hGetProckDll, "CreateFactory");
 		gPhysicsFactory = CreatePhysicsFactory();
 		gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-		gPhysicsWorld->SetGravity(grav);
+		gPhysicsWorld->SetGravity(g_Gravity);
 		break;
 	}
 	case SIMPLE:
 	{
-		glm::vec3 grav;
-		grav = glm::vec3(0.0f, -100.0f, 0.0f);
 		hGetProckDll = LoadLibraryA("BulletPhysics.dll");
 		physics_library = BULLET;
 		f_createPhysicsFactory CreatePhysicsFactory = (f_createPhysicsFactory)GetProcAddress(hGetProckDll, "CreateFactory");
 		gPhysicsFactory = CreatePhysicsFactory();
 		gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-		gPhysicsWorld->SetGravity(grav);
+		gPhysicsWorld->SetGravity(g_Gravity);
 		break;
 	}
 	default:

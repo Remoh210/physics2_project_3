@@ -67,7 +67,7 @@ void key_callback( GLFWwindow* window,
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
 		for (int i = 0; i < vec_pSpheres.size(); i++) {
-			vec_pSpheres[i]->rigidBody->SetVelocity(vec_pSpheres[i]->rigidBody->GetVelocity() + glm::vec3(0.0f + i , 40.0f, 0.0f + i));
+			vec_pSpheres[i]->rigidBody->SetVelocity(vec_pSpheres[i]->rigidBody->GetVelocity() + glm::vec3(0.0f, 40.0f, 0.0f));
 		}
 	}
 
@@ -109,9 +109,18 @@ void key_callback( GLFWwindow* window,
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 
 	}
+	if (glfwGetKey(window, GLFW_KEY_UP))
+	{
+		g_Gravity.y += 5.0f;
+		gPhysicsWorld->SetGravity(g_Gravity);
 
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN))
+	{
+		g_Gravity.y -= 5.0f;
+		gPhysicsWorld->SetGravity(g_Gravity);
 
-
+	}
 
 
 	if (glfwGetKey(window, GLFW_KEY_R))

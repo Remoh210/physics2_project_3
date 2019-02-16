@@ -41,7 +41,7 @@ ePhysics physics_library = UNKNOWN;
 nPhysics::iPhysicsFactory* gPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* gPhysicsWorld = NULL;
 
-
+glm::vec3 g_Gravity = glm::vec3(0.0f, -1.0f, 0.0f);
 
 GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
@@ -67,7 +67,6 @@ std::vector< cMeshObject* > vec_pObjectsToDraw;
 std::vector< cMeshObject* > vec_pSpheres;
 
 // To the right, up 4.0 units, along the x axis
-glm::vec3 gravity = glm::vec3( 0.0f, -10.0f, 0.0f );
 
 
 unsigned int numberOfObjectsToDraw = 0;
@@ -280,7 +279,7 @@ int main(void)
 	gPhysicsFactory = CreatePhysicsFactory();
 	gPhysicsWorld = gPhysicsFactory->CreatePhysicsWorld();
 
-	gPhysicsWorld->SetGravity(gravity);
+	gPhysicsWorld->SetGravity(g_Gravity);
 
 	//nPhysics::iShape* plane = gPhysicsFactory->CreatePlaneShape(glm::vec3(0.0f), 0.0f);
 	//nPhysics::sRigidBodyDef def;
@@ -714,7 +713,7 @@ int main(void)
 		default:
 			break;
 		}
-		
+		g_textRenderer->drawText(width, height, ("Gravity: " + std::to_string((int)g_Gravity.y)).c_str(), 150.0f);
 		
 		//float sx = 2.0f / width;
 		//float sy = 2.0f / height;
@@ -1013,7 +1012,7 @@ bool loadConfig()
 	if (doc.HasMember("Gravity")) {
 		const rapidjson::Value& grArray = doc["Gravity"];
 		for (int i = 0; i < 3; i++) {
-			gravity[i] = grArray[i].GetFloat();
+			g_Gravity[i] = grArray[i].GetFloat();
 		}
 		
 	}
